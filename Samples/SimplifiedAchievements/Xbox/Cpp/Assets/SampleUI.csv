@@ -1,0 +1,6 @@
+#ITEM,ID,X,Y,DX,DY,PARAMETERS
+OVERLAY,2000,0,0,1920,1080
+LEGEND,2001,82,400,525,500,Use the[DPad]to select a scenario|Press[A]to run the scenario
+BUTTON,2101,82,500,525,50,Get Achievements for TitleId
+BUTTON,2102,82,575,525,50,Get a specific Achievement by Id
+BUTTON,2104,82,725,525,50,Update a specific Achievement by Id
