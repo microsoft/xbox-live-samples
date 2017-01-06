@@ -130,5 +130,6 @@
     </None>
     <None Include="xboxservices.config" />
     <None Include="ReadMe.docx" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

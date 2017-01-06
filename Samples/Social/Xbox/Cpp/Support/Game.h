@@ -11,7 +11,7 @@
 #include "Support\DeviceResources.h"
 #include "Support\StepTimer.h"
 #include "CommonStates.h"
-#include "DxEffects.h"
+#include "Effects.h"
 #include "GeometricPrimitive.h"
 #include "Model.h"
 #include "PrimitiveBatch.h"

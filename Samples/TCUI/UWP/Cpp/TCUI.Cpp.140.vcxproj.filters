@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="xboxservices.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainPage.xaml" />

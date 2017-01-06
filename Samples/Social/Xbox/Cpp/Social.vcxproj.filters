@@ -84,5 +84,6 @@
     <None Include="Assets\italic.spritefont">
       <Filter>Assets</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

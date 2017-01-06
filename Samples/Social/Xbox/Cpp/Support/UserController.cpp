@@ -328,7 +328,7 @@ void UserController::EnableDiagnostics(
     if( xboxLiveContext != nullptr &&
         !xboxLiveContext->settings()->enable_service_call_routed_events())
     {
-        xboxLiveContext->settings()->set_diagnostics_trace_level(xbox_services_diagnostics_trace_level::verbose);
+        xbox::services::system::xbox_live_services_settings::get_singleton_instance()->set_diagnostics_trace_level(xbox_services_diagnostics_trace_level::verbose);
         xboxLiveContext->settings()->set_enable_service_call_routed_events(true);
 
         std::weak_ptr<UserController> weakPtrToThis = shared_from_this();
