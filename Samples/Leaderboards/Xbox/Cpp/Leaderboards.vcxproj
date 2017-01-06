@@ -53,7 +53,6 @@
     <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <Import Project="..\..\..\..\xsapi.staticlib.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -204,17 +203,6 @@
     <Image Include="Assets\WideLogo.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Build\Microsoft.Xbox.Services.140.XDK.Cpp\Microsoft.Xbox.Services.140.XDK.Cpp.vcxproj">
-      <Project>{8a112040-cda1-4490-b518-62dfcc451fa7}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Casablanca\Release\src\build\vs14.xbox\casablanca140.Xbox.vcxproj">
-      <Project>{e621c269-d177-4c1b-80ea-c0a274b7a151}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Kits\DirectXTK\DirectXTK_XboxOneXDK_2015.vcxproj">
-      <Project>{4fdfdccd-ee2e-415c-b458-1e8fdb0d85f2}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\..\..\Kits\Media\Fonts\Courier_16.spritefont">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Durango'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Durango'">true</DeploymentContent>
@@ -305,12 +293,25 @@
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Durango'">true</DeploymentContent>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Profile|Durango'">true</DeploymentContent>
     </None>
+    <None Include="packages.config" />
     <None Include="Readme.docx">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Durango'">
       </ExcludedFromBuild>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Kits\DirectXTK\DirectXTK_XboxOneXDK_2015.vcxproj">
+      <Project>{4fdfdccd-ee2e-415c-b458-1e8fdb0d85f2}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2016.11.161031.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets" Condition="Exists('..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2016.11.161031.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2016.11.161031.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2016.11.161031.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets'))" />
+  </Target>
 </Project>

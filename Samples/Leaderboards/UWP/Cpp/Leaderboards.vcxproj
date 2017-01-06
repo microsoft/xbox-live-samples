@@ -73,7 +73,6 @@
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <Import Project="..\..\..\..\xsapi.staticlib.props" />
   <ImportGroup Label="ExtensionSettings">
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ImageContentTask.props" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\MeshContentTask.props" />
@@ -290,6 +289,7 @@
     <None Include="Assets\LiveInfoHUD.csv">
       <DeploymentContent>true</DeploymentContent>
     </None>
+    <None Include="packages.config" />
     <None Include="ReadMe.docx">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DeploymentContent>
     </None>
@@ -313,14 +313,8 @@
     <Image Include="Assets\WideLogo.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Build\Microsoft.Xbox.Services.140.UWP.Cpp\Microsoft.Xbox.Services.140.UWP.Cpp.vcxproj">
-      <Project>{8f96710e-5169-4917-8874-7de248f4d243}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Casablanca\Release\src\build\vs14.uwp\cpprestsdk140.uwp.static.vcxproj">
-      <Project>{9ad285a2-301e-47a0-a299-14ad5d4f2758}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Kits\DirectXTK\DirectXTK_Windows10.vcxproj">
-      <Project>{16657077-1CAB-4D44-9BF8-7C025E1D8088}</Project>
+      <Project>{f4776924-619c-42c7-88b2-82c947ccc9e7}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
@@ -328,5 +322,12 @@
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ImageContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\MeshContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ShaderGraphContentTask.targets" />
+    <Import Project="..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2016.11.161031.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets" Condition="Exists('..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2016.11.161031.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2016.11.161031.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2016.11.161031.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets'))" />
+  </Target>
 </Project>
