@@ -323,12 +323,12 @@
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ImageContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\MeshContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ShaderGraphContentTask.targets" />
-    <Import Project="..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2016.11.161031.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets" Condition="Exists('..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2016.11.161031.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets')" />
+    <Import Project="..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2016.12.20170107.01\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets" Condition="Exists('..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2016.12.20170107.01\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2016.11.161031.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2016.11.161031.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2016.12.20170107.01\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2016.12.20170107.01\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets'))" />
   </Target>
 </Project>
