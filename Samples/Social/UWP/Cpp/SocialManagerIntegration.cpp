@@ -14,24 +14,21 @@ using namespace Windows::Foundation;
 using namespace xbox::services;
 using namespace xbox::services::social::manager;
 
-void Sample::InitializeSocialManager(
-    Windows::Foundation::Collections::IVectorView<Windows::Xbox::System::User^>^ userList
-    )
+void Sample::InitializeSocialManager()
 {
     m_socialManager = social_manager::get_singleton_instance();
-
-    AddUserToSocialManager(userList->GetAt(0));
 }
 
-void Sample::InitializeSocialManager(Windows::Xbox::System::User^ user)
+void Sample::InitializeSocialManager(std::shared_ptr<xbox::services::system::xbox_live_user> user)
 {
     m_socialManager = social_manager::get_singleton_instance();
 
     AddUserToSocialManager(user);
 }
 
-void Sample::AddUserToSocialManager(
-    _In_ Windows::Xbox::System::User^ user
+void
+Sample::AddUserToSocialManager(
+    _In_ std::shared_ptr<xbox::services::system::xbox_live_user> user
     )
 {
     // Add the local user
@@ -40,11 +37,12 @@ void Sample::AddUserToSocialManager(
 
         stringstream_t source;
         source << _T("Adding user ");
-        source << user->DisplayInfo->Gamertag->Data();
+        source << user->gamertag();
         source << _T(" to SocialManager");
         m_console->WriteLine(source.str().c_str());
 
-        m_socialManager->add_local_user(user, social_manager_extra_detail_level::no_extra_detail);
+        m_socialManager->add_local_user(user, social_manager_extra_detail_level::preferred_color_level | social_manager_extra_detail_level::title_history_level);
+        m_socialManager->set_rich_presence_polling_status(user, true);
     }
 
     // Setup the social groups
@@ -54,15 +52,16 @@ void Sample::AddUserToSocialManager(
     CreateSocialGroupFromFilters(user, presence_filter::all, relationship_filter::favorite);
 }
 
-void Sample::RemoveUserFromSocialManager(
-    _In_ Windows::Xbox::System::User^ user
+void
+Sample::RemoveUserFromSocialManager(
+    _In_ std::shared_ptr<xbox::services::system::xbox_live_user> user
     )
 {
     std::lock_guard<std::mutex> guard(m_socialManagerLock);
 
     stringstream_t source;
     source << _T("Removing user ");
-    source << user->DisplayInfo->Gamertag->Data();
+    source << user->gamertag();
     source << _T(" from SocialManager");
     m_console->WriteLine(source.str().c_str());
 
@@ -70,7 +69,7 @@ void Sample::RemoveUserFromSocialManager(
     while (it != m_socialGroups.end()) 
     {
         std::shared_ptr<xbox_social_user_group> group = *it;
-        if (wcscmp(group->local_user()->XboxUserId->Data(), user->XboxUserId->Data()))
+        if (wcscmp(group->local_user()->xbox_user_id().c_str(), user->xbox_user_id().c_str()))
         {
             it = m_socialGroups.erase(it);
         }
@@ -83,8 +82,9 @@ void Sample::RemoveUserFromSocialManager(
     m_socialManager->remove_local_user(user);
 }
 
-void Sample::CreateSocialGroupFromList(
-    _In_ Windows::Xbox::System::User^ user,
+void
+Sample::CreateSocialGroupFromList(
+    _In_ std::shared_ptr<xbox::services::system::xbox_live_user> user,
     _In_ std::vector<string_t> xuidList
     )
 {
@@ -110,7 +110,7 @@ void Sample::CreateSocialGroupFromList(
 }
 
 void Sample::CreateSocialGroupFromFilters(
-    _In_ Windows::Xbox::System::User^ user,
+    _In_ std::shared_ptr<xbox::services::system::xbox_live_user> user,
     _In_ presence_filter presenceFilter,
     _In_ relationship_filter relationshipFilter
     )
@@ -134,7 +134,7 @@ void Sample::CreateSocialGroupFromFilters(
 }
 
 void Sample::DestorySocialGroupFromList(
-    _In_ Windows::Xbox::System::User^ user
+    _In_ std::shared_ptr<xbox::services::system::xbox_live_user> user
     )
 {
     std::lock_guard<std::mutex> guard(m_socialManagerLock);
@@ -143,7 +143,7 @@ void Sample::DestorySocialGroupFromList(
     while (it != m_socialGroups.end())
     {
         std::shared_ptr<xbox_social_user_group> group = *it;
-        if (wcscmp(group->local_user()->XboxUserId->Data(), user->XboxUserId->Data()) == 0 &&
+        if (wcscmp(group->local_user()->xbox_user_id().c_str(), user->xbox_user_id().c_str()) == 0 &&
             group->social_user_group_type() == social_user_group_type::user_list_type)
         {
             m_socialManager->destroy_social_user_group(group);
@@ -157,7 +157,7 @@ void Sample::DestorySocialGroupFromList(
 }
 
 void Sample::DestroySocialGroup(
-    _In_ Windows::Xbox::System::User^ user,
+    _In_ std::shared_ptr<xbox::services::system::xbox_live_user> user,
     _In_ presence_filter presenceFilter,
     _In_ relationship_filter relationshipFilter
     )
@@ -168,8 +168,8 @@ void Sample::DestroySocialGroup(
     while (it != m_socialGroups.end())
     {
         std::shared_ptr<xbox_social_user_group> group = *it;
-        if (wcscmp(group->local_user()->XboxUserId->Data(), user->XboxUserId->Data()) == 0 &&
-            group->presence_filter_of_group() == presenceFilter &&
+        if (wcscmp(group->local_user()->xbox_user_id().c_str(), user->xbox_user_id().c_str()) == 0 &&
+            group->presence_filter_of_group() == presenceFilter && 
             group->relationship_filter_of_group() == relationshipFilter)
         {
             m_socialManager->destroy_social_user_group(group);
@@ -202,10 +202,6 @@ void Sample::UpdateSocialManager()
             case social_event_type::local_user_removed: text = L"local_user_removed"; break;
             case social_event_type::profiles_changed: text = L"profiles_changed"; break;
             case social_event_type::social_relationships_changed: text = L"social_relationships_changed"; break;
-            case social_event_type::presence_changed:
-                text = L"presence_changed"; 
-                RefreshUserList(); 
-                break;
             case social_event_type::social_user_group_loaded:
                 text = L"social_user_group_loaded";
                 RefreshUserList();
@@ -214,15 +210,19 @@ void Sample::UpdateSocialManager()
                 text = L"social_user_group_updated";
                 RefreshUserList();
                 break;
+            case social_event_type::presence_changed: 
+                text = L"presence_changed"; 
+                RefreshUserList();
+                break;
             case social_event_type::users_added_to_social_graph: 
                 text = L"users_added_to_social_graph"; 
-                RefreshUserList(); 
+                RefreshUserList();
                 break;
             case social_event_type::users_removed_from_social_graph: 
                 text = L"users_removed_from_social_graph"; 
-                RefreshUserList(); 
-                break;
+                RefreshUserList();
             case social_event_type::unknown: text = L"unknown"; break;
+                break;
         }
 
         stringstream_t source;

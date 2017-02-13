@@ -1,4 +1,4 @@
-//--------------------------------------------------------------------------------------
+﻿//--------------------------------------------------------------------------------------
 // pch.h
 //
 // Header for standard system include files.
@@ -12,14 +12,10 @@
 // Use the C++ standard templated min/max
 #define NOMINMAX
 
-#include <xdk.h>
-
-#if _XDK_VER < 0x38390403 /* XDK Edition 160800 */
-#error This sample requires the August 2016 XDK or later
-#endif
-
 #include <wrl.h>
-#include <d3d11_x.h>
+
+#include <d3d11_3.h>
+#include <dxgi1_4.h>
 #include <DirectXMath.h>
 #include <DirectXColors.h>
 
@@ -30,16 +26,23 @@
 
 #include <stdio.h>
 #include <pix.h>
-#include <ppl.h>
-#include <ppltasks.h>
 
-#include "GraphicsMemory.h"
+#ifdef _DEBUG
+#include <dxgidebug.h>
+#endif
+
+#include <collection.h>
+
+#include <xsapi\services.h>
+
 #include "Effects.h"
+#include "GamePad.h"
+#include "Keyboard.h"
+#include "Mouse.h"
 #include "SpriteBatch.h"
 #include "SpriteFont.h"
 #include "TextConsole.h"
 
-#include <xsapi/services.h>
 
 namespace DX
 {
