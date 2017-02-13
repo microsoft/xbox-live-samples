@@ -43,6 +43,11 @@ namespace
     const float c_HoldTimeStart = 1.f;
     const float c_HoldTimeRepeat = .1f;
 
+    const long c_ScrollWidth = 16;
+    const long c_MinThumbSize = 8;
+    const long c_BorderSize = 6;
+    const long c_MarginSize = 5;
+
     inline void DebugTrace(_In_z_ _Printf_format_string_ const char* format, ...)
     {
 #ifdef _DEBUG
@@ -104,7 +109,7 @@ namespace
             if (currentFocus == *it)
                 return currentFocus;
 
-            if ((*it)->CanFocus())
+            if ( (*it)->CanFocus())
             {
                 currentFocus->OnFocus(false);
                 (*it)->OnFocus(true);
@@ -148,7 +153,7 @@ namespace
             assert(it != nullptr);
             _Analysis_assume_(it != nullptr);
 
-            if (it->CanFocus() && it->Contains(x, y))
+            if (it->CanFocus() && it->Contains(x,y))
             {
                 if (currentFocus != it)
                 {
@@ -227,8 +232,8 @@ namespace
 
     void RenderControls(_In_ ID3D11DeviceContext* context, _In_ SpriteBatch*batch, ID3D11RasterizerState* rastState, std::vector<IControl*>& controls)
     {
-        if (context == nullptr || batch == nullptr)
-            return;
+		if (context == nullptr || batch == nullptr)
+			return;
 
         for (auto it : controls)
         {
@@ -250,9 +255,9 @@ namespace
     void TrimTrailingWhitespace(_Inout_z_ wchar_t* str)
     {
         size_t len = wcslen(str);
-        for (wchar_t *ptr = str + len; len > 0; --len, --ptr)
+        for(wchar_t *ptr = str + len; len > 0; --len, --ptr)
         {
-            if (!iswspace(*(ptr - 1)))
+            if (!iswspace( *(ptr-1) ))
             {
                 *ptr = 0;
                 break;
@@ -260,7 +265,7 @@ namespace
         }
     }
 
-    std::wstring WordWrap(_In_z_ const wchar_t* text, _In_ SpriteFont* font, const RECT& rect, std::vector<size_t>* lineStarts = nullptr)
+    std::wstring WordWrap( _In_z_ const wchar_t* text, _In_ SpriteFont* font, const RECT& rect, std::vector<size_t>* lineStarts = nullptr)
     {
         if (lineStarts)
         {
@@ -358,7 +363,7 @@ namespace
             { L"F10", VK_F10 },
         };
 
-        for (size_t j = 0; j < _countof(s_map); ++j)
+        for(size_t j = 0; j < _countof(s_map); ++j)
         {
             if (_wcsicmp(s_map[j].first, str) == 0)
             {
@@ -374,6 +379,34 @@ namespace
         return 0;
     }
 
+
+    bool UpdateScrollBar(RECT& thumbRect, const RECT& trackRect, int position, int start, int end, int pageSize)
+    {
+        assert(pageSize > 0);
+        if (end - start > pageSize)
+        {
+            int height = (trackRect.bottom - trackRect.top);
+
+            int thumbHeight = std::max<int>( height * pageSize / (end - start), c_MinThumbSize);
+            int maxPos = end - start - pageSize;
+
+            thumbRect.top = trackRect.top + (position - start) * (height - thumbHeight) / maxPos;
+            thumbRect.bottom = thumbRect.top + thumbHeight;
+
+            if (thumbRect.top < trackRect.top)
+                thumbRect.top = trackRect.top;
+
+            if (thumbRect.bottom > trackRect.bottom)
+                thumbRect.bottom = trackRect.bottom;
+
+            return true;
+        }
+        else
+        {
+            thumbRect.bottom = thumbRect.top;
+            return false;
+        }
+    }
 
 
     void MessageYesNoCancel(IPanel* panel, unsigned id)
@@ -397,6 +430,7 @@ namespace
         }
     }
 }
+
 
 //=====================================================================================
 // UIManager
@@ -440,6 +474,7 @@ public:
     void LoadLayout(const wchar_t* layoutFile, const wchar_t* imageDir, unsigned offset)
     {
         static const wchar_t* s_seps = L" ,;|";
+        static wchar_t s_text[4096] = {};
 
         DX::CSVReader reader(layoutFile, DX::CSVReader::Encoding::ANSI, true);
 
@@ -569,126 +604,71 @@ public:
                     throw std::exception("LoadLayout");
                 }
 
-                wchar_t text[4096] = {};
-                if (!reader.NextItem(text))
+                if (!reader.NextItem(s_text))
                 {
                     DebugTrace("ERROR: LABEL missing text string [record %zu]\n", reader.RecordIndex() + 1);
                     throw std::exception("LoadLayout");
                 }
 
-                HandleEscapeCharacters(text);
+                HandleEscapeCharacters(s_text);
 
                 unsigned style = 0;
-                wchar_t styleStr[32] = {};
                 XMVECTOR color = Colors::White;
-                if (reader.NextItem(styleStr))
                 {
-                    _wcsupr_s(styleStr);
-
-                    wchar_t* context = nullptr;
-                    const wchar_t* tok = wcstok_s(styleStr, s_seps, &context);
-                    while (tok)
+                    wchar_t styleStr[128] = {};
+                    if (reader.NextItem(styleStr))
                     {
-                        if (wcscmp(tok, L"LEFT") == 0)
+                        _wcsupr_s(styleStr);
+
+                        wchar_t* context = nullptr;
+                        const wchar_t* tok = wcstok_s(styleStr, s_seps, &context);
+                        while (tok)
                         {
-                            style |= TextLabel::c_StyleAlignLeft | TextLabel::c_StyleAlignMiddle;
-                        }
-                        else if (wcscmp(tok, L"CENTER") == 0)
-                        {
-                            style |= TextLabel::c_StyleAlignCenter | TextLabel::c_StyleAlignMiddle;
-                        }
-                        else if (wcscmp(tok, L"RIGHT") == 0)
-                        {
-                            style |= TextLabel::c_StyleAlignRight | TextLabel::c_StyleAlignMiddle;
-                        }
-                        else if (wcscmp(tok, L"LARGE") == 0)
-                        {
-                            style |= TextLabel::c_StyleFontLarge;
-                        }
-                        else if (wcscmp(tok, L"SMALL") == 0)
-                        {
-                            style |= TextLabel::c_StyleFontSmall;
-                        }
-                        else if (wcscmp(tok, L"BOLD") == 0)
-                        {
-                            style |= TextLabel::c_StyleFontBold;
-                        }
-                        else if (wcscmp(tok, L"ITALIC") == 0)
-                        {
-                            style |= TextLabel::c_StyleFontItalic;
-                        }
-                        else if (wcscmp(tok, L"TRANSPARENT") == 0)
-                        {
-                            style |= TextLabel::c_StyleTransparent;
-                        }
-                        else if (wcscmp(tok, L"WORDWRAP") == 0)
-                        {
-                            style |= TextLabel::c_StyleWordWrap;
+                            if (wcscmp(tok, L"LEFT") == 0)
+                            {
+                                style |= TextLabel::c_StyleAlignLeft | TextLabel::c_StyleAlignMiddle;
+                            }
+                            else if (wcscmp(tok, L"CENTER") == 0)
+                            {
+                                style |= TextLabel::c_StyleAlignCenter | TextLabel::c_StyleAlignMiddle;
+                            }
+                            else if (wcscmp(tok, L"RIGHT") == 0)
+                            {
+                                style |= TextLabel::c_StyleAlignRight | TextLabel::c_StyleAlignMiddle;
+                            }
+                            else if (wcscmp(tok, L"LARGE") == 0)
+                            {
+                                style |= TextLabel::c_StyleFontLarge;
+                            }
+                            else if (wcscmp(tok, L"SMALL") == 0)
+                            {
+                                style |= TextLabel::c_StyleFontSmall;
+                            }
+                            else if (wcscmp(tok, L"BOLD") == 0)
+                            {
+                                style |= TextLabel::c_StyleFontBold;
+                            }
+                            else if (wcscmp(tok, L"ITALIC") == 0)
+                            {
+                                style |= TextLabel::c_StyleFontItalic;
+                            }
+                            else if (wcscmp(tok, L"TRANSPARENT") == 0)
+                            {
+                                style |= TextLabel::c_StyleTransparent;
+                            }
+                            else if (wcscmp(tok, L"WORDWRAP") == 0)
+                            {
+                                style |= TextLabel::c_StyleWordWrap;
+                            }
+
+                            tok = wcstok_s(nullptr, s_seps, &context);
                         }
 
-                        tok = wcstok_s(nullptr, s_seps, &context);
-                    }
-
-                    wchar_t colorStr[32] = {};
-                    if (reader.NextItem(colorStr))
-                    {
-                        _wcsupr_s(colorStr);
-
-                        if (*colorStr == L'#')
+                        wchar_t colorStr[32] = {};
+                        if (reader.NextItem(colorStr))
                         {
-                            unsigned int bgra = 0xFFFFFF;
-                            if (swscanf_s(colorStr + 1, L"%x", &bgra) == 1)
-                            {
-                                using namespace PackedVector;
-
-                                bgra &= 0xFFFFFF;
-                                XMVECTOR clr = XMLoadColor(reinterpret_cast<const XMCOLOR*>(&bgra));
-                                color = XMVectorSelect(g_XMIdentityR3, clr, g_XMSelect1110);
-
-                                if (mConfig.forceSRGB)
-                                {
-                                    color = XMColorSRGBToRGB(color);
-                                }
-                            }
-                            else
-                            {
-                                DebugTrace("WARNING: Invalid color value [record %zu]\n", reader.RecordIndex() + 1);
-                            }
-                        }
-                        else if (*colorStr)
-                        {
-                            if (wcscmp(colorStr, L"GREEN") == 0)
-                            {
-                                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::GREEN]);
-                            }
-                            else if (wcscmp(colorStr, L"BLUE") == 0)
-                            {
-                                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::BLUE]);
-                            }
-                            else if (wcscmp(colorStr, L"ORANGE") == 0)
-                            {
-                                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::ORANGE]);
-                            }
-                            else if (wcscmp(colorStr, L"DARKGREY") == 0)
-                            {
-                                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::DARK_GREY]);
-                            }
-                            else if (wcscmp(colorStr, L"LIGHTGREY") == 0)
-                            {
-                                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::LIGHT_GREY]);
-                            }
-                            else if (wcscmp(colorStr, L"OFFWHITE") == 0)
-                            {
-                                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::OFF_WHITE]);
-                            }
-                            else if (wcscmp(colorStr, L"WHITE") == 0)
-                            {
-                                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::WHITE]);
-                            }
-                            else
-                            {
-                                DebugTrace("WARNING: Invalid color value [record %zu]\n", reader.RecordIndex() + 1);
-                            }
+                            _wcsupr_s(colorStr);
+                            color = LoadColorItem(colorStr, reader.RecordIndex());
                         }
                     }
                 }
@@ -703,7 +683,7 @@ public:
                     }
                 }
 
-                auto label = new TextLabel(id, text, rct, style);
+                auto label = new TextLabel(id, s_text, rct, style);
                 label->SetForegroundColor(color);
                 currentPanel->Add(label);
             }
@@ -715,122 +695,67 @@ public:
                     throw std::exception("LoadLayout");
                 }
 
-                wchar_t text[4096] = {};
-                if (!reader.NextItem(text))
+                if (!reader.NextItem(s_text))
                 {
                     DebugTrace("ERROR: LEGEND missing text string [record %zu]\n", reader.RecordIndex() + 1);
                     throw std::exception("LoadLayout");
                 }
 
-                HandleEscapeCharacters(text);
+                HandleEscapeCharacters(s_text);
 
                 unsigned style = 0;
-                wchar_t styleStr[32] = {};
                 XMVECTOR color = Colors::White;
-                if (reader.NextItem(styleStr))
                 {
-                    _wcsupr_s(styleStr);
-
-                    wchar_t* context = nullptr;
-                    const wchar_t* tok = wcstok_s(styleStr, s_seps, &context);
-                    while (tok)
+                    wchar_t styleStr[128] = {};
+                    if (reader.NextItem(styleStr))
                     {
-                        if (wcscmp(tok, L"LEFT") == 0)
+                        _wcsupr_s(styleStr);
+
+                        wchar_t* context = nullptr;
+                        const wchar_t* tok = wcstok_s(styleStr, s_seps, &context);
+                        while (tok)
                         {
-                            style |= Legend::c_StyleAlignLeft | Legend::c_StyleAlignMiddle;
-                        }
-                        else if (wcscmp(tok, L"CENTER") == 0)
-                        {
-                            style |= Legend::c_StyleAlignCenter | Legend::c_StyleAlignMiddle;
-                        }
-                        else if (wcscmp(tok, L"RIGHT") == 0)
-                        {
-                            style |= Legend::c_StyleAlignRight | Legend::c_StyleAlignMiddle;
-                        }
-                        else if (wcscmp(tok, L"LARGE") == 0)
-                        {
-                            style |= Legend::c_StyleFontLarge;
-                        }
-                        else if (wcscmp(tok, L"SMALL") == 0)
-                        {
-                            style |= Legend::c_StyleFontSmall;
-                        }
-                        else if (wcscmp(tok, L"BOLD") == 0)
-                        {
-                            style |= Legend::c_StyleFontBold;
-                        }
-                        else if (wcscmp(tok, L"ITALIC") == 0)
-                        {
-                            style |= Legend::c_StyleFontItalic;
-                        }
-                        else if (wcscmp(tok, L"TRANSPARENT") == 0)
-                        {
-                            style |= Legend::c_StyleTransparent;
+                            if (wcscmp(tok, L"LEFT") == 0)
+                            {
+                                style |= Legend::c_StyleAlignLeft | Legend::c_StyleAlignMiddle;
+                            }
+                            else if (wcscmp(tok, L"CENTER") == 0)
+                            {
+                                style |= Legend::c_StyleAlignCenter | Legend::c_StyleAlignMiddle;
+                            }
+                            else if (wcscmp(tok, L"RIGHT") == 0)
+                            {
+                                style |= Legend::c_StyleAlignRight | Legend::c_StyleAlignMiddle;
+                            }
+                            else if (wcscmp(tok, L"LARGE") == 0)
+                            {
+                                style |= Legend::c_StyleFontLarge;
+                            }
+                            else if (wcscmp(tok, L"SMALL") == 0)
+                            {
+                                style |= Legend::c_StyleFontSmall;
+                            }
+                            else if (wcscmp(tok, L"BOLD") == 0)
+                            {
+                                style |= Legend::c_StyleFontBold;
+                            }
+                            else if (wcscmp(tok, L"ITALIC") == 0)
+                            {
+                                style |= Legend::c_StyleFontItalic;
+                            }
+                            else if (wcscmp(tok, L"TRANSPARENT") == 0)
+                            {
+                                style |= Legend::c_StyleTransparent;
+                            }
+
+                            tok = wcstok_s(nullptr, s_seps, &context);
                         }
 
-                        tok = wcstok_s(nullptr, s_seps, &context);
-                    }
-
-                    wchar_t colorStr[32] = {};
-                    if (reader.NextItem(colorStr))
-                    {
-                        _wcsupr_s(colorStr);
-
-                        if (*colorStr == L'#')
+                        wchar_t colorStr[32] = {};
+                        if (reader.NextItem(colorStr))
                         {
-                            unsigned int bgra = 0xFFFFFF;
-                            if (swscanf_s(colorStr + 1, L"%x", &bgra) == 1)
-                            {
-                                using namespace PackedVector;
-
-                                bgra &= 0xFFFFFF;
-                                XMVECTOR clr = XMLoadColor(reinterpret_cast<const XMCOLOR*>(&bgra));
-                                color = XMVectorSelect(g_XMIdentityR3, clr, g_XMSelect1110);
-
-                                if (mConfig.forceSRGB)
-                                {
-                                    color = XMColorSRGBToRGB(color);
-                                }
-                            }
-                            else
-                            {
-                                DebugTrace("WARNING: Invalid color value [record %zu]\n", reader.RecordIndex() + 1);
-                            }
-                        }
-                        else if (*colorStr)
-                        {
-                            if (wcscmp(colorStr, L"GREEN") == 0)
-                            {
-                                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::GREEN]);
-                            }
-                            else if (wcscmp(colorStr, L"BLUE") == 0)
-                            {
-                                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::BLUE]);
-                            }
-                            else if (wcscmp(colorStr, L"ORANGE") == 0)
-                            {
-                                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::ORANGE]);
-                            }
-                            else if (wcscmp(colorStr, L"DARKGREY") == 0)
-                            {
-                                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::DARK_GREY]);
-                            }
-                            else if (wcscmp(colorStr, L"LIGHTGREY") == 0)
-                            {
-                                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::LIGHT_GREY]);
-                            }
-                            else if (wcscmp(colorStr, L"OFFWHITE") == 0)
-                            {
-                                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::OFF_WHITE]);
-                            }
-                            else if (wcscmp(colorStr, L"WHITE") == 0)
-                            {
-                                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::WHITE]);
-                            }
-                            else
-                            {
-                                DebugTrace("WARNING: Invalid color value [record %zu]\n", reader.RecordIndex() + 1);
-                            }
+                            _wcsupr_s(colorStr);
+                            color = LoadColorItem(colorStr, reader.RecordIndex());
                         }
                     }
                 }
@@ -845,7 +770,7 @@ public:
                     }
                 }
 
-                auto legend = new Legend(id, text, rct, style);
+                auto legend = new Legend(id, s_text, rct, style);
                 legend->SetForegroundColor(color);
                 currentPanel->Add(legend);
             }
@@ -857,28 +782,17 @@ public:
                     throw std::exception("LoadLayout");
                 }
 
+                unsigned imageId = 0;
                 wchar_t imageFile[MAX_PATH] = {};
-                if (!reader.NextItem(imageFile))
+                if (reader.NextItem(imageFile))
                 {
                     TrimTrailingWhitespace(imageFile);
-
+                    imageId = LoadImageItem(imageFile);
+                }
+                else
+                {
                     DebugTrace("ERROR: IMAGE missing image file name [record %zu]\n", reader.RecordIndex() + 1);
                     throw std::exception("LoadLayout");
-                }
-
-                unsigned imageId = 0;
-                {
-                    std::wstring wname(imageFile);
-                    auto it = std::find(m_layoutImages.cbegin(), m_layoutImages.cend(), wname);
-                    if (it == m_layoutImages.end())
-                    {
-                        imageId = c_LayoutImageIdStart + unsigned(m_layoutImages.size());
-                        m_layoutImages.push_back(wname);
-                    }
-                    else
-                    {
-                        imageId = c_LayoutImageIdStart + unsigned(it - m_layoutImages.cbegin());
-                    }
                 }
 
                 if (id)
@@ -901,8 +815,7 @@ public:
                     throw std::exception("LoadLayout");
                 }
 
-                wchar_t text[4096] = {};
-                if (!reader.NextItem(text))
+                if (!reader.NextItem(s_text))
                 {
                     DebugTrace("ERROR: BUTTON missing text string [record %zu]\n", reader.RecordIndex() + 1);
                     throw std::exception("LoadLayout");
@@ -918,7 +831,7 @@ public:
                     hotkey = HandleVirtualKeys(hotkeyStr);
 
                     // Optional style
-                    wchar_t styleStr[32] = {};
+                    wchar_t styleStr[128] = {};
                     if (reader.NextItem(styleStr))
                     {
                         _wcsupr_s(styleStr);
@@ -969,7 +882,7 @@ public:
                     throw std::exception("LoadLayout");
                 }
 
-                auto *butn = new Button(id, text, rct);
+                auto *butn = new Button(id, s_text, rct);
                 butn->SetStyle(style);
                 butn->SetHotKey(hotkey);
                 currentPanel->Add(butn);
@@ -982,28 +895,17 @@ public:
                     throw std::exception("LoadLayout");
                 }
 
+                unsigned imageId = 0;
                 wchar_t imageFile[MAX_PATH] = {};
-                if (!reader.NextItem(imageFile))
+                if (reader.NextItem(imageFile))
                 {
                     TrimTrailingWhitespace(imageFile);
-
+                    imageId = LoadImageItem(imageFile);
+                }
+                else
+                {
                     DebugTrace("ERROR: IMAGEBUTTON missing image file name [record %zu]\n", reader.RecordIndex() + 1);
                     throw std::exception("LoadLayout");
-                }
-
-                unsigned imageId = 0;
-                {
-                    std::wstring wname(imageFile);
-                    auto it = std::find(m_layoutImages.cbegin(), m_layoutImages.cend(), wname);
-                    if (it == m_layoutImages.end())
-                    {
-                        imageId = c_LayoutImageIdStart + unsigned(m_layoutImages.size());
-                        m_layoutImages.push_back(wname);
-                    }
-                    else
-                    {
-                        imageId = c_LayoutImageIdStart + unsigned(it - m_layoutImages.cbegin());
-                    }
                 }
 
                 unsigned hotkey = 0;
@@ -1016,7 +918,7 @@ public:
                     hotkey = HandleVirtualKeys(hotkeyStr);
 
                     // Optional style
-                    wchar_t styleStr[32] = {};
+                    wchar_t styleStr[128] = {};
                     if (reader.NextItem(styleStr))
                     {
                         _wcsupr_s(styleStr);
@@ -1031,7 +933,7 @@ public:
                             }
                             else if (wcscmp(tok, L"TRANSPARENT") == 0)
                             {
-                                style |= ImageButton::c_StyleTransparent;
+                                style |= ImageButton::c_StyleTransparent | ImageButton::c_StyleBackground;
                             }
 
                             tok = wcstok_s(nullptr, s_seps, &context);
@@ -1068,8 +970,7 @@ public:
                     throw std::exception("LoadLayout");
                 }
 
-                wchar_t text[4096] = {};
-                if (!reader.NextItem(text))
+                if (!reader.NextItem(s_text))
                 {
                     DebugTrace("ERROR: CHECKBOX missing text string [record %zu]", reader.RecordIndex() + 1);
                     throw std::exception("LoadLayout");
@@ -1077,41 +978,43 @@ public:
 
                 unsigned style = 0;
                 bool checked = false;
-                wchar_t styleStr[32] = {};
-                if (reader.NextItem(styleStr))
                 {
-                    _wcsupr_s(styleStr);
-
-                    wchar_t* context = nullptr;
-                    const wchar_t* tok = wcstok_s(styleStr, s_seps, &context);
-                    while (tok)
+                    wchar_t styleStr[128] = {};
+                    if (reader.NextItem(styleStr))
                     {
-                        if (wcscmp(tok, L"LARGE") == 0)
-                        {
-                            style |= CheckBox::c_StyleFontLarge;
-                        }
-                        else if (wcscmp(tok, L"SMALL") == 0)
-                        {
-                            style |= CheckBox::c_StyleFontSmall;
-                        }
-                        else if (wcscmp(tok, L"BOLD") == 0)
-                        {
-                            style |= CheckBox::c_StyleFontBold;
-                        }
-                        else if (wcscmp(tok, L"ITALIC") == 0)
-                        {
-                            style |= CheckBox::c_StyleFontItalic;
-                        }
-                        else if (wcscmp(tok, L"CHECKED") == 0)
-                        {
-                            checked = true;
-                        }
-                        else if (wcscmp(tok, L"TRANSPARENT") == 0)
-                        {
-                            style |= CheckBox::c_StyleTransparent;
-                        }
+                        _wcsupr_s(styleStr);
 
-                        tok = wcstok_s(nullptr, s_seps, &context);
+                        wchar_t* context = nullptr;
+                        const wchar_t* tok = wcstok_s(styleStr, s_seps, &context);
+                        while (tok)
+                        {
+                            if (wcscmp(tok, L"LARGE") == 0)
+                            {
+                                style |= CheckBox::c_StyleFontLarge;
+                            }
+                            else if (wcscmp(tok, L"SMALL") == 0)
+                            {
+                                style |= CheckBox::c_StyleFontSmall;
+                            }
+                            else if (wcscmp(tok, L"BOLD") == 0)
+                            {
+                                style |= CheckBox::c_StyleFontBold;
+                            }
+                            else if (wcscmp(tok, L"ITALIC") == 0)
+                            {
+                                style |= CheckBox::c_StyleFontItalic;
+                            }
+                            else if (wcscmp(tok, L"CHECKED") == 0)
+                            {
+                                checked = true;
+                            }
+                            else if (wcscmp(tok, L"TRANSPARENT") == 0)
+                            {
+                                style |= CheckBox::c_StyleTransparent;
+                            }
+
+                            tok = wcstok_s(nullptr, s_seps, &context);
+                        }
                     }
                 }
 
@@ -1122,7 +1025,7 @@ public:
                     throw std::exception("LoadLayout");
                 }
 
-                auto *box = new CheckBox(id, text, rct, checked);
+                auto *box = new CheckBox(id, s_text, rct, checked);
                 box->SetStyle(style);
                 currentPanel->Add(box);
             }
@@ -1142,21 +1045,23 @@ public:
                 }
 
                 unsigned style = 0;
-                wchar_t styleStr[32] = {};
-                if (reader.NextItem(styleStr))
                 {
-                    _wcsupr_s(styleStr);
-
-                    wchar_t* context = nullptr;
-                    const wchar_t* tok = wcstok_s(styleStr, s_seps, &context);
-                    while (tok)
+                    wchar_t styleStr[128] = {};
+                    if (reader.NextItem(styleStr))
                     {
-                        if (wcscmp(tok, L"TRANSPARENT") == 0)
-                        {
-                            style |= Slider::c_StyleTransparent;
-                        }
+                        _wcsupr_s(styleStr);
 
-                        tok = wcstok_s(nullptr, s_seps, &context);
+                        wchar_t* context = nullptr;
+                        const wchar_t* tok = wcstok_s(styleStr, s_seps, &context);
+                        while (tok)
+                        {
+                            if (wcscmp(tok, L"TRANSPARENT") == 0)
+                            {
+                                style |= Slider::c_StyleTransparent;
+                            }
+
+                            tok = wcstok_s(nullptr, s_seps, &context);
+                        }
                     }
                 }
 
@@ -1203,7 +1108,7 @@ public:
                 {
                     itemHeight = _wtoi(itemHeightStr);
 
-                    wchar_t styleStr[32] = {};
+                    wchar_t styleStr[128] = {};
                     if (reader.NextItem(styleStr))
                     {
                         _wcsupr_s(styleStr);
@@ -1236,6 +1141,10 @@ public:
                             {
                                 style |= ListBox::c_StyleTransparent;
                             }
+                            else if (wcscmp(tok, L"SCROLLBAR") == 0)
+                            {
+                                style |= ListBox::c_StyleScrollBar;
+                            }
 
                             tok = wcstok_s(nullptr, s_seps, &context);
                         }
@@ -1262,51 +1171,56 @@ public:
                     }
                 }
 
-                wchar_t text[4096] = {};
-                if (!reader.NextItem(text))
+                if (!reader.NextItem(s_text))
                 {
-                    DebugTrace("ERROR: LABEL missing text string [record %zu]\n", reader.RecordIndex() + 1);
+                    DebugTrace("ERROR: TEXTBOX missing text string [record %zu]\n", reader.RecordIndex() + 1);
                     throw std::exception("LoadLayout");
                 }
 
-                HandleEscapeCharacters(text);
+                HandleEscapeCharacters(s_text);
 
                 unsigned style = 0;
-                wchar_t styleStr[32] = {};
-                if (reader.NextItem(styleStr))
                 {
-                    _wcsupr_s(styleStr);
-
-                    wchar_t* context = nullptr;
-                    const wchar_t* tok = wcstok_s(styleStr, s_seps, &context);
-                    while (tok)
+                    wchar_t styleStr[128] = {};
+                    if (reader.NextItem(styleStr))
                     {
-                        if (wcscmp(tok, L"LARGE") == 0)
-                        {
-                            style |= TextBox::c_StyleFontLarge;
-                        }
-                        else if (wcscmp(tok, L"SMALL") == 0)
-                        {
-                            style |= TextBox::c_StyleFontSmall;
-                        }
-                        else if (wcscmp(tok, L"BOLD") == 0)
-                        {
-                            style |= TextBox::c_StyleFontBold;
-                        }
-                        else if (wcscmp(tok, L"ITALIC") == 0)
-                        {
-                            style |= TextBox::c_StyleFontItalic;
-                        }
-                        else if (wcscmp(tok, L"TRANSPARENT") == 0)
-                        {
-                            style |= TextBox::c_StyleTransparent;
-                        }
+                        _wcsupr_s(styleStr);
 
-                        tok = wcstok_s(nullptr, s_seps, &context);
+                        wchar_t* context = nullptr;
+                        const wchar_t* tok = wcstok_s(styleStr, s_seps, &context);
+                        while (tok)
+                        {
+                            if (wcscmp(tok, L"LARGE") == 0)
+                            {
+                                style |= TextBox::c_StyleFontLarge;
+                            }
+                            else if (wcscmp(tok, L"SMALL") == 0)
+                            {
+                                style |= TextBox::c_StyleFontSmall;
+                            }
+                            else if (wcscmp(tok, L"BOLD") == 0)
+                            {
+                                style |= TextBox::c_StyleFontBold;
+                            }
+                            else if (wcscmp(tok, L"ITALIC") == 0)
+                            {
+                                style |= TextBox::c_StyleFontItalic;
+                            }
+                            else if (wcscmp(tok, L"TRANSPARENT") == 0)
+                            {
+                                style |= TextBox::c_StyleTransparent;
+                            }
+                            else if (wcscmp(tok, L"SCROLLBAR") == 0)
+                            {
+                                style |= TextBox::c_StyleScrollBar;
+                            }
+
+                            tok = wcstok_s(nullptr, s_seps, &context);
+                        }
                     }
                 }
 
-                currentPanel->Add(new TextBox(id, text, rct, style));
+                currentPanel->Add(new TextBox(id, s_text, rct, style));
             }
 
             reader.NextRecord();
@@ -1455,7 +1369,7 @@ public:
         // Focus panel on top
         if (m_focusPanel)
         {
-             m_focusPanel->Render();
+            m_focusPanel->Render();
         }
     }
 
@@ -1668,7 +1582,7 @@ public:
         {
             font = m_midFont.get();
         }
-
+        
         assert(font != 0);
 
         return font;
@@ -1713,12 +1627,99 @@ public:
     int                                 m_mouseLastY;
 
     // Common handler objects
-    std::list<std::function<void(bool, bool)>> m_stdyesno;
+    std::list<std::function<void(bool,bool)>> m_stdyesno;
 
     // Contains configuration data provided on setup
     const UIConfig mConfig;
 
     static UIManager::Impl* s_uiManager;
+
+private:
+    unsigned LoadImageItem(_In_z_ const wchar_t* imageFile)
+    {
+        assert(imageFile != 0);
+
+        unsigned imageId = 0;
+
+        std::wstring wname(imageFile);
+        auto it = std::find(m_layoutImages.cbegin(), m_layoutImages.cend(), wname);
+        if (it == m_layoutImages.end())
+        {
+            imageId = c_LayoutImageIdStart + unsigned(m_layoutImages.size());
+            m_layoutImages.push_back(wname);
+        }
+        else
+        {
+            imageId = c_LayoutImageIdStart + unsigned(it - m_layoutImages.cbegin());
+        }
+
+        return imageId;
+    }
+
+    XMVECTOR XM_CALLCONV LoadColorItem(_In_z_ const wchar_t* colorStr, size_t index)
+    {
+        assert(colorStr != 0);
+        XMVECTOR color = Colors::White;
+
+        if (*colorStr == L'#')
+        {
+            unsigned int bgra = 0xFFFFFF;
+            if (swscanf_s(colorStr + 1, L"%x", &bgra) == 1)
+            {
+                using namespace PackedVector;
+
+                bgra &= 0xFFFFFF;
+                XMVECTOR clr = XMLoadColor(reinterpret_cast<const XMCOLOR*>(&bgra));
+                color = XMVectorSelect(g_XMIdentityR3, clr, g_XMSelect1110);
+
+                if (mConfig.forceSRGB)
+                {
+                    color = XMColorSRGBToRGB(color);
+                }
+            }
+            else
+            {
+                DebugTrace("WARNING: Invalid color value [record %zu]\n", index + 1);
+            }
+        }
+        else if (*colorStr)
+        {
+            if (wcscmp(colorStr, L"GREEN") == 0)
+            {
+                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::GREEN]);
+            }
+            else if (wcscmp(colorStr, L"BLUE") == 0)
+            {
+                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::BLUE]);
+            }
+            else if (wcscmp(colorStr, L"ORANGE") == 0)
+            {
+                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::ORANGE]);
+            }
+            else if (wcscmp(colorStr, L"DARKGREY") == 0)
+            {
+                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::DARK_GREY]);
+            }
+            else if (wcscmp(colorStr, L"LIGHTGREY") == 0)
+            {
+                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::LIGHT_GREY]);
+            }
+            else if (wcscmp(colorStr, L"OFFWHITE") == 0)
+            {
+                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::OFF_WHITE]);
+            }
+            else if (wcscmp(colorStr, L"WHITE") == 0)
+            {
+                color = XMLoadFloat4(&mConfig.colorDictionary[UIConfig::WHITE]);
+            }
+            else
+            {
+                DebugTrace("WARNING: Invalid color value [record %zu]\n", index + 1);
+            }
+        }
+
+        return color;
+    }
 };
 
 UIManager::Impl* UIManager::Impl::s_uiManager = nullptr;
@@ -1880,7 +1881,7 @@ void UIManager::Enumerate(std::function<void(unsigned id, IPanel*)> enumCallback
 }
 
 // Common callback adapters.
-void UIManager::CallbackYesNoCancel(_In_ IPanel* panel, std::function<void(bool, bool)> callback)
+void UIManager::CallbackYesNoCancel(_In_ IPanel* panel, std::function<void(bool,bool)> callback)
 {
     assert(panel != 0);
     assert(panel->GetUser() == nullptr);
@@ -1919,7 +1920,7 @@ void IControl::ComputeLayout(const RECT& parent)
 void IControl::ComputeLayout(const RECT& bounds, float dx, float dy)
 {
     m_screenRect.left = long(float(m_layoutRect.left) * dx);
-    m_screenRect.right = long(float(m_layoutRect.right) * dx);
+    m_screenRect.right = long(float(m_layoutRect.right ) * dx);
 
     m_screenRect.top = long(float(m_layoutRect.top) * dy);
     m_screenRect.bottom = long(float(m_layoutRect.bottom) * dy);
@@ -2001,7 +2002,7 @@ void TextLabel::Render()
 
         text = m_wordWrap.c_str();
     }
-
+        
     // Determine layout
     XMFLOAT2 pos(float(m_screenRect.left), float(m_screenRect.top));
     if (m_style & (c_StyleAlignCenter | c_StyleAlignRight | c_StyleAlignMiddle | c_StyleAlignBottom))
@@ -2045,7 +2046,7 @@ void TextLabel::Render()
 
         batch->Draw(mgr->m_defaultTex.Get(), m_screenRect, bgColor);
     }
-
+    
     XMVECTOR color = XMLoadFloat4(&m_color);
 
     font->DrawString(mgr->m_batch.get(), text, pos, color);
@@ -2227,7 +2228,7 @@ void Button::Render()
     // Determine layout
     XMVECTOR fsize = font->MeasureString(m_text.c_str());
     XMFLOAT2 pos(float(m_screenRect.left) + float((m_screenRect.right - m_screenRect.left) / 2) - XMVectorGetX(fsize) / 2.f,
-        float(m_screenRect.top) + float((m_screenRect.bottom - m_screenRect.top) / 2) - XMVectorGetY(fsize) / 2.f);
+                 float(m_screenRect.top) + float((m_screenRect.bottom - m_screenRect.top) / 2) - XMVectorGetY(fsize) / 2.f);
     if (pos.x < float(m_screenRect.left))
         pos.x = float(m_screenRect.left);
     if (pos.y < float(m_screenRect.top))
@@ -2259,7 +2260,7 @@ bool Button::OnSelected(IPanel* panel)
     {
         m_callBack(panel, this);
     }
-
+    
     if (m_style & c_StyleExit)
     {
         return true;
@@ -2271,7 +2272,6 @@ bool Button::OnSelected(IPanel* panel)
 //=====================================================================================
 // Image button control
 //=====================================================================================
-_Use_decl_annotations_
 ImageButton::ImageButton(unsigned id, unsigned imageId, const RECT& rect) :
     IControl(rect, id),
     m_enabled(true),
@@ -2489,7 +2489,7 @@ void Slider::Render()
 
     long boxThickness = std::max<long>(4, long(dy * 0.05f));
 
-    int thumbX = static_cast<int>(float(m_value - m_minValue) * dy / float(m_maxValue - m_minValue));
+    int thumbX = static_cast<int>( float( m_value - m_minValue ) * dy / float(m_maxValue - m_minValue));
 
     m_thumbRect.top = m_screenRect.top + 2;
     m_thumbRect.bottom = m_screenRect.bottom - 2;
@@ -2545,7 +2545,7 @@ bool Slider::Update(float elapsedTime, const DirectX::GamePad::State& pad)
     {
         SetValue(m_value - 1);
     }
-    else if (pad.IsLeftThumbStickRight())
+    else if ( pad.IsLeftThumbStickRight() )
     {
         SetValue(m_value + 1);
     }
@@ -2592,7 +2592,7 @@ bool Slider::Update(float elapsedTime, const DirectX::Mouse::State& mstate, cons
         return true;
     }
     else if (mstate.x >= m_screenRect.left && mstate.x < m_screenRect.right
-        && mstate.y >= m_screenRect.top && mstate.y < m_screenRect.bottom)
+             && mstate.y >= m_screenRect.top && mstate.y < m_screenRect.bottom)
     {
         if (mgr->m_mouseButtonState.leftButton == Mouse::ButtonStateTracker::PRESSED)
         {
@@ -2656,8 +2656,8 @@ bool Slider::Update(float elapsedTime, const DirectX::Mouse::State& mstate, cons
     {
         if (mgr->m_keyboardState.IsKeyPressed(Keyboard::PageUp))
         {
-            int tenth = std::min(10, (m_maxValue - m_minValue) / 10);
-            SetValue(m_value - tenth);
+            int tenth = std::min( 10, (m_maxValue - m_minValue) / 10 );
+            SetValue( m_value - tenth);
         }
 
         return true;
@@ -2734,6 +2734,9 @@ ListBox::ListBox(unsigned id, const RECT& rect, unsigned style, int itemHeight) 
     m_topItem(0),
     m_focusItem(0),
     m_itemRect{},
+    m_scrollRect{},
+    m_trackRect{},
+    m_thumbRect{},
     m_lastHeight(0)
 {
     auto mgr = UIManager::Impl::s_uiManager;
@@ -2755,8 +2758,6 @@ void ListBox::AddItem(const wchar_t* text, void *user)
     item.user = user;
 
     m_items.emplace_back(item);
-
-    // TODO - scrollbar range update
 }
 
 _Use_decl_annotations_
@@ -2774,8 +2775,6 @@ void ListBox::InsertItem(int index, const wchar_t* text, void *user)
     {
         m_items.emplace(m_items.cbegin() + index, item);
     }
-
-    // TODO - scrollbar range update
 }
 
 void ListBox::RemoveItem(int index)
@@ -2797,21 +2796,17 @@ void ListBox::RemoveItem(int index)
 
     if (selected && m_callBack)
         m_callBack(m_parent, this);
-
-    // TODO - scrollbar range update
 }
 
 void ListBox::RemoveAllItems()
 {
     m_items.clear();
     m_topItem = m_focusItem = 0;
-
-    // TODO - scrollbar range update
 }
 
 int ListBox::GetSelectedItem() const
 {
-    for (auto it = m_items.cbegin(); it != m_items.cend(); ++it)
+    for(auto it = m_items.cbegin(); it != m_items.cend(); ++it)
     {
         if (it->selected)
             return static_cast<int>(it - m_items.cbegin());
@@ -2891,7 +2886,9 @@ void ListBox::Render()
     m_itemRect.left = m_screenRect.left + c_BorderSize;
     m_itemRect.top = m_screenRect.top + c_BorderSize;
 
-    m_itemRect.right = m_screenRect.right - c_ScrollWidth - c_BorderSize;
+    m_itemRect.right = m_screenRect.right - c_BorderSize;
+    if (m_style & c_StyleScrollBar)
+        m_itemRect.right -= c_ScrollWidth;
     m_itemRect.bottom = m_screenRect.bottom - c_BorderSize;
 
     if (m_itemRect.top < m_screenRect.top)
@@ -2906,7 +2903,12 @@ void ListBox::Render()
     if (m_itemRect.bottom > m_screenRect.bottom)
         m_itemRect.bottom = m_screenRect.bottom;
 
-    // TODO - scrollbar
+    m_scrollRect.left = m_screenRect.right - c_ScrollWidth - c_BorderSize;
+    m_scrollRect.right = m_screenRect.right - c_BorderSize;
+    m_scrollRect.top = m_screenRect.top + c_BorderSize;
+    m_scrollRect.bottom = m_screenRect.bottom - c_BorderSize;
+
+    UpdateRects();
 
     auto batch = mgr->m_batch.get();
 
@@ -2918,7 +2920,7 @@ void ListBox::Render()
         SpriteFont* font = mgr->SelectFont(m_style);
 
         m_lastHeight = (m_itemHeight <= 0) ? static_cast<int>(font->GetLineSpacing()) : m_itemHeight;
-        int maxl = static_cast<int>(float(m_itemRect.bottom - m_itemRect.top - c_MarginSize * 2) / float(m_lastHeight));
+        int maxl = static_cast<int>(float(m_itemRect.bottom - m_itemRect.top - c_MarginSize*2) / float(m_lastHeight));
 
         if (m_focusItem < m_topItem)
             m_topItem = m_focusItem;
@@ -2961,6 +2963,18 @@ void ListBox::Render()
             pos.y += float(m_lastHeight);
             selectRect.top += m_lastHeight;
             selectRect.bottom += m_lastHeight;
+        }
+    }
+
+    if (m_style & c_StyleScrollBar)
+    {
+        XMVECTOR scrollColor = XMLoadFloat4(&mgr->mConfig.colorNormal);
+
+        batch->Draw(mgr->m_defaultTex.Get(), m_scrollRect, scrollColor);
+        batch->Draw(mgr->m_defaultTex.Get(), m_trackRect, bgColor);
+        if (m_thumbRect.top != m_thumbRect.bottom)
+        {
+            batch->Draw(mgr->m_defaultTex.Get(), m_thumbRect, scrollColor);
         }
     }
 }
@@ -3067,7 +3081,7 @@ bool ListBox::Update(float elapsedTime, const DirectX::Mouse::State& mstate, con
         throw std::exception("UIManager");
     }
 
-    assert(m_focusItem >= 0 && m_focusItem < static_cast<int>(m_items.size()));
+	assert(m_focusItem >= 0 && m_focusItem < static_cast<int>(m_items.size()));
 
     // Handle mouse
     if (mstate.x >= m_itemRect.left && mstate.x < m_itemRect.right
@@ -3091,10 +3105,39 @@ bool ListBox::Update(float elapsedTime, const DirectX::Mouse::State& mstate, con
                 }
             }
         }
-
-        // TODO - scrollbar
-
         return true;
+    }
+
+    if ((m_style & c_StyleScrollBar) && (m_thumbRect.top != m_thumbRect.bottom))
+    {
+        if (mstate.x >= m_scrollRect.left && mstate.x < m_scrollRect.right
+            && mstate.y >= m_scrollRect.top && mstate.y < m_scrollRect.bottom)
+        {
+            if (mgr->m_mouseButtonState.leftButton == Mouse::ButtonStateTracker::PRESSED)
+            {
+                if (mstate.y < m_thumbRect.top)
+                {
+                    if (!m_items.empty() && (m_lastHeight > 0))
+                    {
+                        int maxl = static_cast<int>(float(m_itemRect.bottom - m_itemRect.top - c_MarginSize * 2) / float(m_lastHeight));
+                        m_focusItem -= maxl;
+                        if (m_focusItem < 0)
+                            m_focusItem = 0;
+                    }
+                }
+                else if (mstate.y > m_thumbRect.bottom)
+                {
+                    if (!m_items.empty() && (m_lastHeight > 0))
+                    {
+                        int maxl = static_cast<int>(float(m_itemRect.bottom - m_itemRect.top - c_MarginSize * 2) / float(m_lastHeight));
+                        m_focusItem += maxl;
+                        if (m_focusItem >= static_cast<int>(m_items.size()))
+                            m_focusItem = static_cast<int>(m_items.size() - 1);
+                    }
+                }
+            }
+            return true;
+        }
     }
 
     // Handle keyboard
@@ -3165,7 +3208,7 @@ bool ListBox::Update(float elapsedTime, const DirectX::Mouse::State& mstate, con
     {
         if (mgr->m_keyboardState.IsKeyPressed(Keyboard::PageUp))
         {
-            if (!m_items.empty())
+            if (!m_items.empty() && (m_lastHeight > 0))
             {
                 int maxl = static_cast<int>(float(m_itemRect.bottom - m_itemRect.top - c_MarginSize * 2) / float(m_lastHeight));
                 m_focusItem -= maxl;
@@ -3180,7 +3223,7 @@ bool ListBox::Update(float elapsedTime, const DirectX::Mouse::State& mstate, con
     {
         if (mgr->m_keyboardState.IsKeyPressed(Keyboard::PageDown))
         {
-            if (!m_items.empty())
+            if (!m_items.empty() && (m_lastHeight > 0))
             {
                 int maxl = static_cast<int>(float(m_itemRect.bottom - m_itemRect.top - c_MarginSize * 2) / float(m_lastHeight));
                 m_focusItem += maxl;
@@ -3195,6 +3238,27 @@ bool ListBox::Update(float elapsedTime, const DirectX::Mouse::State& mstate, con
     return false;
 }
 
+void ListBox::UpdateRects()
+{
+    m_trackRect.top = m_scrollRect.top + 1;
+    m_trackRect.left = m_scrollRect.left + 1;
+    m_trackRect.right = m_scrollRect.right - 1;
+    m_trackRect.bottom = m_scrollRect.bottom - 1;
+
+    m_thumbRect.left = m_trackRect.left;
+    m_thumbRect.right = m_trackRect.right;
+
+    if (m_items.empty() || !m_lastHeight)
+    {
+        m_thumbRect.bottom = m_thumbRect.top;
+        return;
+    }
+
+    int maxl = static_cast<int>(float(m_itemRect.bottom - m_itemRect.top - c_MarginSize * 2) / float(m_lastHeight));
+
+    UpdateScrollBar(m_thumbRect, m_trackRect, m_topItem, 0, static_cast<int>(m_items.size()), maxl);
+}
+
 
 //=====================================================================================
 // Text Box
@@ -3204,6 +3268,9 @@ TextBox::TextBox(unsigned id, _In_z_ const wchar_t* text, const RECT& rect, unsi
     m_style(style),
     m_topLine(0),
     m_itemRect{},
+    m_scrollRect{},
+    m_trackRect{},
+    m_thumbRect{},
     m_lastHeight(0),
     m_text(text)
 {
@@ -3231,7 +3298,9 @@ void TextBox::Render()
     m_itemRect.left = m_screenRect.left + c_BorderSize;
     m_itemRect.top = m_screenRect.top + c_BorderSize;
 
-    m_itemRect.right = m_screenRect.right - c_ScrollWidth - c_BorderSize;
+    m_itemRect.right = m_screenRect.right - c_BorderSize;
+    if (m_style & c_StyleScrollBar)
+        m_itemRect.right -= c_ScrollWidth;
     m_itemRect.bottom = m_screenRect.bottom - c_BorderSize;
 
     if (m_itemRect.top < m_screenRect.top)
@@ -3246,10 +3315,16 @@ void TextBox::Render()
     if (m_itemRect.bottom > m_screenRect.bottom)
         m_itemRect.bottom = m_screenRect.bottom;
 
-    // TODO - scrollbar
+    m_scrollRect.left = m_screenRect.right - c_ScrollWidth - c_BorderSize;
+    m_scrollRect.right = m_screenRect.right - c_BorderSize;
+    m_scrollRect.top = m_screenRect.top + c_BorderSize;
+    m_scrollRect.bottom = m_screenRect.bottom - c_BorderSize;
+
+    UpdateRects();
 
     auto batch = mgr->m_batch.get();
 
+    XMVECTOR bgColor;
     if (m_focus)
     {
         XMVECTOR fgColor = XMLoadFloat4(&mgr->mConfig.colorSelected);
@@ -3261,12 +3336,12 @@ void TextBox::Render()
         rect.right = m_screenRect.right - 1;
         rect.bottom = m_screenRect.bottom - 1;
 
-        XMVECTOR bgColor = XMLoadFloat4((m_style & c_StyleTransparent) ? &mgr->mConfig.colorTransparent : &mgr->mConfig.colorBackground);
+        bgColor = XMLoadFloat4((m_style & c_StyleTransparent) ? &mgr->mConfig.colorTransparent : &mgr->mConfig.colorBackground);
         batch->Draw(mgr->m_defaultTex.Get(), rect, bgColor);
     }
     else
     {
-        XMVECTOR bgColor = XMLoadFloat4((m_style & c_StyleTransparent) ? &mgr->mConfig.colorTransparent : &mgr->mConfig.colorBackground);
+        bgColor = XMLoadFloat4((m_style & c_StyleTransparent) ? &mgr->mConfig.colorTransparent : &mgr->mConfig.colorBackground);
         batch->Draw(mgr->m_defaultTex.Get(), m_screenRect, bgColor);
     }
 
@@ -3295,6 +3370,18 @@ void TextBox::Render()
         XMVECTOR color = XMLoadFloat4(&m_color);
 
         font->DrawString(mgr->m_batch.get(), &m_wordWrap.c_str()[m_wordWrapLines[m_topLine]], pos, color);
+    }
+
+    if (m_style & c_StyleScrollBar)
+    {
+        XMVECTOR scrollColor = XMLoadFloat4(&mgr->mConfig.colorNormal);
+
+        batch->Draw(mgr->m_defaultTex.Get(), m_scrollRect, scrollColor);
+        batch->Draw(mgr->m_defaultTex.Get(), m_trackRect, bgColor);
+        if (m_thumbRect.top != m_thumbRect.bottom)
+        {
+            batch->Draw(mgr->m_defaultTex.Get(), m_thumbRect, scrollColor);
+        }
     }
 }
 
@@ -3377,10 +3464,36 @@ bool TextBox::Update(float elapsedTime, const DirectX::Mouse::State& mstate, con
     }
 
     // Handle mouse
-    if (mstate.x >= m_itemRect.left && mstate.x < m_itemRect.right
-        && mstate.y >= m_itemRect.top && mstate.y < m_itemRect.bottom)
+    if ((m_style & c_StyleScrollBar) && (m_thumbRect.top != m_thumbRect.bottom))
     {
-        // TODO - scrollbar
+        if (mstate.x >= m_scrollRect.left && mstate.x < m_scrollRect.right
+            && mstate.y >= m_scrollRect.top && mstate.y < m_scrollRect.bottom)
+        {
+            if (mgr->m_mouseButtonState.leftButton == Mouse::ButtonStateTracker::PRESSED)
+            {
+                if (mstate.y < m_thumbRect.top)
+                {
+                    if (!m_wordWrapLines.empty() && (m_lastHeight > 0))
+                    {
+                        int maxl = static_cast<int>(float(m_itemRect.bottom - m_itemRect.top - c_MarginSize * 2) / float(m_lastHeight));
+                        m_topLine -= maxl;
+                        if (m_topLine < 0)
+                            m_topLine = 0;
+                    }
+                }
+                else if (mstate.y > m_thumbRect.bottom)
+                {
+                    if (!m_wordWrapLines.empty() && (m_lastHeight > 0))
+                    {
+                        int maxl = static_cast<int>(float(m_itemRect.bottom - m_itemRect.top - c_MarginSize * 2) / float(m_lastHeight));
+                        m_topLine += maxl;
+                        if (m_topLine >= static_cast<int>(m_wordWrapLines.size()))
+                            m_topLine = static_cast<int>(m_wordWrapLines.size() - 1);
+                    }
+                }
+            }
+            return true;
+        }
     }
 
     // Handle keyboard
@@ -3437,7 +3550,7 @@ bool TextBox::Update(float elapsedTime, const DirectX::Mouse::State& mstate, con
     {
         if (mgr->m_keyboardState.IsKeyPressed(Keyboard::PageUp))
         {
-            if (!m_wordWrapLines.empty())
+            if (!m_wordWrapLines.empty() && (m_lastHeight > 0))
             {
                 int maxl = static_cast<int>(float(m_itemRect.bottom - m_itemRect.top - c_MarginSize * 2) / float(m_lastHeight));
                 m_topLine -= maxl;
@@ -3452,7 +3565,7 @@ bool TextBox::Update(float elapsedTime, const DirectX::Mouse::State& mstate, con
     {
         if (mgr->m_keyboardState.IsKeyPressed(Keyboard::PageDown))
         {
-            if (!m_wordWrapLines.empty())
+            if (!m_wordWrapLines.empty() && (m_lastHeight > 0))
             {
                 int maxl = static_cast<int>(float(m_itemRect.bottom - m_itemRect.top - c_MarginSize * 2) / float(m_lastHeight));
                 m_topLine += maxl;
@@ -3487,6 +3600,27 @@ void TextBox::SetText(const wchar_t* text)
     m_wordWrapLines.clear();
     m_wordWrap.clear();
     m_topLine = 0;
+}
+
+void TextBox::UpdateRects()
+{
+    m_trackRect.top = m_scrollRect.top + 1;
+    m_trackRect.left = m_scrollRect.left + 1;
+    m_trackRect.right = m_scrollRect.right - 1;
+    m_trackRect.bottom = m_scrollRect.bottom - 1;
+
+    m_thumbRect.left = m_trackRect.left;
+    m_thumbRect.right = m_trackRect.right;
+
+    if (m_wordWrapLines.empty() || !m_lastHeight)
+    {
+        m_thumbRect.bottom = m_thumbRect.top;
+        return;
+    }
+
+    int maxl = static_cast<int>(float(m_itemRect.bottom - m_itemRect.top - c_MarginSize * 2) / float(m_lastHeight));
+
+    UpdateScrollBar(m_thumbRect, m_trackRect, m_topLine, 0, static_cast<int>(m_wordWrapLines.size()), maxl);
 }
 
 
@@ -3968,7 +4102,6 @@ void Overlay::Show()
         m_focusControl->OnFocus(true);
     }
 
-
     // Make visible
     m_visible = true;
 
@@ -4003,6 +4136,15 @@ bool Overlay::Update(float elapsedTime, const GamePad::State& pad)
     {
         result = m_focusControl->Update(elapsedTime, pad);
     }
+    else
+    {
+        m_focusControl = InitFocus(m_controls);
+        if (m_focusControl)
+        {
+            m_focusControl->OnFocus(true);
+            result = m_focusControl->Update(elapsedTime, pad);
+        }
+    }
 
     if (!result)
     {
@@ -4025,7 +4167,7 @@ bool Overlay::Update(float elapsedTime, const GamePad::State& pad)
             if (mgr->m_padButtonState.b == GamePad::ButtonStateTracker::PRESSED)
             {
                 Cancel();
-            }
+           }
         }
         else if (pad.IsAPressed())
         {
@@ -4033,7 +4175,11 @@ bool Overlay::Update(float elapsedTime, const GamePad::State& pad)
         }
         else if (m_select && !pad.IsAPressed())
         {
-            if(m_focusControl != nullptr) ControlSelected(m_focusControl, this);
+            if (m_focusControl)
+            {
+                ControlSelected(m_focusControl, this);
+            }
+
             m_select = false;
         }
     }
@@ -4050,8 +4196,6 @@ bool Overlay::Update(float elapsedTime, const Mouse::State& mstate, const Keyboa
     }
 
     bool result = false;
-    if (!m_focusControl) return false;
-
     if (m_focusControl)
     {
         result = m_focusControl->Update(elapsedTime, mstate, kbstate);
