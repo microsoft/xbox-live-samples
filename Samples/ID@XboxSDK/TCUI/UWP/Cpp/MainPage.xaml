@@ -17,7 +17,6 @@
         </Grid>
         <Grid Margin="57,46,0,0" Height="78" VerticalAlignment="Top" HorizontalAlignment="Left" Width="411" >
             <Button x:Name="SignInButton" Content="Sign In" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Click="SignInButton_Click" Margin="-3,0,302,7" Height="38"/>
-            <Button x:Name="SwitchAccountButton" Content="Switch Account" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Click="SwitchAccountButton_Click" Margin="115,0,163,8" Height="38"/>
         </Grid>
 
         <TextBlock x:Name="LogLabel" HorizontalAlignment="Left" Margin="331,92,0,0" Text="Log:" VerticalAlignment="Top" FontSize="14"/>

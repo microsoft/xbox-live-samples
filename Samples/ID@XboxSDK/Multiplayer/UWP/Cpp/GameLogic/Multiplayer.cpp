@@ -299,10 +299,6 @@ void Sample::Update(DX::StepTimer const& timer)
             {
                 m_liveResources->SignIn();
             }
-            else if (m_keyboardButtons.IsKeyPressed(Keyboard::Y))
-            {
-                m_liveResources->SwitchAccount();
-            }
         }
     }
 

@@ -47,7 +47,7 @@ Sample::Sample() :
 void Sample::Initialize(IUnknown* window)
 {
     //Register the Stats Sample ETW+ Provider
-    ULONG result = EventRegisterXDKS_0301D082();
+    EventRegisterXDKS_0301D082();
 
     m_gamePad = std::make_unique<GamePad>();
 

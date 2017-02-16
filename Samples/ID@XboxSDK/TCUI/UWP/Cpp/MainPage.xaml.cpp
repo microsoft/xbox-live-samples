@@ -196,43 +196,6 @@ void MainPage::SignInButton_Click(Platform::Object^ sender, Windows::UI::Xaml::R
     SignIn();
 }
 
-void MainPage::SwitchAccountButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
-{
-    SwitchAccount();
-}
-
-void MainPage::SwitchAccount()
-{
-    this->UserInfoLabel->Text = L"Trying to switch account...";
-    Log(this->UserInfoLabel->Text);
-
-    m_user->switch_account(this->CoreDispatcher)
-        .then([this](xbox::services::xbox_live_result<xbox::services::system::sign_in_result> t) // use task_continuation_context::use_current() to make the continuation task running in current apartment 
-    {
-        if (!t.err())
-        {
-            auto result = t.payload();
-            switch (result.status())
-            {
-            case xbox::services::system::sign_in_status::success:
-                OnSignInSucceeded();
-                break;
-            case xbox::services::system::sign_in_status::user_cancel:
-                this->UserInfoLabel->Text = L"user_cancel";
-                Log(L"user_cancel");
-                break;
-            }
-        }
-        else
-        {
-            this->UserInfoLabel->Text = L"Switch account failed";
-            Log(L"switch_account failed.");
-            string_t utf16Error = utility::conversions::utf8_to_utf16(t.err_message());
-            Log(ref new Platform::String(utf16Error.c_str()));
-        }
-    }, task_continuation_context::use_current());
-}
-
 void MainPage::SignInSilently()
 {
     this->UserInfoLabel->Text = L"Trying to sign in silently...";

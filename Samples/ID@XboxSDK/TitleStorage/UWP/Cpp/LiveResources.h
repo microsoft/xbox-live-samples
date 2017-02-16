@@ -24,7 +24,6 @@ namespace ATG
 
         void Initialize(std::unique_ptr<ATG::UIManager> &ui, ATG::IPanel *userDependantPanel = nullptr, ATG::IPanel *nouserDependantPanel = nullptr);
         void SignIn();
-        void SwitchAccount();
         void Refresh();
 
         std::shared_ptr<xbox::services::xbox_live_context> GetLiveContext()     const { return m_xboxLiveContext; }
@@ -47,7 +46,6 @@ namespace ATG
         // UI Elements
         ATG::Legend*                                       m_gamertag;
         ATG::Image*                                        m_gamerPic;
-        ATG::Legend*                                       m_switchAccount;
         ATG::IPanel*                                       m_userDependentPanel;
         ATG::IPanel*                                       m_nouserDependentPanel;
         ATG::TextLabel*                                    m_sandboxLabel;
