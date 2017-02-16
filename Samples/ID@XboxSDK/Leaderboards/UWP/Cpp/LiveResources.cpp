@@ -23,7 +23,6 @@ ATG::LiveResources::LiveResources() :
     m_user(nullptr),
     m_xboxLiveContext(nullptr),
     m_gamertag(nullptr),
-    m_switchAccount(nullptr),
     m_userDependentPanel(nullptr)
 {
 }
@@ -33,7 +32,6 @@ void ATG::LiveResources::Initialize(std::unique_ptr<ATG::UIManager> &ui, ATG::IP
     ui->LoadLayout(L".\\Assets\\LiveInfoHUD.csv", L".\\Assets");
     m_gamertag = ui->FindControl<ATG::Legend>(1000, 1002);
     m_gamerPic = ui->FindControl<ATG::Image>(1000, 1001);
-    m_switchAccount = ui->FindControl<ATG::Legend>(1000, 1009);
 
     m_userDependentPanel = userDependentPanel;
     m_nouserDependentPanel = nouserDependentPanel;
@@ -98,16 +96,6 @@ void ATG::LiveResources::SignIn()
     }, concurrency::task_continuation_context::use_current());
 }
 
-void ATG::LiveResources::SwitchAccount()
-{
-    m_user->switch_account(Windows::UI::Core::CoreWindow::GetForCurrentThread()->Dispatcher)
-    .then([this](xbox::services::xbox_live_result<xbox::services::system::sign_in_result> result) // use task_continuation_context::use_current() to make the continuation task running in current apartment 
-    {
-        HandleSignInResult(result);
-
-    }, concurrency::task_continuation_context::use_current());
-}
-
 void ATG::LiveResources::HandleSignInResult(
     xbox::services::xbox_live_result<xbox::services::system::sign_in_result>& signInResult
     )
@@ -159,7 +147,6 @@ void ATG::LiveResources::UpdateCurrentUser()
 
         m_xboxLiveContext = std::make_shared<xbox::services::xbox_live_context>(m_user);
         m_gamertag->SetText(m_user->gamertag().c_str());
-        m_switchAccount->SetVisible(true);
         m_signInErrorLabel->SetVisible(false);
     }
     else
@@ -177,6 +164,5 @@ void ATG::LiveResources::UpdateCurrentUser()
         }
 
         m_gamertag->SetText(L"Press [A] to sign in");
-        m_switchAccount->SetVisible(false);
     }
 }

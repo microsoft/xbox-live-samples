@@ -291,11 +291,6 @@ void Sample::Update(DX::StepTimer const& timer)
         m_liveResources->SignIn();
     }
 
-    if (m_keyboardButtons.IsKeyPressed(Keyboard::Y))
-    {
-        m_liveResources->SwitchAccount();
-    }
-
     if (m_keyboardButtons.IsKeyPressed(Keyboard::Left))
     {
         toggleLeft = true;
