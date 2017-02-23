@@ -1,10 +1,5 @@
-
-//--------------------------------------------------------------------------------------
-// Utils.cpp
-//
-// Advanced Technology Group (ATG)
-// Copyright (C) Microsoft Corporation. All rights reserved.
-//--------------------------------------------------------------------------------------
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #include "pch.h"
 #include "..\GameLogic\Multiplayer.h"

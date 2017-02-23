@@ -1,6 +1,5 @@
-﻿//
-// DeviceResources.h - A wrapper for the Direct3D 11 device and swapchain
-//
+﻿// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #pragma once
 

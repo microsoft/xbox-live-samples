@@ -1,8 +1,5 @@
-﻿//
-// DeviceResources.cpp - A wrapper for the Direct3D 11 device and swapchain
-//                       (requires DirectX 11.3 Runtime)
-//
-
+﻿// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #include "pch.h"
 #include "DeviceResources.h"

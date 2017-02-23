@@ -1,16 +1,13 @@
-﻿//*********************************************************
-//
-// Copyright (c) Microsoft. All rights reserved.
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//
-//*********************************************************
+﻿// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 #pragma once
 
 // forward declarations
-namespace Microsoft { namespace Xbox { namespace Services { class Utils; } } }
+NAMESPACE_MICROSOFT_XBOX_SERVICES_BEGIN
+class Utils;
+NAMESPACE_MICROSOFT_XBOX_SERVICES_END;
+
 
 // preprocessor workaround
 // to work with L##__FUNCTION__ and L##__FILE__ statements.
