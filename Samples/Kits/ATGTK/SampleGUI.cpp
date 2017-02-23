@@ -1,13 +1,5 @@
-//--------------------------------------------------------------------------------------
-// File: SampleGUI.cpp
-//
-// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
-// THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
-// PARTICULAR PURPOSE.
-//
-// Copyright (c) Microsoft Corporation. All rights reserved.
-//-------------------------------------------------------------------------------------
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #include "pch.h"
 #include "SampleGUI.h"
@@ -1455,7 +1447,7 @@ public:
         // Focus panel on top
         if (m_focusPanel)
         {
-             m_focusPanel->Render();
+            m_focusPanel->Render();
         }
     }
 
@@ -3963,11 +3955,12 @@ void Overlay::Show()
     OnWindowSize(mgr->m_fullscreen);
 
     m_focusControl = InitFocus(m_controls);
-    if (m_focusControl)
+    if (!m_focusControl)
     {
-        m_focusControl->OnFocus(true);
+        throw std::exception("No usable controls");
     }
 
+    m_focusControl->OnFocus(true);
 
     // Make visible
     m_visible = true;
@@ -4033,7 +4026,7 @@ bool Overlay::Update(float elapsedTime, const GamePad::State& pad)
         }
         else if (m_select && !pad.IsAPressed())
         {
-            if(m_focusControl != nullptr) ControlSelected(m_focusControl, this);
+            ControlSelected(m_focusControl, this);
             m_select = false;
         }
     }
@@ -4050,8 +4043,6 @@ bool Overlay::Update(float elapsedTime, const Mouse::State& mstate, const Keyboa
     }
 
     bool result = false;
-    if (!m_focusControl) return false;
-
     if (m_focusControl)
     {
         result = m_focusControl->Update(elapsedTime, mstate, kbstate);
