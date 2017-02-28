@@ -22,7 +22,6 @@ namespace ATG
         void SignIn();
         void Refresh();
 
-        std::shared_ptr<xbox::services::xbox_live_context> GetLiveContext()     const { return m_xboxLiveContext; }
         uint32_t                                           GetTitleId()         const { return m_titleId; }
         std::wstring                                       GetServiceConfigId() const { return m_scid; }
 
@@ -37,7 +36,6 @@ namespace ATG
         void UpdateCurrentUser();
 
         std::shared_ptr<xbox::services::system::xbox_live_user> m_user;
-        std::shared_ptr<xbox::services::xbox_live_context> m_xboxLiveContext;
 
         // Title Info
         uint32_t                                           m_titleId;

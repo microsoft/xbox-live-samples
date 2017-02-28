@@ -13,23 +13,24 @@ using namespace xbox::services::leaderboard;
 
 namespace
 {
-    const WCHAR StatsNameEnemyDefeats[] = L"EnemyDefeats";
-    const WCHAR LeaderboardIdEnemyDefeats[] = L"LBEnemyDefeatsDescending";
+    const WCHAR c_StatName[] = L"Score";
+    const WCHAR c_LeaderboardIdEnemyDefeats[] = L"LBEnemyDefeatsDescending";
+
+    const int c_debugLog = 202;
 
     const int c_maxLeaderboards          = 10;
     const int c_liveHUD                  = 1000;
     const int c_sampleUIPanel            = 2000;
-    const int c_multiColumnCheckBox      = 2200;
     const int c_writeEventBtn            = 2101;
     const int c_getLeaderboardBtn        = 2102;
-    const int c_skipToXuidBtn            = 2103;
+    const int c_skipToMeBtn            = 2103;
     const int c_skipToRankBtn = 2104;
     const int c_getLeaderboardForSocialGroupBtn = 2105;
-    const int c_getLeaderboardForSocialGroupWithSortBtn = 2106;
 }
 
 Sample::Sample()
 {
+    m_score = 0;
     m_deviceResources = std::make_unique<DX::DeviceResources>();
     m_deviceResources->RegisterDeviceNotify(this);
 
@@ -63,162 +64,52 @@ void Sample::Initialize(IUnknown* window, int width, int height, DXGI_MODE_ROTAT
     CreateWindowSizeDependentResources();
 
     SetupUI();
-}
 
-#pragma region Leaderboard Methods
+    InitializeStatsManager();
 
-void Sample::GetLeaderboard()
-{
-    auto& leaderboardService = m_liveResources->GetLiveContext()->leaderboard_service();
-    pplx::task<xbox_live_result<leaderboard_result>> asyncTask;
-    if (m_multiColumnEnabled)
+    std::weak_ptr<Sample> thisWeakPtr = shared_from_this();
+    m_signInContext = m_liveResources->add_signin_handler([thisWeakPtr](
+        _In_ std::shared_ptr<xbox::services::system::xbox_live_user> user,
+        _In_ xbox::services::system::sign_in_status result
+        )
     {
-        asyncTask = leaderboardService.get_leaderboard(m_liveResources->GetServiceConfigId(), LeaderboardIdEnemyDefeats, m_columnNames);
-    }
-    else
-    {
-        asyncTask = leaderboardService.get_leaderboard(m_liveResources->GetServiceConfigId(), LeaderboardIdEnemyDefeats);
-    }
-
-    asyncTask.then([this](xbox::services::xbox_live_result<xbox::services::leaderboard::leaderboard_result> result)
-    {
-        this->ProcessLeaderboards(result);
-    });
-}
-
-void Sample::GetLeaderboardSkipToRank()
-{
-    uint32_t skipToRank = 2;
-    uint32_t maxItems = 10;
-    auto& leaderboardService = m_liveResources->GetLiveContext()->leaderboard_service();
-    pplx::task<xbox_live_result<leaderboard_result>> asyncTask;
-    if (m_multiColumnEnabled)
-    {
-        asyncTask = leaderboardService.get_leaderboard(m_liveResources->GetServiceConfigId(), LeaderboardIdEnemyDefeats, skipToRank, maxItems, m_columnNames);
-    }
-    else
-    {
-        asyncTask = leaderboardService.get_leaderboard(m_liveResources->GetServiceConfigId(), LeaderboardIdEnemyDefeats, skipToRank);
-    }
-
-    asyncTask.then([this](xbox::services::xbox_live_result<xbox::services::leaderboard::leaderboard_result> result)
-    {
-        this->ProcessLeaderboards(result);
-    });
-}
-
-void Sample::GetLeaderboardSkipToXuid()
-{
-    uint32_t maxItems = 10;
-    auto& leaderboardService = m_liveResources->GetLiveContext()->leaderboard_service();
-    pplx::task<xbox_live_result<leaderboard_result>> asyncTask;
-    if (m_multiColumnEnabled)
-    {
-        asyncTask = leaderboardService.get_leaderboard_skip_to_xuid(
-            m_liveResources->GetServiceConfigId(),
-            LeaderboardIdEnemyDefeats,
-            m_liveResources->GetUser()->xbox_user_id(),
-            maxItems,
-            m_columnNames);
-    }
-    else
-    {
-        asyncTask = leaderboardService.get_leaderboard_skip_to_xuid(
-            m_liveResources->GetServiceConfigId(),
-            LeaderboardIdEnemyDefeats,
-            m_liveResources->GetUser()->xbox_user_id());
-    }
-
-    asyncTask.then([this](xbox::services::xbox_live_result<xbox::services::leaderboard::leaderboard_result> result)
-    {
-        this->ProcessLeaderboards(result);
-    });
-}
-
-void Sample::GetLeaderboardForSocialGroup()
-{
-    uint32_t maxItems = 10;
-    auto& leaderboardService = m_liveResources->GetLiveContext()->leaderboard_service();
-    pplx::task<xbox_live_result<leaderboard_result>> asyncTask;
-    if (m_multiColumnEnabled)
-    {
-        asyncTask = leaderboardService.get_leaderboard(
-            m_liveResources->GetServiceConfigId(),
-            LeaderboardIdEnemyDefeats,
-            m_liveResources->GetUser()->xbox_user_id(),
-            L"Favorites",
-            maxItems,
-            m_columnNames
-        );
-    }
-    else
-    {
-        asyncTask = leaderboardService.get_leaderboard_for_social_group(
-            m_liveResources->GetUser()->xbox_user_id(),
-            m_liveResources->GetServiceConfigId(),
-            StatsNameEnemyDefeats,
-            L"People"
-        );
-    }
-
-    asyncTask.then([this](xbox::services::xbox_live_result<xbox::services::leaderboard::leaderboard_result> result)
-    {
-        this->ProcessLeaderboards(result);
-    });
-}
-
-void Sample::GetLeaderboardForSocialGroupWithSort()
-{
-    uint32_t maxItems = 10;
-    auto& leaderboardService = m_liveResources->GetLiveContext()->leaderboard_service();
-    pplx::task<xbox_live_result<leaderboard_result>> asyncTask;
-    if (m_multiColumnEnabled)
-    {
-        // Cannot sort with multi-column leaderboard
-        asyncTask = leaderboardService.get_leaderboard(
-            m_liveResources->GetServiceConfigId(),
-            LeaderboardIdEnemyDefeats,
-            m_liveResources->GetUser()->xbox_user_id(),
-            L"Favorites",
-            maxItems,
-            m_columnNames
-        );
-    }
-    else
-    {
-        asyncTask = leaderboardService.get_leaderboard_for_social_group(
-            m_liveResources->GetUser()->xbox_user_id(),
-            m_liveResources->GetServiceConfigId(),
-            StatsNameEnemyDefeats,
-            L"People",
-            L"descending"
-        );
-    }
-
-    asyncTask.then([this](xbox::services::xbox_live_result<xbox::services::leaderboard::leaderboard_result> result)
-    {
-        this->ProcessLeaderboards(result);
-    });
-}
-
-void Sample::ProcessLeaderboards(xbox::services::xbox_live_result<xbox::services::leaderboard::leaderboard_result> result)
-{
-    if (!result.err())
-    {
-        auto leaderboard = result.payload();
-        PrintLeaderboard(leaderboard);
-
-        // Keep processing if there are more Leaderboards.
-        if (leaderboard.has_next())
+        std::shared_ptr<Sample> pThis(thisWeakPtr.lock());
+        if (pThis != nullptr)
         {
-            leaderboard.get_next(c_maxLeaderboards).then(
-                [this](xbox::services::xbox_live_result<xbox::services::leaderboard::leaderboard_result> result)
-            {
-                this->ProcessLeaderboards(result);
-            });
+            pThis->HandleSignin(user, result);
         }
+    });
+
+    m_signOutContext = xbox::services::system::xbox_live_user::add_sign_out_completed_handler(
+        [thisWeakPtr](const xbox::services::system::sign_out_completed_event_args& args)
+    {
+        UNREFERENCED_PARAMETER(args);
+        std::shared_ptr<Sample> pThis(thisWeakPtr.lock());
+        if (pThis != nullptr)
+        {
+            pThis->HandleSignout(args.user());
+        }
+    });
+}
+
+void Sample::HandleSignin(
+    _In_ std::shared_ptr<xbox::services::system::xbox_live_user> user,
+    _In_ xbox::services::system::sign_in_status result
+)
+{
+    if (result == xbox::services::system::sign_in_status::success)
+    {
+        AddUserToStatsManager(user);
     }
 }
+
+void Sample::HandleSignout(_In_ std::shared_ptr<xbox::services::system::xbox_live_user> user)
+{
+    RemoveUserFromStatsManager(user);
+}
+
+
+#pragma region Leaderboard UI Methods
 
 void Sample::PrintLeaderboard(const xbox::services::leaderboard::leaderboard_result& leaderboard)
 {
@@ -246,57 +137,41 @@ void Sample::SetupUI()
 {
     using namespace ATG;
 
-    // Write an event
     m_ui->FindControl<Button>(c_sampleUIPanel, c_writeEventBtn)->SetCallback([this](IPanel*, IControl*)
     {
-        m_console->Clear();
-        //this->WriteEvent();
-    });
-
-    // Multi-column options
-    m_ui->FindControl<ATG::CheckBox>(c_sampleUIPanel, c_multiColumnCheckBox)->SetCallback([this](ATG::IPanel *parent, ATG::IControl *)
-    {
-        m_multiColumnEnabled = false;
-        if (dynamic_cast<ATG::CheckBox*>(parent->Find(c_multiColumnCheckBox))->IsChecked())
-        {
-            m_multiColumnEnabled = true;
-        }
+        // Increment and set the stat called "Score"
+        m_score++;
+        SetStatForUser(m_liveResources->GetUser(), c_StatName, m_score);
     });
 
     // Get Leaderboards
     m_ui->FindControl<Button>(c_sampleUIPanel, c_getLeaderboardBtn)->SetCallback([this](IPanel*, IControl*)
     {
         m_console->Clear();
-        GetLeaderboard();
+        GetLeaderboard(m_liveResources->GetUser(), c_StatName);
     });
 
-    // Skip to a specific rank
+    // Get leaderboard with skip to a specific rank
     m_ui->FindControl<Button>(c_sampleUIPanel, c_skipToRankBtn)->SetCallback([this](IPanel*, IControl*)
     {
         m_console->Clear();
-        GetLeaderboardSkipToRank();
+        GetLeaderboardSkipToRank(m_liveResources->GetUser(), c_StatName);
     });
 
-    // Skip to a specific xuid (for e.g. self)
-    m_ui->FindControl<Button>(c_sampleUIPanel, c_skipToXuidBtn)->SetCallback([this](IPanel*, IControl*)
+    // Get leaderboard with skip to a me
+    m_ui->FindControl<Button>(c_sampleUIPanel, c_skipToMeBtn)->SetCallback([this](IPanel*, IControl*)
     {
         m_console->Clear();
-        GetLeaderboardSkipToXuid();
+        GetLeaderboardSkipToSelf(m_liveResources->GetUser(), c_StatName);
     });
 
     // Get leaderboard for social group
     m_ui->FindControl<Button>(c_sampleUIPanel, c_getLeaderboardForSocialGroupBtn)->SetCallback([this](IPanel*, IControl*)
     {
         m_console->Clear();
-        GetLeaderboardForSocialGroup();
+        GetLeaderboardForSocialGroup(m_liveResources->GetUser(), c_StatName, L"all");
     });
 
-    // Get & sort leaderboard for social group
-    m_ui->FindControl<Button>(c_sampleUIPanel, c_getLeaderboardForSocialGroupWithSortBtn)->SetCallback([this](IPanel*, IControl*)
-    {
-        m_console->Clear();
-        GetLeaderboardForSocialGroupWithSort();
-    });
 }
 #pragma endregion
 
@@ -360,6 +235,11 @@ void Sample::Update(DX::StepTimer const& timer)
         m_liveResources->SignIn();
     }
 
+    if (m_statsManager != nullptr)
+    {
+        UpdateStatsManager();
+    }
+
     PIXEndEvent();
 }
 #pragma endregion
@@ -381,7 +261,7 @@ void Sample::Render()
 
     // Allow UI to render last
     m_ui->Render();
-    m_console->Render();
+    m_console->Render(true);
 
     PIXEndEvent(context);
 
@@ -481,8 +361,15 @@ void Sample::CreateWindowSizeDependentResources()
     RECT fullscreen = m_deviceResources->GetOutputSize();
     m_ui->SetWindow(fullscreen);
 
-    static const RECT consoleDisplay = { 560, 150, 1250, 705 };
-    m_console->SetWindow(consoleDisplay);
+    const RECT* label = m_ui->FindControl<ATG::Image>(c_sampleUIPanel, c_debugLog)->GetRectangle();
+
+    RECT console = { 0 };
+    console.top = label->top;
+    console.left = label->left;
+    console.bottom = console.top + 600;
+    console.right = console.left + 800;
+
+    m_console->SetWindow(console);
 }
 
 void Sample::OnDeviceLost()
