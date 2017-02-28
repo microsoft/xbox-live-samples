@@ -11,7 +11,7 @@
 
 // A basic sample implementation that creates a D3D11 device and
 // provides a render loop.
-class Sample : public DX::IDeviceNotify
+class Sample : public DX::IDeviceNotify, public std::enable_shared_from_this<Sample>
 {
 public:
 
@@ -19,6 +19,11 @@ public:
 
     // Initialization and management
     void Initialize(IUnknown* window, int width, int height, DXGI_MODE_ROTATION rotation);
+    void HandleSignin(
+        _In_ std::shared_ptr<xbox::services::system::xbox_live_user> user,
+        _In_ xbox::services::system::sign_in_status result
+        );
+    void HandleSignout(_In_ std::shared_ptr<xbox::services::system::xbox_live_user> user);
 
     // Basic render loop
     void Tick();
@@ -45,19 +50,32 @@ public:
 private:
 
     // Leaderboard Methods
-    void WriteEvent();
-    void GetLeaderboard();
-    void GetLeaderboardSkipToRank();
-    void GetLeaderboardSkipToXuid();
-    void GetLeaderboardForSocialGroup();
-    void GetLeaderboardForSocialGroupWithSort();
-    void ProcessLeaderboards(xbox::services::xbox_live_result<xbox::services::leaderboard::leaderboard_result> result);
+    void SetStatForUser(
+        _In_ std::shared_ptr<xbox::services::system::xbox_live_user> user, 
+        _In_ const string_t& name,
+        _In_ int64_t value);
+
     void PrintLeaderboard(const xbox::services::leaderboard::leaderboard_result& leaderboard);
 
     void SetupUI();
     void Update(DX::StepTimer const& timer);
     void CreateDeviceDependentResources();
     void CreateWindowSizeDependentResources();
+
+    void InitializeStatsManager();
+    void AddUserToStatsManager(_In_ std::shared_ptr<xbox::services::system::xbox_live_user> user);
+    void RemoveUserFromStatsManager(_In_ std::shared_ptr<xbox::services::system::xbox_live_user> user);
+    void UpdateStatsManager();
+
+    void GetLeaderboard(_In_ std::shared_ptr<xbox::services::system::xbox_live_user> user, _In_ const string_t& statName);
+    void GetLeaderboardSkipToRank(_In_ std::shared_ptr<xbox::services::system::xbox_live_user> user, _In_ const string_t& statName);
+    void GetLeaderboardSkipToSelf(_In_ std::shared_ptr<xbox::services::system::xbox_live_user> user, _In_ const string_t& statName);
+    void GetLeaderboardForSocialGroup(_In_ std::shared_ptr<xbox::services::system::xbox_live_user> user, _In_ const string_t& statName, _In_ const string_t& socialGroup);
+
+    void ProcessLeaderboards(
+        _In_ std::shared_ptr<xbox::services::system::xbox_live_user> user,
+        _In_ xbox::services::xbox_live_result<xbox::services::leaderboard::leaderboard_result> result
+        );
 
     // Device resources.
     std::unique_ptr<DX::DeviceResources>    m_deviceResources;
@@ -71,13 +89,15 @@ private:
     std::unique_ptr<DirectX::Mouse>         m_mouse;
 
     // UI
-    std::unique_ptr<ATG::UIManager>         m_ui;
-    std::unique_ptr<DX::TextConsole>       m_console;
+    std::shared_ptr<ATG::UIManager>         m_ui;
+    std::unique_ptr<DX::TextConsole>        m_console;
 
     // Xbox Live objects
-    bool m_multiColumnEnabled;
-    std::vector<string_t> m_columnNames;
     std::unique_ptr<ATG::LiveResources>     m_liveResources;
+    function_context m_signInContext;
+    function_context m_signOutContext;
+    std::shared_ptr<xbox::services::stats::manager::stats_manager> m_statsManager;
+    int m_score;
 
     DirectX::GamePad::ButtonStateTracker    m_gamePadButtons;
     DirectX::Keyboard::KeyboardStateTracker m_keyboardButtons;

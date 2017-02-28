@@ -60,7 +60,6 @@ private:
 
     // SocialManager
     void InitializeSocialManager();
-    void InitializeSocialManager(std::shared_ptr<xbox::services::system::xbox_live_user> user);
     void AddUserToSocialManager(_In_ std::shared_ptr<xbox::services::system::xbox_live_user> user);
     void RemoveUserFromSocialManager(_In_ std::shared_ptr<xbox::services::system::xbox_live_user> user);
 

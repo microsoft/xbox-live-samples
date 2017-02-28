@@ -16,13 +16,6 @@ void Sample::InitializeSocialManager()
     m_socialManager = social_manager::get_singleton_instance();
 }
 
-void Sample::InitializeSocialManager(std::shared_ptr<xbox::services::system::xbox_live_user> user)
-{
-    m_socialManager = social_manager::get_singleton_instance();
-
-    AddUserToSocialManager(user);
-}
-
 void
 Sample::AddUserToSocialManager(
     _In_ std::shared_ptr<xbox::services::system::xbox_live_user> user
@@ -51,7 +44,7 @@ Sample::AddUserToSocialManager(
 
 void
 Sample::RemoveUserFromSocialManager(
-    _In_ std::shared_ptr<xbox::services::system::xbox_live_user> user
+     _In_ std::shared_ptr<xbox::services::system::xbox_live_user> user
     )
 {
     std::lock_guard<std::mutex> guard(m_socialManagerLock);

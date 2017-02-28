@@ -43,7 +43,7 @@ public:
         CoreApplication::Resuming +=
             ref new EventHandler<Platform::Object^>(this, &ViewProvider::OnResuming);
 
-        m_sample = std::make_unique<Sample>();
+        m_sample = std::make_shared<Sample>();
     }
 
     virtual void Uninitialize()
@@ -249,7 +249,7 @@ private:
     float                   m_DPI;
     float                   m_logicalWidth;
     float                   m_logicalHeight;
-    std::unique_ptr<Sample> m_sample;
+    std::shared_ptr<Sample> m_sample;
 
     Windows::Graphics::Display::DisplayOrientations	m_nativeOrientation;
     Windows::Graphics::Display::DisplayOrientations	m_currentOrientation;

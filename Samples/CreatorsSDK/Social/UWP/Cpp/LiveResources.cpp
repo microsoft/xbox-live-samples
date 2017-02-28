@@ -13,7 +13,6 @@ using Microsoft::WRL::ComPtr;
 
 ATG::LiveResources::LiveResources() :
     m_user(nullptr),
-    m_xboxLiveContext(nullptr),
     m_gamertag(nullptr),
     m_userDependentPanel(nullptr)
 {
@@ -138,14 +137,11 @@ void ATG::LiveResources::UpdateCurrentUser()
             m_userDependentPanel->Show();
         }
 
-        m_xboxLiveContext = std::make_shared<xbox::services::xbox_live_context>(m_user);
         m_gamertag->SetText(m_user->gamertag().c_str());
         m_signInErrorLabel->SetVisible(false);
     }
     else
     {
-        m_xboxLiveContext.reset();
-
         if (m_userDependentPanel != nullptr)
         {
             m_userDependentPanel->Close();
