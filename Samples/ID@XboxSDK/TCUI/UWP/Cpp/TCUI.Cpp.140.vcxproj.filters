@@ -22,19 +22,20 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="App.xaml.cpp" />
     <ClCompile Include="MainPage.xaml.cpp" />
-    <ClCompile Include="pch.cpp" />
     <ClCompile Include="Scenarios.cpp" />
+    <ClCompile Include="pch.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h" />
     <ClInclude Include="MainPage.xaml.h" />
     <ClInclude Include="Scenarios.h" />
+    <ClInclude Include="pch.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\WideLogo.scale-100.png">
@@ -42,13 +43,26 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest" />
+    <None Include="packages.config">
+      <Filter>Common</Filter>
+    </None>
+    <None Include="xboxservices.config">
+      <Filter>Common</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="xboxservices.config" />
-    <None Include="packages.config" />
+    <ApplicationDefinition Include="App.xaml">
+      <Filter>Common</Filter>
+    </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MainPage.xaml" />
+    <Page Include="MainPage.xaml">
+      <Filter>Common</Filter>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <Filter>Common</Filter>
+    </AppxManifest>
   </ItemGroup>
 </Project>
