@@ -39,6 +39,10 @@ void Sample::SetStatForUser(
 {
     m_statsManager->set_stat_as_integer(user, statName, statValue);
 
+    // Typically stats will be uploaded automatically
+    // you should only request to flush when a game session or level ends.
+    m_statsManager->request_flush_to_service(user, false);
+
     stringstream_t source;
     source << _T("Setting ");
     source << statName;
