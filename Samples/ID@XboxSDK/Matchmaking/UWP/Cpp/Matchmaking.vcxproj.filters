@@ -19,29 +19,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h" />
     <ClInclude Include="Common\StepTimer.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Common\DeviceResources.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Kits\ATGTK\ATGColors.h">
-      <Filter>ATG Tool Kit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Kits\ATGTK\ControllerFont.h">
-      <Filter>ATG Tool Kit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Kits\ATGTK\CSVReader.h">
-      <Filter>ATG Tool Kit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Kits\ATGTK\SampleGUI.h">
-      <Filter>ATG Tool Kit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Kits\ATGTK\TextConsole.h">
-      <Filter>ATG Tool Kit</Filter>
-    </ClInclude>
-    <ClInclude Include="LiveResources.h" />
     <ClInclude Include="Utils\PerformanceCounters.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -51,22 +34,35 @@
     <ClInclude Include="GameLogic\Matchmaking.h">
       <Filter>GameLogic</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Kits\ATGTK\Texture.h">
+    <ClInclude Include="..\..\..\..\Kits\ATGTK\ATGColors.h">
       <Filter>ATG Tool Kit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Kits\ATGTK\ControllerFont.h">
+      <Filter>ATG Tool Kit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Kits\ATGTK\CSVReader.h">
+      <Filter>ATG Tool Kit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Kits\ATGTK\TextConsole.h">
+      <Filter>ATG Tool Kit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Kits\ATGTK\SampleGUI.h">
+      <Filter>ATG Tool Kit</Filter>
+    </ClInclude>
+    <ClInclude Include="LiveResources.h">
+      <Filter>ATG Tool Kit</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Kits\ATGTK\Texture.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp" />
     <ClCompile Include="Common\DeviceResources.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Kits\ATGTK\SampleGUI.cpp">
-      <Filter>ATG Tool Kit</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Kits\ATGTK\TextConsole.cpp">
-      <Filter>ATG Tool Kit</Filter>
-    </ClCompile>
-    <ClCompile Include="LiveResources.cpp" />
     <ClCompile Include="MultiplayerManagerIntegration.cpp" />
     <ClCompile Include="GameLogic\Main.cpp">
       <Filter>GameLogic</Filter>
@@ -86,8 +82,20 @@
     <ClCompile Include="GameLogic\Matchmaking.cpp">
       <Filter>GameLogic</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Kits\ATGTK\Texture.cpp">
+    <ClCompile Include="..\..\..\..\Kits\ATGTK\SampleGUI.cpp">
       <Filter>ATG Tool Kit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Kits\ATGTK\TextConsole.cpp">
+      <Filter>ATG Tool Kit</Filter>
+    </ClCompile>
+    <ClCompile Include="LiveResources.cpp">
+      <Filter>ATG Tool Kit</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Kits\ATGTK\Texture.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -159,59 +167,67 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\Kits\Media\Fonts\Courier_16.spritefont">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="..\..\..\Kits\Media\Fonts\SegoeUI_18.spritefont">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="..\..\..\Kits\Media\Fonts\SegoeUI_18_Bold.spritefont">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="..\..\..\Kits\Media\Fonts\SegoeUI_18_Italic.spritefont">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="..\..\..\Kits\Media\Fonts\SegoeUI_22.spritefont">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="..\..\..\Kits\Media\Fonts\SegoeUI_22_Bold.spritefont">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="..\..\..\Kits\Media\Fonts\SegoeUI_22_Italic.spritefont">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="..\..\..\Kits\Media\Fonts\SegoeUI_36.spritefont">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="..\..\..\Kits\Media\Fonts\SegoeUI_36_Bold.spritefont">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="..\..\..\Kits\Media\Fonts\SegoeUI_36_Italic.spritefont">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="..\..\..\Kits\Media\Fonts\XboxOneController.spritefont">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="..\..\..\Kits\Media\Fonts\XboxOneControllerLegend.spritefont">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="..\..\..\Kits\Media\Fonts\XboxOneControllerLegendSmall.spritefont">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="..\..\..\Kits\Media\Fonts\XboxOneControllerSmall.spritefont">
-      <Filter>Assets</Filter>
-    </None>
     <None Include="Assets\Layout.csv">
       <Filter>Assets</Filter>
     </None>
     <None Include="Assets\LiveInfoHUD.csv">
       <Filter>Assets</Filter>
     </None>
-    <None Include="xboxservices.config" />
-    <None Include="ReadMe.docx" />
-    <None Include="packages.config" />
+    <None Include="..\..\..\..\Kits\Media\Fonts\SegoeUI_18.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="..\..\..\..\Kits\Media\Fonts\SegoeUI_18_Bold.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="..\..\..\..\Kits\Media\Fonts\SegoeUI_18_Italic.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="..\..\..\..\Kits\Media\Fonts\SegoeUI_22.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="..\..\..\..\Kits\Media\Fonts\SegoeUI_22_Bold.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="..\..\..\..\Kits\Media\Fonts\SegoeUI_22_Italic.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="..\..\..\..\Kits\Media\Fonts\SegoeUI_36.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="..\..\..\..\Kits\Media\Fonts\SegoeUI_36_Bold.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="..\..\..\..\Kits\Media\Fonts\SegoeUI_36_Italic.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="..\..\..\..\Kits\Media\Fonts\XboxOneController.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="..\..\..\..\Kits\Media\Fonts\XboxOneControllerLegend.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="..\..\..\..\Kits\Media\Fonts\XboxOneControllerLegendSmall.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="..\..\..\..\Kits\Media\Fonts\XboxOneControllerSmall.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="..\..\..\..\Kits\Media\Fonts\Courier_16.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="packages.config">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="ReadMe.docx">
+      <Filter>Utils</Filter>
+    </None>
+    <None Include="xboxservices.config">
+      <Filter>Utils</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <Filter>Utils</Filter>
+    </AppxManifest>
   </ItemGroup>
 </Project>
