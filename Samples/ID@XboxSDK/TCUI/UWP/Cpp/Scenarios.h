@@ -4,7 +4,6 @@
 #pragma once
 
 #include "MainPage.g.h"
-#include "xsapi\services.h"
 
 namespace Sample
 {
