@@ -3955,12 +3955,10 @@ void Overlay::Show()
     OnWindowSize(mgr->m_fullscreen);
 
     m_focusControl = InitFocus(m_controls);
-    if (!m_focusControl)
+    if (m_focusControl)
     {
-        throw std::exception("No usable controls");
+        m_focusControl->OnFocus(true);
     }
-
-    m_focusControl->OnFocus(true);
 
     // Make visible
     m_visible = true;
