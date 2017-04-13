@@ -43,12 +43,10 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config">
-      <Filter>Common</Filter>
-    </None>
     <None Include="xboxservices.config">
       <Filter>Common</Filter>
     </None>
+    <None Include="..\..\..\..\ID%40XboxSDK\TCUI\UWP\Cpp\packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

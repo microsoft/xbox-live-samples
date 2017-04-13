@@ -119,9 +119,6 @@
     <None Include="..\..\..\..\Kits\Media\Fonts\Courier_16.spritefont">
       <Filter>Assets</Filter>
     </None>
-    <None Include="packages.config">
-      <Filter>Assets</Filter>
-    </None>
     <None Include="..\..\..\..\Kits\Media\Fonts\SegoeUI_18.spritefont">
       <Filter>Assets</Filter>
     </None>
@@ -161,6 +158,7 @@
     <None Include="..\..\..\..\Kits\Media\Fonts\XboxOneControllerSmall.spritefont">
       <Filter>Assets</Filter>
     </None>
+    <None Include="..\..\..\..\ID%40XboxSDK\Social\UWP\Cpp\packages.config" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

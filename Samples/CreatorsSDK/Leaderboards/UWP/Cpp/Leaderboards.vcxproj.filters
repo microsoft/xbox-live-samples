@@ -146,12 +146,10 @@
     <None Include="..\..\..\..\Kits\Media\Fonts\Courier_16.spritefont">
       <Filter>Assets</Filter>
     </None>
-    <None Include="packages.config">
-      <Filter>Utils</Filter>
-    </None>
     <None Include="xboxservices.config">
       <Filter>Utils</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
