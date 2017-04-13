@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -242,6 +242,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="..\..\..\..\ID%40XboxSDK\TitleStorage\UWP\Cpp\packages.config" />
     <None Include="..\..\..\..\Kits\Media\Fonts\Courier_16.spritefont">
       <DeploymentContent>true</DeploymentContent>
     </None>
@@ -290,7 +291,6 @@
     <None Include="Assets\LiveInfoHUD.csv">
       <DeploymentContent>true</DeploymentContent>
     </None>
-    <None Include="packages.config" />
     <None Include="ReadMe.docx">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DeploymentContent>
     </None>
@@ -323,12 +323,20 @@
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ImageContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\MeshContentTask.targets" />
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ShaderGraphContentTask.targets" />
-    <Import Project="..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2017.03.20170228.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets" Condition="Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2017.03.20170228.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets')" />
+    <Import Project="..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.targets" Condition="Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.targets')" />
+    <Import Project="..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.Symbols.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.Symbols.targets" Condition="Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.Symbols.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.Symbols.targets')" />
+    <Import Project="..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.targets" Condition="Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.targets')" />
+    <Import Project="..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.Symbols.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.Symbols.targets" Condition="Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.Symbols.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.Symbols.targets')" />
+    <Import Project="..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets" Condition="Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2017.03.20170228.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2017.03.20170228.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.Symbols.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.Symbols.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.Symbols.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.Symbols.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.Symbols.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.Symbols.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.Symbols.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.Symbols.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2017.04.20170412.001\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets'))" />
   </Target>
 </Project>

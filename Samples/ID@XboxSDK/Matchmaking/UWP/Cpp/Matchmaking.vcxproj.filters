@@ -215,12 +215,10 @@
     <None Include="..\..\..\..\Kits\Media\Fonts\Courier_16.spritefont">
       <Filter>Assets</Filter>
     </None>
-    <None Include="packages.config">
-      <Filter>Utils</Filter>
-    </None>
     <None Include="ReadMe.docx">
       <Filter>Utils</Filter>
     </None>
+    <None Include="..\..\..\..\ID%40XboxSDK\Matchmaking\UWP\Cpp\packages.config" />
     <None Include="xboxservices.config">
       <Filter>Utils</Filter>
     </None>

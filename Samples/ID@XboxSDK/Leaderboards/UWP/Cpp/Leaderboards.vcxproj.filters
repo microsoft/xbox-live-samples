@@ -135,15 +135,13 @@
     <None Include="..\..\..\..\Kits\Media\Fonts\Courier_16.spritefont">
       <Filter>Assets</Filter>
     </None>
-    <None Include="packages.config">
-      <Filter>Common</Filter>
-    </None>
     <None Include="ReadMe.docx">
       <Filter>Common</Filter>
     </None>
     <None Include="xboxservices.config">
       <Filter>Common</Filter>
     </None>
+    <None Include="..\..\..\..\ID%40XboxSDK\Leaderboards\UWP\Cpp\packages.config" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
