@@ -25,6 +25,8 @@ public:
         );
     void HandleSignout(_In_ std::shared_ptr<xbox::services::system::xbox_live_user> user);
 
+    void SetupDefaultUser(Windows::System::User^ systemUser);
+
     // Basic render loop
     void Tick();
     void Render();
@@ -85,6 +87,7 @@ private:
 
     // Input devices.
     std::unique_ptr<DirectX::GamePad>       m_gamePad;
+    DirectX::GamePad::ButtonStateTracker    m_gamePadButtons[DirectX::GamePad::MAX_PLAYER_COUNT];
     std::unique_ptr<DirectX::Keyboard>      m_keyboard;
     std::unique_ptr<DirectX::Mouse>         m_mouse;
 
@@ -99,6 +102,5 @@ private:
     std::shared_ptr<xbox::services::stats::manager::stats_manager> m_statsManager;
     int m_score;
 
-    DirectX::GamePad::ButtonStateTracker    m_gamePadButtons;
     DirectX::Keyboard::KeyboardStateTracker m_keyboardButtons;
 };
