@@ -7,14 +7,14 @@
 #include "Leaderboards.h"
 
 using namespace DirectX;
-using Microsoft::WRL::ComPtr;
+using namespace Platform;
 using namespace xbox::services;
 using namespace xbox::services::leaderboard;
+using namespace concurrency;
 
 namespace
 {
     const WCHAR c_StatName[] = L"Score";
-    const WCHAR c_LeaderboardIdEnemyDefeats[] = L"LBEnemyDefeatsDescending";
 
     const int c_debugLog = 202;
 
@@ -90,6 +90,15 @@ void Sample::Initialize(IUnknown* window, int width, int height, DXGI_MODE_ROTAT
             pThis->HandleSignout(args.user());
         }
     });
+
+    m_liveResources->SetLogCallback([thisWeakPtr](const std::wstring& log)
+    {
+        std::shared_ptr<Sample> pThis(thisWeakPtr.lock());
+        if (pThis != nullptr)
+        {
+            pThis->m_console->WriteLine(log.c_str());
+        }
+    });
 }
 
 void Sample::HandleSignin(
@@ -108,6 +117,14 @@ void Sample::HandleSignout(_In_ std::shared_ptr<xbox::services::system::xbox_liv
     RemoveUserFromStatsManager(user);
 }
 
+void Sample::SetupDefaultUser(Windows::System::User^ systemUser)
+{
+    if (!ATG::LiveResources::IsMultiUserApplication() || systemUser != nullptr)
+    {
+        m_liveResources->SetupCurrentUser(systemUser);
+        m_liveResources->TrySignInCurrentUserSilently();
+    }
+}
 
 #pragma region Leaderboard UI Methods
 
@@ -141,35 +158,35 @@ void Sample::SetupUI()
     {
         // Increment and set the stat called "Score"
         m_score++;
-        SetStatForUser(m_liveResources->GetUser(), c_StatName, m_score);
+        SetStatForUser(m_liveResources->GetCurrentUser(), c_StatName, m_score);
     });
 
     // Get Leaderboards
     m_ui->FindControl<Button>(c_sampleUIPanel, c_getLeaderboardBtn)->SetCallback([this](IPanel*, IControl*)
     {
         m_console->Clear();
-        GetLeaderboard(m_liveResources->GetUser(), c_StatName);
+        GetLeaderboard(m_liveResources->GetCurrentUser(), c_StatName);
     });
 
     // Get leaderboard with skip to a specific rank
     m_ui->FindControl<Button>(c_sampleUIPanel, c_skipToRankBtn)->SetCallback([this](IPanel*, IControl*)
     {
         m_console->Clear();
-        GetLeaderboardSkipToRank(m_liveResources->GetUser(), c_StatName);
+        GetLeaderboardSkipToRank(m_liveResources->GetCurrentUser(), c_StatName);
     });
 
     // Get leaderboard with skip to a me
     m_ui->FindControl<Button>(c_sampleUIPanel, c_skipToMeBtn)->SetCallback([this](IPanel*, IControl*)
     {
         m_console->Clear();
-        GetLeaderboardSkipToSelf(m_liveResources->GetUser(), c_StatName);
+        GetLeaderboardSkipToSelf(m_liveResources->GetCurrentUser(), c_StatName);
     });
 
     // Get leaderboard for social group
     m_ui->FindControl<Button>(c_sampleUIPanel, c_getLeaderboardForSocialGroupBtn)->SetCallback([this](IPanel*, IControl*)
     {
         m_console->Clear();
-        GetLeaderboardForSocialGroup(m_liveResources->GetUser(), c_StatName, L"all");
+        GetLeaderboardForSocialGroup(m_liveResources->GetCurrentUser(), c_StatName, L"all");
     });
 
 }
@@ -194,24 +211,63 @@ void Sample::Update(DX::StepTimer const& timer)
 
     float elapsedTime = float(timer.GetElapsedSeconds());
 
-    auto pad = m_gamePad->GetState(0);
-    if (pad.IsConnected())
+    for (int i = 0; i < m_gamePad->MAX_PLAYER_COUNT; i++)
     {
-        m_gamePadButtons.Update(pad);
-
-        if (!m_ui->Update(elapsedTime, pad))
+        auto pad = m_gamePad->GetState(i);
+        if (pad.IsConnected())
         {
-            // UI is not consuming input, so implement sample gamepad controls
-        }
+            auto systemUserId = m_gamePad->GetCapabilities(i).id;
+            m_gamePadButtons[i].Update(pad);
 
-        if (pad.IsViewPressed())
-        {
-            Windows::ApplicationModel::Core::CoreApplication::Exit();
+            if (!m_ui->Update(elapsedTime, pad))
+            {
+                // UI is not consuming input, so implement sample gamepad controls
+            }
+
+            if (m_gamePadButtons[i].a == GamePad::ButtonStateTracker::PRESSED)
+            {
+                //If it's current gamepad, skip user setup
+                if (i != m_liveResources->GetCurrentGamepadIndex())
+                {
+                    m_liveResources->SetCurrentGamepadAndUser(i, systemUserId);
+                }
+
+                m_liveResources->TrySignInCurrentUser();
+            }
+
+            if (m_gamePadButtons[i].x == GamePad::ButtonStateTracker::PRESSED)
+            {
+                this->m_console->WriteLine(L"Launching user picker");
+
+                auto userPicker = ref new Windows::System::UserPicker();
+                create_task(userPicker->PickSingleUserAsync())
+                .then([this, i] (task<Windows::System::User^> task)
+                {
+                    try
+                    {
+                        auto user = task.get();
+                        if (user != nullptr)
+                        {
+                            m_liveResources->SetCurrentGamepadAndUser(i, user);
+                            m_liveResources->TrySignInCurrentUser();
+                        }
+                    }
+                    catch (Platform::Exception^ ex)
+                    {
+                        this->m_console->WriteLine(ex->Message->Data());
+                    }
+                });
+            }
+
+            if (pad.IsViewPressed())
+            {
+                Windows::ApplicationModel::Core::CoreApplication::Exit();
+            }
         }
-    }
-    else
-    {
-        m_gamePadButtons.Reset();
+        else
+        {
+            m_gamePadButtons[i].Reset();
+        }
     }
 
     auto mouse = m_mouse->GetState();
@@ -232,7 +288,7 @@ void Sample::Update(DX::StepTimer const& timer)
 
     if (m_keyboardButtons.IsKeyPressed(Keyboard::A))
     {
-        m_liveResources->SignIn();
+        m_liveResources->TrySignInCurrentUser();
     }
 
     if (m_statsManager != nullptr)
@@ -315,7 +371,6 @@ void Sample::OnSuspending()
 void Sample::OnResuming()
 {
     m_timer.ResetElapsedTime();
-    m_gamePadButtons.Reset();
     m_keyboardButtons.Reset();
 
     // Reset UI on return from suspend.

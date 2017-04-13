@@ -129,7 +129,7 @@ protected:
     {
         if (args->Kind == ActivationKind::Launch)
         {
-            auto launchArgs = static_cast<LaunchActivatedEventArgs^>(args);
+            auto launchArgs = dynamic_cast<LaunchActivatedEventArgs^>(args);
 
             if (launchArgs->PrelaunchActivated)
             {
@@ -137,6 +137,13 @@ protected:
                 CoreApplication::Exit();
                 return;
             }
+        }
+
+        // Query IActivatedEventArgsWithUser interface
+        IActivatedEventArgsWithUser^ argsWithUser = dynamic_cast<IActivatedEventArgsWithUser^>(args);
+        if (argsWithUser != nullptr)
+        {
+            m_sample->SetupDefaultUser(argsWithUser->User);
         }
 
         int w, h;

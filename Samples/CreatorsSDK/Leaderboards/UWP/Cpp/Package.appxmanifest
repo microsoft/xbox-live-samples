@@ -6,6 +6,7 @@
     <DisplayName>Xbox LIVE SDK Sample - Leaderboard</DisplayName>
     <PublisherDisplayName>Placeholder_7406</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
+    <uap:SupportedUsers>multiple</uap:SupportedUsers>
   </Properties>
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.10240.0" MaxVersionTested="10.0.10240.0" />
