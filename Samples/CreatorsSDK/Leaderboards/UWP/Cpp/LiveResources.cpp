@@ -64,12 +64,14 @@ void ATG::LiveResources::Refresh()
 }
 
 void ATG::LiveResources::HandleSignInResult(
+    _In_ std::shared_ptr<xbox::services::system::xbox_live_user> user,
     xbox::services::xbox_live_result<xbox::services::system::sign_in_result>& signInResult
     )
 {
     if (!signInResult.err())
     {
         auto result = signInResult.payload();
+        OnUserSignInEvent(user, result.status());
         switch (result.status())
         {
         case xbox::services::system::sign_in_status::success:
@@ -159,6 +161,29 @@ void ATG::LiveResources::remove_signin_handler(
     m_signinRoutedHandlers.erase(context);
 }
 
+void ATG::LiveResources::OnUserSignInEvent(
+    _In_ std::shared_ptr<xbox::services::system::xbox_live_user> user,
+    _In_ xbox::services::system::sign_in_status result
+)
+{
+    std::lock_guard<std::mutex> lock(m_writeLock);
+
+    for (auto& handler : m_signinRoutedHandlers)
+    {
+        if (handler.second != nullptr)
+        {
+            try
+            {
+                handler.second(user, result);
+            }
+            catch (...)
+            {
+            }
+        }
+    }
+}
+
+
 void ATG::LiveResources::SetCurrentGamepad(int gamepadIndex)
 {
     if (gamepadIndex != -1)
@@ -238,7 +263,7 @@ void ATG::LiveResources::TrySignInCurrentUser()
         m_currentUser->signin(Windows::UI::Core::CoreWindow::GetForCurrentThread()->Dispatcher)
         .then([this](xbox::services::xbox_live_result<xbox::services::system::sign_in_result> result) // use task_continuation_context::use_current() to make the continuation task running in current apartment 
         {
-            HandleSignInResult(result);
+            HandleSignInResult(m_currentUser, result);
 
         }, concurrency::task_continuation_context::use_current());
     }
@@ -253,7 +278,7 @@ void ATG::LiveResources::TrySignInCurrentUserSilently()
         m_currentUser->signin_silently(Windows::UI::Core::CoreWindow::GetForCurrentThread()->Dispatcher)
             .then([this](xbox::services::xbox_live_result<xbox::services::system::sign_in_result> result) // use task_continuation_context::use_current() to make the continuation task running in current apartment 
         {
-            HandleSignInResult(result);
+            HandleSignInResult(m_currentUser, result);
 
         }, concurrency::task_continuation_context::use_current());
     }

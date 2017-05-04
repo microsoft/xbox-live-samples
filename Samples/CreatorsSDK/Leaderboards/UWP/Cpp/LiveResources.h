@@ -44,7 +44,8 @@ namespace ATG
         void LogLine(const std::wstring& log);
 
     private:
-        void HandleSignInResult(xbox::services::xbox_live_result<xbox::services::system::sign_in_result> &t);
+        void OnUserSignInEvent(_In_ std::shared_ptr<xbox::services::system::xbox_live_user> user, _In_ xbox::services::system::sign_in_status result);
+        void HandleSignInResult(_In_ std::shared_ptr<xbox::services::system::xbox_live_user> user, _In_ xbox::services::xbox_live_result<xbox::services::system::sign_in_result> &t);
         void UpdateCurrentUser();
 
         std::unordered_map<std::wstring, std::shared_ptr<xbox::services::system::xbox_live_user>> m_users;
