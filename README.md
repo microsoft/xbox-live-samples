@@ -14,7 +14,8 @@ When initially cloning, make sure you use the "--recursive" option. IE:
 
 If you already cloned the repo, you can initialize submodules with:
 
-    git submodule update --init
+    git submodule sync
+    git submodule update --init --recursive
 
 Note that using GitHub's feature to "Download Zip" instead of cloning does not contain the submodules and will not properly build.  Please clone recursively instead.
 
