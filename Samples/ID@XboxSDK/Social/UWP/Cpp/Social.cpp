@@ -197,7 +197,7 @@ void Sample::RefreshUserList()
 
     for (auto x = 0; x < 15; x++)
     {
-        if (x < userList.size())
+        if (x < (int)userList.size())
         {
             users.push_back(std::make_shared<UserListItem>(userList.at(x)));
         }
