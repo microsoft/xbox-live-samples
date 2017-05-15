@@ -314,7 +314,7 @@
     <Image Include="Assets\WideLogo.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Kits\DirectXTK\DirectXTK_Windows10_2015.vcxproj">
+    <ProjectReference Include="..\..\..\..\Kits\DirectXTK\DirectXTK_Windows10.vcxproj">
       <Project>{16657077-1CAB-4D44-9BF8-7C025E1D8088}</Project>
     </ProjectReference>
   </ItemGroup>

@@ -53,6 +53,10 @@
     <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(PlatformToolset)\$(MSBuildProjectName)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\$(PlatformToolset)\</IntDir>
+  </PropertyGroup>
   <ImportGroup Label="ExtensionSettings">
     <Import Project="..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2017.04.20170513.003\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets" Condition="Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2017.04.20170513.003\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets')" />
   </ImportGroup>
