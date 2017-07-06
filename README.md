@@ -23,10 +23,10 @@ Note that using GitHub's feature to "Download Zip" instead of cloning does not c
 
 You need to change the target devices sandbox to XDKS.1, and sign in with any Xbox Live enabled account.
 
-For details on how to change sandbox for developers in the Xbox Live Creators Program, see: https://developer.microsoft.com/en-us/games/xbox/docs/xboxlive/get-started/creators/xbox-live-sandboxes-creators
+For details on how to change sandbox for developers in the Xbox Live Creators Program, see: https://docs.microsoft.com/en-us/windows/uwp/xbox-live/get-started-with-creators/xbox-live-sandboxes-creators
 
 For details on how to change sandbox for developers in ID@Xbox Program, see:
-https://developer.microsoft.com/en-us/games/xbox/docs/xboxlive/get-started/xbox-live-sandboxes
+https://docs.microsoft.com/en-us/windows/uwp/xbox-live/xbox-live-sandboxes
 
 
 ## Contribute Back!
