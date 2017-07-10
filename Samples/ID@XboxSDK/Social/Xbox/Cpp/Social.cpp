@@ -180,6 +180,9 @@ void Sample::SetupUI()
 
 void Sample::RefreshUserList()
 {
+	if (m_socialGroups.size() <= m_selectedFriendList)
+		return;
+
     const auto& group = m_socialGroups[m_selectedFriendList];
 
     stringstream_t source;
