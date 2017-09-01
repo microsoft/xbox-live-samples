@@ -8,7 +8,7 @@
 
 Platform::String^ StringFormat(LPCWSTR strMsg, ...);
 
-namespace Sample
+namespace TCUI
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
