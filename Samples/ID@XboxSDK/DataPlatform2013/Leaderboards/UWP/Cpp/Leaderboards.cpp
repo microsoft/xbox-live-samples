@@ -250,7 +250,7 @@ void Sample::SetupUI()
     m_ui->FindControl<Button>(c_sampleUIPanel, c_writeEventBtn)->SetCallback([this](IPanel*, IControl*)
     {
         m_console->Clear();
-        //this->WriteEvent();
+        this->WriteEvent();
     });
 
     // Multi-column options
