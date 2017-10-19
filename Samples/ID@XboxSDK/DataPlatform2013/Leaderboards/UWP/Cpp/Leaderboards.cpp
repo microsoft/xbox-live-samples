@@ -67,6 +67,36 @@ void Sample::Initialize(IUnknown* window, int width, int height, DXGI_MODE_ROTAT
 
 #pragma region Leaderboard Methods
 
+void Sample::WriteEvent()
+{
+    // Write an event with data fields 
+    web::json::value properties = web::json::value::object();
+    properties[L"MultiplayerCorrelationId"] = web::json::value(L"multiplayer correlation id");
+    properties[L"GameplayModeId"] = web::json::value(L"gameplay mode id");
+    properties[L"DifficultyLevelId"] = 100;
+    properties[L"RoundId"] = 1;
+    properties[L"PlayerRoleId"] = 1;
+    properties[L"PlayerWeaponId"] = 2;
+    properties[L"EnemyRoleId"] = 3;
+    properties[L"KillTypeId"] = 4;
+
+    web::json::value measurements = web::json::value::object();
+    measurements[L"LocationX"] = 1;
+    measurements[L"LocationY"] = 2.12121;
+    measurements[L"LocationZ"] = -90909093;
+
+    xbox::services::xbox_live_result<void> result = m_liveResources->GetLiveContext()->events_service().write_in_game_event(L"EnemyDefeated", properties, measurements);
+
+    if (!result.err())
+    {
+        m_console->WriteLine(L"EnemyDefeated event was fired");
+    }
+    else
+    {
+        m_console->WriteLine(L"Failed to fire EnemyDefeated event");
+    }
+}
+
 void Sample::GetLeaderboard()
 {
     auto& leaderboardService = m_liveResources->GetLiveContext()->leaderboard_service();
