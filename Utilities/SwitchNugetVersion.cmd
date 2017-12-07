@@ -16,10 +16,12 @@ goto :start
 
 :start
 set ROOT_FOLDER=%~dp0..
-findstr /C:"\"Microsoft.Xbox.Live.SDK.Cpp.UWP\"" %ROOT_FOLDER%\Samples\ID@XboxSDK\Social\UWP\Cpp\packages.config > %ROOT_FOLDER%\temp.txt
+rem findstr /C:"\"Microsoft.Xbox.Live.SDK.Cpp.UWP\"" %ROOT_FOLDER%\Samples\ID@XboxSDK\Social\UWP\Cpp\packages.config > %ROOT_FOLDER%\temp.txt
+findstr /C:"\"Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK\"" %ROOT_FOLDER%\Samples\ID@XboxSDK\Social\Xbox\Cpp\packages.config > %ROOT_FOLDER%\temp.txt
 set /P OLD_VER= < %ROOT_FOLDER%\temp.txt
 del %ROOT_FOLDER%\temp.txt
-set OLD_VERSION=%OLD_VER:~57,-29%
+rem set OLD_VERSION=%OLD_VER:~57,-29%
+set OLD_VERSION=%OLD_VER:~64,-29%
 echo OLD_VERSION=%OLD_VERSION% 
 pause
 
