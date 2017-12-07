@@ -71,7 +71,7 @@ void Sample::GetLeaderboardSkipToRank(
     )
 {
     leaderboard::leaderboard_query leaderboardQuery;
-    leaderboardQuery.set_skip_result_to_rank(true);
+    leaderboardQuery.set_skip_result_to_rank(10);
     m_statsManager->get_leaderboard(user, statName, leaderboardQuery);
 
     stringstream_t source;
