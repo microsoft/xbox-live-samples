@@ -122,7 +122,10 @@ void Sample::InviteToClub()
             if (!result.err())
             {
                 auto selectedUsers = result.payload();
-                return m_selectedClub->add_user_to_club(selectedUsers[0]);
+                if (selectedUsers.size() > 0)
+                {
+                    return m_selectedClub->add_user_to_club(selectedUsers[0]);
+                }
             }
             return pplx::task_from_result(xbox_live_result<std::vector<club_role>>(result.err()));
         })
