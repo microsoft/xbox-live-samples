@@ -55,6 +55,7 @@ Samples/**/Debug/
 Samples/**/Release/
 Samples/**/Profile/
 Samples/**/Lib/
+!Samples/CreatorsSDK/Social/UWP/JS/Social/lib
 Samples/**/.workspace/
 Source/**/bin/
 Source/**/gen/
