@@ -282,12 +282,12 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2018.04.20180411.002\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets" Condition="Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2018.04.20180411.002\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets')" />
+    <Import Project="..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2018.6.20180623.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets" Condition="Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2018.6.20180623.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2018.04.20180411.002\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2018.04.20180411.002\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2018.6.20180623.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2018.6.20180623.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets'))" />
   </Target>
 </Project>
