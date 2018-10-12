@@ -54,7 +54,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-    <Import Project="..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2018.6.20180914.1\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets" Condition="Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2018.6.20180914.1\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets')" />
+    <Import Project="..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets" Condition="Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets')" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Durango'" Label="PropertySheets">
@@ -320,6 +320,6 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2018.6.20180914.1\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2018.6.20180914.1\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\External\Packages\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.XboxOneXDK.targets'))" />
   </Target>
 </Project>
