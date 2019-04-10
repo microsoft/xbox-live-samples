@@ -17,7 +17,7 @@ using namespace Windows::UI::Xaml::Data;
 using namespace Windows::UI::Xaml::Input;
 using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Navigation;
-using namespace Sample;
+using namespace TCUI;
 
 struct ScenarioDescriptionItem
 {

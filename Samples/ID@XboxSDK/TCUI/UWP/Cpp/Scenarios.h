@@ -5,7 +5,7 @@
 
 #include "MainPage.g.h"
 
-namespace Sample
+namespace TCUI
 {
     class Scenarios
     {

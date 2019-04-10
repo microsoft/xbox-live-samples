@@ -5,7 +5,7 @@
 
 #include "App.g.h"
 
-namespace Sample
+namespace TCUI
 {
     ref class App sealed
     {

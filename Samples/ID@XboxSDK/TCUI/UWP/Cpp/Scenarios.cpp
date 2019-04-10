@@ -7,7 +7,7 @@
 #include <ppltasks.h>
 #include <mutex>
 
-using namespace Sample;
+using namespace TCUI;
 using namespace concurrency;
 using namespace Platform;
 using namespace Platform::Collections;

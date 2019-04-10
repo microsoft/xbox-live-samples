@@ -4,7 +4,7 @@
 #include "pch.h"
 #include "MainPage.xaml.h"
 
-using namespace Sample;
+using namespace TCUI;
 
 using namespace Platform;
 using namespace Windows::ApplicationModel;
