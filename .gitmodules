@@ -1,4 +1,4 @@
 [submodule "Samples/Kits/DirectXTK"]
 	path = Samples/Kits/DirectXTK
 	url = https://github.com/jasonsandlin/DirectXTK.git
-	branch = xbl
+	branch = master
