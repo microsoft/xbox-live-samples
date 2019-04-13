@@ -26,9 +26,9 @@ set OLD_VERSION=%OLD_VER:~64,-29%
 echo OLD_VERSION=%OLD_VERSION% 
 pause
 
-cd /d %ROOT_FOLDER%\Samples\ID@XboxSDK
+cd /d %ROOT_FOLDER%\ID@XboxSDK
 call :treeProcess %OLD_VERSION% %NEW_VERSION%
-cd /d %ROOT_FOLDER%\Samples\CreatorsSDK
+cd /d %ROOT_FOLDER%\CreatorsSDK
 call :treeProcess %OLD_VERSION% %NEW_VERSION%
 
 goto :eof

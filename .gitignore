@@ -1,32 +1,33 @@
 .gitconfig
 .git-credentials
-
-# Ignore OpenSSL and Boost build files for iOS
-
 .gitk
 .config/git/gitk
-
 **/.vs/
 
-Casablanca*/Build_iOS/OpenSSL-for-iPhone/
-Casablanca*/Build_iOS/boostoniphone/
-Casablanca*/Build_iOS/openssl/
-Casablanca*/Build_iOS/boost.framework/
-Casablanca*/Build_iOS/build.ios/
-Casablanca*/Build_iOS/ios-cmake/
+# Mobile
 
-#nuget packages
-External/Packages/*
+MobileSDK/XboxLiveSDK/*
+!MobileSDK/XboxLiveSDK/README.md
 
-# Xcode
+# iOS
 
-xcuserdata
+
 
 # Mac
 
 .DS_Store
 
+# Android Studio
+
+.gradle
+.idea
+
+# Xcode
+
+xcuserdata
+
 # VS temp files
+
 **/*.sln.ide/
 **/*.opensdf
 **/*.sdf
@@ -47,16 +48,15 @@ xcuserdata
 **/*.metaproj.tmp
 **/*.opendb
 **/*.coveragexml
-
 **/Durango/
 **/XboxOne.x64/
-Samples/**/bin/
-Samples/**/Debug/
-Samples/**/Release/
-Samples/**/Profile/
-Samples/**/Lib/
-!Samples/CreatorsSDK/Social/UWP/JS/Social/lib
-Samples/**/.workspace/
+**/bin/
+**/Debug/
+**/Release/
+**/Profile/
+**/Lib/
+!CreatorsSDK/Social/UWP/JS/Social/lib
+**/.workspace/
 Source/**/bin/
 Source/**/gen/
 Source/**/Debug/
@@ -78,35 +78,34 @@ tests/**/Release/
 Tools/**/bin/
 Tools/**/obj/
 **/*.classpath
-
 **/local.properties
-
 **/.workspace/
 
 #Doxygen temp files
+
 Docs/xblsdk_cpp/
 Docs/xblsdk_winrt/
 Docs/External/
 Docs/xim_cpp/
 
 # Unit Test
+
 FakesAssemblies/
 TestResults/
 
 # Build objects
 
-Casablanca/Intermediate/
 Obj/
 Binaries/
 Win32/
+x86/
 Debug/
 Release/
 ARM/
 
 # Allow files in our /Build folder
+
 !/Build
 !/Casablanca
-
 !TAEF/**
-
 **/.vs/
