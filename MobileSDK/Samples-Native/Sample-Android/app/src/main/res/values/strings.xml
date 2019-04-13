@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Sample-Android</string>
+    <string name="image_user_profile">Gamer Pic</string>
+    <string name="title_gamerScore">GamerScore:</string>
+    <string name="button_signIn">SIGN IN</string>
+    <string name="button_signOut">SIGN OUT</string>
+    <string name="button_mainMenu">MAIN MENU</string>
+    <string name="button_achievements">ACHIEVEMENTS</string>
+    <string name="button_getAchievements">GET ACHIEVEMENTS</string>
+    <string name="button_getNextPage">GET NEXT PAGE</string>
+    <string name="button_getAchievement">GET ACHIEVEMENT</string>
+    <string name="button_updateAchievement">UPDATE ACHIEVEMENT</string>
+</resources>
