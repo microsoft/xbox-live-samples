@@ -1,4 +1,6 @@
-[submodule "Samples/Kits/DirectXTK"]
-	path = Samples/Kits/DirectXTK
+[submodule "Kits/DirectXTK"]
+	path = Kits/DirectXTK
 	url = https://github.com/jasonsandlin/DirectXTK.git
-	branch = master
+[submodule "Kits/cocos2d-x"]
+	path = Kits/cocos2d-x
+	url = https://github.com/cocos2d/cocos2d-x.git
