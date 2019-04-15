@@ -195,28 +195,5 @@ HRESULT Identity_GetGamerProfileAsync(_In_ XTaskQueueHandle asyncQueue, _In_ Xbl
 }
 
 // TODO: Add in GetGamerTag, GetGamerPic, and GetGamerScore when all functions are fully supported by XAL
-HRESULT Identity_GetGamerTag(_In_ XblUserHandle user, _Out_ std::string* gamertag)
-{
-    char gamertagBuffer[XBL_GAMERTAG_CHAR_SIZE];
-    size_t gamertagSize = 0;
 
-    HRESULT hr = XalUserGetGamertag(user, XBL_GAMERTAG_CHAR_SIZE, gamertagBuffer, &gamertagSize);
-
-    if (SUCCEEDED(hr))
-    {
-        if (gamertagSize > 0)
-        {
-            --gamertagSize; // To get rid of the '\0' at the end of the buffer
-        }
-
-        *gamertag = std::string(gamertagBuffer, gamertagSize);
-    }
-    else
-    {
-        SampleLog(LL_ERROR, "XalUserGetGamertag failed!");
-        SampleLog(LL_ERROR, "Error code: %s", ConvertHRtoString(hr).c_str());
-    }
-
-    return hr;
-}
 #pragma endregion

@@ -11,7 +11,6 @@ HRESULT Identity_GetDefaultGamerProfileAsync(_In_ XTaskQueueHandle asyncQueue, _
 HRESULT Identity_GetGamerProfileAsync(_In_ XTaskQueueHandle asyncQueue, _In_ XblContextHandle contextHandle, _In_ uint64_t xboxUserId);
 
 // TODO: Add in GetGamerTag, GetGamerPic, and GetGamerScore when all functions are fully supported by XAL, for now call GetGamerProfileAsync
-HRESULT Identity_GetGamerTag(_In_ XblUserHandle user, _Out_ std::string* gamertag);
 
 // Identity_Gameplay functions
 void Identity_Gameplay_TrySignInUserSilently(_In_ XalUserHandle newUser, _In_ HRESULT result);
