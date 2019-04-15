@@ -39,16 +39,21 @@
 
     NSLog(@"<ScreenLog>[%@] %@", [self levelText:level], argsText);
     
-    NSString *lineEndText = [argsText stringByAppendingString:@"\n"];
-    NSUInteger start = self.logContent.length;
-    NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:lineEndText];
-    UIColor *color = [self levelColor:level];
-    
-    [self.logContent appendAttributedString:attributedText];
-    [self.logContent addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(start, lineEndText.length)];
-
     if (self.logTextView != nil) {
         dispatch_async(dispatch_get_main_queue(), ^{
+            // UI updates must be done on the main thread.
+            NSString *logLineEnded = [argsText stringByAppendingString:@"\n"];
+            NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:logLineEnded];
+
+            // Append the new log message to the stored attributed string, and setup a color attribute for it.
+            NSUInteger logStart = self.logContent.length;
+            UIColor *logColor = [self levelColor:level];
+            
+            [self.logContent appendAttributedString:attributedText];
+            
+            NSRange logRange = NSMakeRange(logStart, logLineEnded.length - 1);
+            [self.logContent addAttribute:NSForegroundColorAttributeName value:logColor range:logRange];
+
             self.logTextView.attributedText = self.logContent;
             
             if (self.logTextView.attributedText.length > 0 ) {
