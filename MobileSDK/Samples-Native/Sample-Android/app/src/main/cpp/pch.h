@@ -21,7 +21,7 @@
 #include <sys/resource.h>
 
 #define UNREFERENCED_PARAMETER(P) (P)
-#define ASSERT_MESSAGE(check_bool, failed_message) assert(check_bool && failed_message)
+#define ASSERT_MESSAGE(check_bool, failed_message) assert((check_bool) && (failed_message))
 
 #include <android/log.h>
 #include "SampleLog.h"
