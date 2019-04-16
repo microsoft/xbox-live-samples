@@ -12,7 +12,7 @@ std::mutex g_workReadyMutex;
 bool g_workReady = false;
 bool g_stopBackgroundWork = false;
 
-#pragma region Async Integration Background Work Thread
+#pragma region XAsync Integration Background Work Thread
 void CALLBACK HandleXAsyncQueueCallback(_In_ void* context, _In_ XTaskQueueHandle queue, _In_ XTaskQueuePort type)
 {
     UNREFERENCED_PARAMETER(context);
@@ -73,7 +73,7 @@ void BackgroundWorkThreadProc(_In_ XTaskQueueHandle queue,_In_ XTaskQueueRegistr
 }
 #pragma endregion
 
-#pragma region Async Integration
+#pragma region XAsync Integration
 #if XSAPI_A
 HRESULT XAsync_Init(
     _In_ XTaskQueueDispatchMode workDispatchMode,
@@ -95,7 +95,6 @@ HRESULT XAsync_Init(
         workDispatchMode,
         completionDispatchMode,
         asyncQueuePtr);
-
     ASSERT_MESSAGE(SUCCEEDED(hr), "XTaskQueueCreate Failed!");
 
     if (g_workDispatchMode == XTaskQueueDispatchMode::Manual)
@@ -111,7 +110,6 @@ HRESULT XAsync_Init(
         XTaskQueueRegistrationToken callbackToken = {0};
 
         hr = XTaskQueueRegisterMonitor(asyncQueue, nullptr, HandleXAsyncQueueCallback, &callbackToken);
-
         ASSERT_MESSAGE(SUCCEEDED(hr), "XTaskQueueRegisterMonitor Failed!");
 
 #if XSAPI_A
@@ -119,7 +117,6 @@ HRESULT XAsync_Init(
 #else
         g_backgroundThread = std::thread(BackgroundWorkThreadProc, asyncQueue, callbackToken);
 #endif
-
         ASSERT_MESSAGE(g_backgroundThread.get_id() != std::thread::id(), "BackgroundWorkThread Failed Thread Creation!");
     }
 
