@@ -5,11 +5,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface IdentityMenuView : UIView
+@interface IdentityDisplayView : UIView
 
-- (void)updateIdentityButtons:(int)status;
+- (void)embedInView:(UIView*)view;
+
 - (void)updateUserImageView:(UIImage*)image;
 - (void)updateUserIDLabel:(NSString*)title;
 - (void)updateUserGamerScore:(NSString*)score;
+- (void)updateUserRelationship:(NSString*)relationship;
 
 @end

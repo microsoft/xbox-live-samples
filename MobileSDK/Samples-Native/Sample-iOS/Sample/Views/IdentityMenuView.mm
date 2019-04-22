@@ -1,10 +1,5 @@
-//
-//  IdentityMenuView.m
-//  Sample
-//
-//  Created by Xlive XdevX on 4/2/19.
-//  Copyright © 2019 Microsoft Xbox Live. All rights reserved.
-//
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #import "IdentityMenuView.h"
 #import <Identity_Integration.h>

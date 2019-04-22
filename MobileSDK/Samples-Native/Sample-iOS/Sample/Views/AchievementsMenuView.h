@@ -10,6 +10,6 @@
 - (BOOL)getHasNextResultsPage;
 - (void)setAchievementsResultHandle:(XblAchievementsResultHandle)resultHandle;
 - (XblAchievementsResultHandle)getAchievementsResultHandle;
-- (void)backToMain;
+- (void)backToPreviousMenu;
 
 @end

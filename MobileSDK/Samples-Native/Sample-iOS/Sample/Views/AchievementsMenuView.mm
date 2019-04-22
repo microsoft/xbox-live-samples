@@ -102,7 +102,7 @@
     return self.resultHandle;
 }
 
-- (void)backToMain {
+- (void)backToPreviousMenu {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self removeFromSuperview];
     });
@@ -153,7 +153,7 @@
 - (IBAction) backToMainButtonTapped {
     SampleLog(LL_TRACE, "Achievements Back-To-Main tapped.");
     
-    [self backToMain];
+    [self backToPreviousMenu];
 }
 
 @end

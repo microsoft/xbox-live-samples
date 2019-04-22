@@ -39,16 +39,16 @@
 
     NSLog(@"<ScreenLog>[%@] %@", [self levelText:level], argsText);
     
-    NSString *lineEndText = [argsText stringByAppendingString:@"\n"];
-    NSUInteger start = self.logContent.length;
-    NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:lineEndText];
-    UIColor *color = [self levelColor:level];
-    
-    [self.logContent appendAttributedString:attributedText];
-    [self.logContent addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(start, lineEndText.length)];
-
     if (self.logTextView != nil) {
         dispatch_async(dispatch_get_main_queue(), ^{
+            NSString *lineEndText = [argsText stringByAppendingString:@"\n"];
+            NSUInteger start = self.logContent.length;
+            NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:lineEndText];
+            UIColor *color = [self levelColor:level];
+            
+            [self.logContent appendAttributedString:attributedText];
+            [self.logContent addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(start, lineEndText.length)];
+
             self.logTextView.attributedText = self.logContent;
             
             if (self.logTextView.attributedText.length > 0 ) {
