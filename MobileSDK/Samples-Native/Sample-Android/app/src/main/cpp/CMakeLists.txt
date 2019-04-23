@@ -14,17 +14,9 @@ set(LIB_NAME native-lib)
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
 
-set(HEADER_FILES)
 set(SOURCE_FILES)
 
 # Add Integration Files
-list(APPEND HEADER_FILES
-        ${ANDROID_MOBILE_SDK_PATH}/Integration/XSAPI_Integration.h
-        ${ANDROID_MOBILE_SDK_PATH}/Integration/XAsync_Integration.h
-        ${ANDROID_MOBILE_SDK_PATH}/Integration/Identity_Integration.h
-        ${ANDROID_MOBILE_SDK_PATH}/Integration/Adv_Identity_Integration.h
-        ${ANDROID_MOBILE_SDK_PATH}/Integration/Achievements_Integration.h
-        )
 
 list(APPEND SOURCE_FILES
         ${ANDROID_MOBILE_SDK_PATH}/Integration/XSAPI_Integration.cpp
@@ -41,14 +33,6 @@ list(APPEND SOURCE_FILES
         )
 
 # Add JNI Support Files
-list(APPEND HEADER_FILES
-        jni/Game_Integration_JNI.h
-        jni/ConsoleView_JNI.h
-        jni/MenuView_JNI.h
-        jni/IdentityLayer_JNI.h
-        jni/AchievementsLayer_JNI.h
-        )
-
 list(APPEND SOURCE_FILES
         jni/Game_Integration_JNI.cpp
         jni/ConsoleView_JNI.cpp
@@ -65,13 +49,9 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        pch.h
         Game_Integration.cpp
-        Game_Integration.h
         SampleLog.cpp
-        SampleLog.h
         ${SOURCE_FILES}
-        ${HEADER_FILES}
         )
 
 target_compile_definitions(${LIB_NAME} PUBLIC

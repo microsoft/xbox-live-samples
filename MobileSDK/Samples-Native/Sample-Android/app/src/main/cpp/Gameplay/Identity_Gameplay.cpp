@@ -9,52 +9,56 @@
 #include <MenuView_JNI.h>
 
 #pragma region Identity Gameplay Internal
-void Identity_Gameplay_WelcomeUser(XalUserHandle user)
+void Identity_Gameplay_UserSignInOutMessage(XalUserHandle user, bool isSigningIn)
 {
     if (user)
     {
-        std::string gamerTag;
+        char gamerTag[XBL_GAMERTAG_CHAR_SIZE] = {0};
+        size_t gamertagSize = 0;
 
-        HRESULT hr = Identity_GetGamerTag(user, &gamerTag);
+        HRESULT hr = XalUserGetGamertag(user, XBL_GAMERTAG_CHAR_SIZE, gamerTag, &gamertagSize);
 
         if (SUCCEEDED(hr))
         {
             SampleLog(LL_INFO, ""); // New Line
-            SampleLog(LL_INFO, "Welcome %s!", gamerTag.c_str());
+            if (isSigningIn)
+            {
+                SampleLog(LL_INFO, "Welcome %s!", gamerTag);
+            }
+            else
+            {
+                SampleLog(LL_INFO, "Goodbye %s!", gamerTag);
+            }
+        }
+        else
+        {
+            SampleLog(LL_ERROR, "XalUserGetGamertag failed!");
+            SampleLog(LL_ERROR, "Error code: %s", ConvertHRtoString(hr).c_str());
         }
     }
+}
+
+void Identity_Gameplay_WelcomeUser(XalUserHandle user)
+{
+    Identity_Gameplay_UserSignInOutMessage(user, true);
 }
 
 void Identity_Gameplay_GoodbyeUser(XalUserHandle user)
 {
-    if (user)
-    {
-        std::string gamerTag;
-
-        HRESULT hr = Identity_GetGamerTag(user, &gamerTag);
-
-        if (SUCCEEDED(hr))
-        {
-            SampleLog(LL_INFO, ""); // New Line
-            SampleLog(LL_INFO, "Goodbye %s!", gamerTag.c_str());
-        }
-    }
+    Identity_Gameplay_UserSignInOutMessage(user, false);
 }
 
 void Identity_Gameplay_CloseUserContext(_In_ XblContextHandle xblContext)
 {
-    if (xblContext)
+    XalUserHandle user = nullptr;
+    HRESULT hr = XblContextGetUser(xblContext, &user);
+
+    if (SUCCEEDED(hr))
     {
-        XalUserHandle user = nullptr;
-        HRESULT hr = XblContextGetUser(xblContext, &user);
-
-        if (SUCCEEDED(hr))
-        {
-            XalUserCloseHandle(user);
-        }
-
-        XblContextCloseHandle(xblContext);
+        XalUserCloseHandle(user);
     }
+
+    XblContextCloseHandle(xblContext);
 }
 
 HRESULT Identity_Gameplay_SignInUser(_In_ XalUserHandle newUser, _In_ bool resolveIssuesWithUI)
@@ -71,7 +75,12 @@ HRESULT Identity_Gameplay_SignInUser(_In_ XalUserHandle newUser, _In_ bool resol
         if (SUCCEEDED(hr))
         {
             // Close the previous Xbl Context, if one existed
-            Identity_Gameplay_CloseUserContext(Game_Integration::getInstance()->getXblContext());
+            XblContextHandle oldXblContext = Game_Integration::getInstance()->getXblContext();
+
+            if (oldXblContext != nullptr)
+            {
+                Identity_Gameplay_CloseUserContext(oldXblContext);
+            }
 
             Game_Integration::getInstance()->setXblContext(newXblContext);
 

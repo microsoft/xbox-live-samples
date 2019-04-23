@@ -12,17 +12,17 @@
 		9C71C35322542A1F000AFB97 /* IdentityMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C71C35222542A1F000AFB97 /* IdentityMenuView.xib */; };
 		9C71C35622542B95000AFB97 /* IdentityMenuView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9C71C35522542B95000AFB97 /* IdentityMenuView.mm */; };
 		9C71C3592254385D000AFB97 /* HubMenu_Integration.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9C71C3582254385D000AFB97 /* HubMenu_Integration.mm */; };
+		9C75D572226549CA0065713C /* xsapi-c.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C75D56F226549CA0065713C /* xsapi-c.framework */; };
+		9C75D573226549CA0065713C /* xsapi-c.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9C75D56F226549CA0065713C /* xsapi-c.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9C75D574226549CA0065713C /* HttpClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C75D570226549CA0065713C /* HttpClient.framework */; };
+		9C75D575226549CA0065713C /* HttpClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9C75D570226549CA0065713C /* HttpClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9C75D576226549CA0065713C /* Xal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C75D571226549CA0065713C /* Xal.framework */; };
+		9C75D577226549CA0065713C /* Xal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9C75D571226549CA0065713C /* Xal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9C76D68D225D3338007CB87B /* XAsync_Integration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C76D686225D3338007CB87B /* XAsync_Integration.cpp */; };
 		9C76D68E225D3338007CB87B /* XSAPI_Integration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C76D687225D3338007CB87B /* XSAPI_Integration.cpp */; };
 		9C76D68F225D3338007CB87B /* Identity_Integration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C76D688225D3338007CB87B /* Identity_Integration.cpp */; };
 		9C76D690225D3338007CB87B /* Achievements_Integration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C76D689225D3338007CB87B /* Achievements_Integration.cpp */; };
 		9C76D691225D3338007CB87B /* Adv_Identity_Integration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C76D68B225D3338007CB87B /* Adv_Identity_Integration.cpp */; };
-		9C7A9460225BFDDD0002103C /* HttpClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C7A945D225BFDDD0002103C /* HttpClient.framework */; };
-		9C7A9461225BFDDD0002103C /* HttpClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9C7A945D225BFDDD0002103C /* HttpClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9C7A9462225BFDDD0002103C /* Xal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C7A945E225BFDDD0002103C /* Xal.framework */; };
-		9C7A9463225BFDDD0002103C /* Xal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9C7A945E225BFDDD0002103C /* Xal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9C7A9464225BFDDD0002103C /* xsapi-c.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C7A945F225BFDDD0002103C /* xsapi-c.framework */; };
-		9C7A9465225BFDDD0002103C /* xsapi-c.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9C7A945F225BFDDD0002103C /* xsapi-c.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9C7D1083224D756D00657375 /* HubMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C7D1082224D756D00657375 /* HubMenuView.xib */; };
 		9C7D1086224D75F400657375 /* HubMenuView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9C7D1085224D75F400657375 /* HubMenuView.mm */; };
 		9C7D1088224D94C200657375 /* AchievementsMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C7D1087224D94C200657375 /* AchievementsMenuView.xib */; };
@@ -74,15 +74,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		9C93A01522458F37006DF534 /* Embed Frameworks */ = {
+		9C75D578226549CA0065713C /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9C7A9465225BFDDD0002103C /* xsapi-c.framework in Embed Frameworks */,
-				9C7A9463225BFDDD0002103C /* Xal.framework in Embed Frameworks */,
-				9C7A9461225BFDDD0002103C /* HttpClient.framework in Embed Frameworks */,
+				9C75D577226549CA0065713C /* Xal.framework in Embed Frameworks */,
+				9C75D573226549CA0065713C /* xsapi-c.framework in Embed Frameworks */,
+				9C75D575226549CA0065713C /* HttpClient.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -99,6 +99,9 @@
 		9C71C35522542B95000AFB97 /* IdentityMenuView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IdentityMenuView.mm; sourceTree = "<group>"; };
 		9C71C3572254385D000AFB97 /* HubMenu_Integration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HubMenu_Integration.h; sourceTree = "<group>"; };
 		9C71C3582254385D000AFB97 /* HubMenu_Integration.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HubMenu_Integration.mm; sourceTree = "<group>"; };
+		9C75D56F226549CA0065713C /* xsapi-c.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "xsapi-c.framework"; path = "../../XboxLiveSDK/iOS/Debug/xsapi-c.framework"; sourceTree = "<group>"; };
+		9C75D570226549CA0065713C /* HttpClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HttpClient.framework; path = ../../XboxLiveSDK/iOS/Debug/HttpClient.framework; sourceTree = "<group>"; };
+		9C75D571226549CA0065713C /* Xal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Xal.framework; path = ../../XboxLiveSDK/iOS/Debug/Xal.framework; sourceTree = "<group>"; };
 		9C76D683225D3338007CB87B /* Identity_Integration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Identity_Integration.h; path = ../../../../Integration/Identity_Integration.h; sourceTree = "<group>"; };
 		9C76D684225D3338007CB87B /* Achievements_Integration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Achievements_Integration.h; path = ../../../../Integration/Achievements_Integration.h; sourceTree = "<group>"; };
 		9C76D685225D3338007CB87B /* Adv_Identity_Integration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Adv_Identity_Integration.h; path = ../../../../Integration/Adv_Identity_Integration.h; sourceTree = "<group>"; };
@@ -109,9 +112,6 @@
 		9C76D68A225D3338007CB87B /* XSAPI_Integration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XSAPI_Integration.h; path = ../../../../Integration/XSAPI_Integration.h; sourceTree = "<group>"; };
 		9C76D68B225D3338007CB87B /* Adv_Identity_Integration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Adv_Identity_Integration.cpp; path = ../../../../Integration/Adv_Identity_Integration.cpp; sourceTree = "<group>"; };
 		9C76D68C225D3338007CB87B /* XAsync_Integration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XAsync_Integration.h; path = ../../../../Integration/XAsync_Integration.h; sourceTree = "<group>"; };
-		9C7A945D225BFDDD0002103C /* HttpClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HttpClient.framework; path = ../../XboxLiveSDK/iOS/Release/HttpClient.framework; sourceTree = "<group>"; };
-		9C7A945E225BFDDD0002103C /* Xal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Xal.framework; path = ../../XboxLiveSDK/iOS/Release/Xal.framework; sourceTree = "<group>"; };
-		9C7A945F225BFDDD0002103C /* xsapi-c.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "xsapi-c.framework"; path = "../../XboxLiveSDK/iOS/Release/xsapi-c.framework"; sourceTree = "<group>"; };
 		9C7D1082224D756D00657375 /* HubMenuView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HubMenuView.xib; sourceTree = "<group>"; };
 		9C7D1084224D75F400657375 /* HubMenuView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HubMenuView.h; sourceTree = "<group>"; };
 		9C7D1085224D75F400657375 /* HubMenuView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HubMenuView.mm; sourceTree = "<group>"; };
@@ -172,11 +172,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9C7A9460225BFDDD0002103C /* HttpClient.framework in Frameworks */,
+				9C75D572226549CA0065713C /* xsapi-c.framework in Frameworks */,
 				9C835A4722444B8A0083B340 /* UIKit.framework in Frameworks */,
-				9C7A9462225BFDDD0002103C /* Xal.framework in Frameworks */,
-				9C7A9464225BFDDD0002103C /* xsapi-c.framework in Frameworks */,
+				9C75D576226549CA0065713C /* Xal.framework in Frameworks */,
 				9C835A4822444B8A0083B340 /* Foundation.framework in Frameworks */,
+				9C75D574226549CA0065713C /* HttpClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,9 +251,9 @@
 		9C8359F022443A8B0083B340 = {
 			isa = PBXGroup;
 			children = (
-				9C7A945D225BFDDD0002103C /* HttpClient.framework */,
-				9C7A945E225BFDDD0002103C /* Xal.framework */,
-				9C7A945F225BFDDD0002103C /* xsapi-c.framework */,
+				9C75D570226549CA0065713C /* HttpClient.framework */,
+				9C75D571226549CA0065713C /* Xal.framework */,
+				9C75D56F226549CA0065713C /* xsapi-c.framework */,
 				9C8359FB22443A8B0083B340 /* Sample */,
 				9C835A1422443A8D0083B340 /* SampleTests */,
 				9C835A1F22443A8D0083B340 /* SampleUITests */,
@@ -360,7 +360,7 @@
 				9C8359F522443A8B0083B340 /* Sources */,
 				9C8359F622443A8B0083B340 /* Frameworks */,
 				9C8359F722443A8B0083B340 /* Resources */,
-				9C93A01522458F37006DF534 /* Embed Frameworks */,
+				9C75D578226549CA0065713C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

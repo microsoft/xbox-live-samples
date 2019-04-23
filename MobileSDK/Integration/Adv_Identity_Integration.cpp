@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #include <pch.h>
+#include "XSAPI_Integration.h"
 #include "Adv_Identity_Integration.h"
 
 static std::string g_pathPrefix;

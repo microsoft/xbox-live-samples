@@ -4,7 +4,6 @@
 #include <pch.h>
 #include <cstdio>       //vsnprintf
 #include <cstdarg>      //va_list, va_start, va_end
-#include <string>       //std::string
 #include <ConsoleView_JNI.h>
 #include "SampleLog.h"
 
