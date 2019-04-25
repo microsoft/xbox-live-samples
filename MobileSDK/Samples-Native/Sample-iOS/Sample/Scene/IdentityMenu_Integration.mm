@@ -24,50 +24,44 @@ void IdentityMenu_Integration::init()
 
 void IdentityMenu_Integration::updateIdentityButtons(int status)
 {
-    if (this->identityMenuInstance)
-    {
-        IdentityMenuView* idView = (__bridge IdentityMenuView*)this->identityMenuInstance;
-        [idView updateIdentityButtons:status];
+    if ([IdentityMenuView shared]) {
+        [[IdentityMenuView shared] updateIdentityButtons:status];
     }
 }
 
 void IdentityMenu_Integration::updateIdentityImage(const char* imageUrl)
 {
-    if (this->identityMenuInstance)
-    {
-        IdentityMenuView* idView = (__bridge IdentityMenuView*)this->identityMenuInstance;
+    if ([IdentityMenuView shared]) {
         if (imageUrl) {
             NSString* urlString = [NSString stringWithUTF8String:imageUrl];
             UIImage* userImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
-            [idView updateUserImageView:userImage];
+            [[IdentityMenuView shared] updateUserImageView:userImage];
         } else {
-            [idView updateUserImageView:nil];
+            [[IdentityMenuView shared] updateUserImageView:nil];
         }
     }
 }
 
 void IdentityMenu_Integration::updateIdentityTitle(const char* title)
 {
-    if (this->identityMenuInstance)
+    if ([IdentityMenuView shared])
     {
-        IdentityMenuView* idView = (__bridge IdentityMenuView*)this->identityMenuInstance;
         if (title) {
-            [idView updateUserIDLabel:[NSString stringWithUTF8String:title]];
+            [[IdentityMenuView shared] updateUserIDLabel:[NSString stringWithUTF8String:title]];
         } else {
-            [idView updateUserIDLabel:nil];
+            [[IdentityMenuView shared] updateUserIDLabel:nil];
         }
     }
 }
 
 void IdentityMenu_Integration::updateIdentityGamerScore(const char* score)
 {
-    if (this->identityMenuInstance)
+    if ([IdentityMenuView shared])
     {
-        IdentityMenuView* idView = (__bridge IdentityMenuView*)this->identityMenuInstance;
         if (score) {
-            [idView updateUserGamerScore:[NSString stringWithUTF8String:score]];
+            [[IdentityMenuView shared] updateUserGamerScore:[NSString stringWithUTF8String:score]];
         } else {
-            [idView updateUserGamerScore:nil];
+            [[IdentityMenuView shared] updateUserGamerScore:nil];
         }
     }
 }

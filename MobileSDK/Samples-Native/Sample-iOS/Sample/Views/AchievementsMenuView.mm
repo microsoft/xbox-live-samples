@@ -4,7 +4,6 @@
 #import "AchievementsMenuView.h"
 #import <Achievements_Integration.h>
 #import <GameScene.h>
-#import <AchievementsMenu_Integration.h>
 
 #define ACHIEVEMENT_ID_1                "1"
 #define SKIP_ITEMS                      0
@@ -25,6 +24,15 @@
 @end
 
 @implementation AchievementsMenuView
+
++ (AchievementsMenuView*)shared {
+    static AchievementsMenuView *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[AchievementsMenuView alloc] initWithFrame:CGRectZero];
+    });
+    return sharedInstance;
+}
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -68,8 +76,6 @@
     self.backToMainButton.layer.cornerRadius = 10.0f;
     
     [self reset];
-    
-    AchievementsMenu_Integration::getInstance()->achievementsMenuInstance = (void *)CFBridgingRetain(self);
 }
 
 - (void)dealloc {

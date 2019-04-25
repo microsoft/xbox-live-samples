@@ -14,6 +14,15 @@
 
 @implementation SocialDisplayGroupMenuView
 
++ (SocialDisplayGroupMenuView*)shared {
+    static SocialDisplayGroupMenuView *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[SocialDisplayGroupMenuView alloc] initWithFrame:CGRectZero];
+    });
+    return sharedInstance;
+}
+
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {

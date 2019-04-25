@@ -24,9 +24,8 @@ void HubMenu_Integration::init()
 
 void HubMenu_Integration::setHubMenuHidden(bool hidden)
 {
-    if (this->hubMenuInstance)
+    if ([HubMenuView shared])
     {
-        HubMenuView* hubView = (__bridge HubMenuView*)this->hubMenuInstance;
-        [hubView updateMenuHidden:hidden];
+        [[HubMenuView shared] updateMenuHidden:hidden];
     }
 }

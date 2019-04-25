@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #import "HubMenuView.h"
-#import <HubMenu_Integration.h>
 #import "AchievementsMenuView.h"
 #import "SocialMenuView.h"
 
@@ -12,12 +11,16 @@
 @property (nonatomic, weak) IBOutlet UIButton *achievementButton;
 @property (nonatomic, weak) IBOutlet UIButton *socialButton;
 
-@property (strong) AchievementsMenuView *achievementsMenuView;
-@property (strong) SocialMenuView *socialMenuView;
-
 @end
 
 @implementation HubMenuView
+
+// NOTE: HubMenuView is instanciated by the main storyboard view controller,
+// so it does not match the standard singleton pattern.
+static HubMenuView* sharedInstance = nil;
++ (HubMenuView*)shared {
+    return sharedInstance;
+}
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -36,6 +39,8 @@
 }
 
 - (void)initialize {
+    sharedInstance = self;
+    
     [[NSBundle mainBundle] loadNibNamed:@"HubMenuView" owner:self options:nil];
     [self addSubview:self.contentView];
     self.contentView.frame = self.bounds;
@@ -47,20 +52,13 @@
     self.socialButton.layer.borderWidth = 1.0f;
     self.socialButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.socialButton.layer.cornerRadius = 10.0f;
-
-    HubMenu_Integration::getInstance()->hubMenuInstance = (void *)CFBridgingRetain(self);
 }
 
 - (void)updateMenuHidden:(BOOL)hidden {
     if (hidden) {
-        if (self.achievementsMenuView) {
-            [self.achievementsMenuView backToPreviousMenu];
-        }
-
-        if (self.socialMenuView) {
-            [self.socialMenuView updateMenuHidden:hidden];
-            [self.socialMenuView backToPreviousMenu];
-        }
+        [[AchievementsMenuView shared] backToPreviousMenu];
+        [[SocialMenuView shared] updateMenuHidden:hidden];
+        [[SocialMenuView shared] backToPreviousMenu];
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -71,26 +69,20 @@
 - (IBAction)achievementsButtonTapped {
     SampleLog(LL_TRACE, "Hub menu Achievements tapped.");
     
-    if (!self.achievementsMenuView) {
-        self.achievementsMenuView = [[AchievementsMenuView alloc] initWithFrame:self.bounds];
-    }
-
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.achievementsMenuView reset];
-        [self addSubview:self.achievementsMenuView];
+        [AchievementsMenuView shared].frame = self.bounds;
+        [[AchievementsMenuView shared] reset];
+        [self addSubview:[AchievementsMenuView shared]];
     });
 }
 
 - (IBAction)socialButtonTapped {
     SampleLog(LL_TRACE, "Hub menu Social tapped.");
 
-    if (!self.socialMenuView) {
-        self.socialMenuView = [[SocialMenuView alloc] initWithFrame:self.bounds];
-    }
-
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.socialMenuView reset];
-        [self addSubview:self.socialMenuView];
+        [SocialMenuView shared].frame = self.bounds;
+        [[SocialMenuView shared] reset];
+        [self addSubview:[SocialMenuView shared]];
     });
 }
 

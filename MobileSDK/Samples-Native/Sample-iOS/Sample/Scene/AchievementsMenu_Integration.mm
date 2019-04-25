@@ -24,38 +24,20 @@ void AchievementsMenu_Integration::init()
 
 void AchievementsMenu_Integration::setHasNextResultsPage(bool value)
 {
-    if (this->achievementsMenuInstance)
-    {
-        AchievementsMenuView* achievementsView = (__bridge AchievementsMenuView*)this->achievementsMenuInstance;
-        [achievementsView setHasNextResultsPage:value];
-    }
+    [[AchievementsMenuView shared] setHasNextResultsPage:value];
 }
 
 bool AchievementsMenu_Integration::getHasNextResultsPage()
 {
-    if (this->achievementsMenuInstance)
-    {
-        AchievementsMenuView* achievementsView = (__bridge AchievementsMenuView*)this->achievementsMenuInstance;
-        return [achievementsView getHasNextResultsPage];
-    }
-    return nullptr;
+    return [[AchievementsMenuView shared] getHasNextResultsPage];
 }
 
 void AchievementsMenu_Integration::setAchievementsResultHandle(XblAchievementsResultHandle resultHandle)
 {
-    if (this->achievementsMenuInstance)
-    {
-        AchievementsMenuView* achievementsView = (__bridge AchievementsMenuView*)this->achievementsMenuInstance;
-        [achievementsView setAchievementsResultHandle:resultHandle];
-    }
+    [[AchievementsMenuView shared] setAchievementsResultHandle:resultHandle];
 }
 
 XblAchievementsResultHandle AchievementsMenu_Integration::getAchievementsResultHandle()
 {
-    if (this->achievementsMenuInstance)
-    {
-        AchievementsMenuView* achievementsView = (__bridge AchievementsMenuView*)this->achievementsMenuInstance;
-        return [achievementsView getAchievementsResultHandle];
-    }
-    return nullptr;
+    return [[AchievementsMenuView shared] getAchievementsResultHandle];
 }

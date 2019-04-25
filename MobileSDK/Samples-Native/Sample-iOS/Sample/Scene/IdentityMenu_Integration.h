@@ -10,8 +10,6 @@
 class IdentityMenu_Integration
 {
 public:
-    void* identityMenuInstance;
-    
     static IdentityMenu_Integration* getInstance();
     
     void init();

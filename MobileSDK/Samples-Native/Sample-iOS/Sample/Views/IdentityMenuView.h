@@ -7,6 +7,8 @@
 
 @interface IdentityMenuView : UIView
 
++ (IdentityMenuView*)shared;
+
 - (void)updateIdentityButtons:(int)status;
 - (void)updateUserImageView:(UIImage*)image;
 - (void)updateUserIDLabel:(NSString*)title;

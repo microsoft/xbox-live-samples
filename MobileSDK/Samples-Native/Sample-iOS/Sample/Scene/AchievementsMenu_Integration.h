@@ -10,8 +10,6 @@
 class AchievementsMenu_Integration
 {
 public:
-    void* achievementsMenuInstance;
-    
     static AchievementsMenu_Integration* getInstance();
     
     void init();

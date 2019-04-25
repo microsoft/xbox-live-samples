@@ -7,6 +7,8 @@
 
 @interface SocialDisplayGroupMenuView : UIView <UITableViewDelegate, UITableViewDataSource>
 
++ (SocialDisplayGroupMenuView*)shared;
+
 - (void)reset;
 - (void)backToPreviousMenu;
 

@@ -5,6 +5,8 @@
 
 @interface AchievementsMenuView : UIView
 
++ (AchievementsMenuView*)shared;
+
 - (void)reset;
 - (void)setHasNextResultsPage:(BOOL)value;
 - (BOOL)getHasNextResultsPage;

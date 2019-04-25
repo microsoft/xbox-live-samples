@@ -6,8 +6,6 @@
 class HubMenu_Integration
 {
 public:
-    void* hubMenuInstance;
-    
     static HubMenu_Integration* getInstance();
     
     void init();

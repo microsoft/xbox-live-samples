@@ -7,6 +7,8 @@
 
 @interface HubMenuView : UIView
 
++ (HubMenuView*)shared;
+
 - (void)updateMenuHidden:(BOOL)hidden;
 
 @end

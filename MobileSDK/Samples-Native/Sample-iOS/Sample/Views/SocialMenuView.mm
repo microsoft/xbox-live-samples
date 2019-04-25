@@ -4,9 +4,7 @@
 #import "SocialMenuView.h"
 #import "SocialUserMenuView.h"
 #import "SocialGroupMenuView.h"
-//#import <Achievements_Integration.h>
 #import <GameScene.h>
-//#import <AchievementsMenu_Integration.h>
 
 @interface SocialMenuView() {}
 
@@ -15,12 +13,18 @@
 @property (nonatomic, weak) IBOutlet UIButton *groupButton;
 @property (nonatomic, weak) IBOutlet UIButton *backToMainButton;
 
-@property (strong) SocialUserMenuView *socialUserMenuView;
-@property (strong) SocialGroupMenuView *socialGroupMenuView;
-
 @end
 
 @implementation SocialMenuView
+
++ (SocialMenuView*)shared {
+    static SocialMenuView *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[SocialMenuView alloc] initWithFrame:CGRectZero];
+    });
+    return sharedInstance;
+}
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -69,13 +73,8 @@
 
 - (void)updateMenuHidden:(BOOL)hidden {
     if (hidden) {
-        if (self.socialUserMenuView) {
-            [self.socialUserMenuView backToPreviousMenu];
-        }
-
-        if (self.socialGroupMenuView) {
-            [self.socialGroupMenuView backToPreviousMenu];
-        }
+        [[SocialUserMenuView shared] backToPreviousMenu];
+        [[SocialGroupMenuView shared] backToPreviousMenu];
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -94,26 +93,20 @@
 - (IBAction) userButtonTapped {
     SampleLog(LL_TRACE, "Social User tapped.");
 
-    if (!self.socialUserMenuView) {
-        self.socialUserMenuView = [[SocialUserMenuView alloc] initWithFrame:self.bounds];
-    }
-
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.socialUserMenuView reset];
-        [self addSubview:self.socialUserMenuView];
+        [SocialUserMenuView shared].frame = self.bounds;
+        [[SocialUserMenuView shared] reset];
+        [self addSubview:[SocialUserMenuView shared]];
     });
 }
 
 - (IBAction) groupButtonTapped {
     SampleLog(LL_TRACE, "Social Group tapped.");
 
-    if (!self.socialGroupMenuView) {
-        self.socialGroupMenuView = [[SocialGroupMenuView alloc] initWithFrame:self.bounds];
-    }
-
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.socialGroupMenuView reset];
-        [self addSubview:self.socialGroupMenuView];
+        [SocialGroupMenuView shared].frame = self.bounds;
+        [[SocialGroupMenuView shared] reset];
+        [self addSubview:[SocialGroupMenuView shared]];
     });
 }
 

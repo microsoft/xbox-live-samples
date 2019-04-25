@@ -7,6 +7,8 @@
 
 @interface SocialDisplayUserMenuView : UIView
 
++ (SocialDisplayUserMenuView*)shared;
+
 - (void)reset;
 - (void)backToPreviousMenu;
 

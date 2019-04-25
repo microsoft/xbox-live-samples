@@ -7,6 +7,8 @@
 
 @interface SocialUserMenuView : UIView <UITableViewDelegate, UITableViewDataSource>
 
++ (SocialUserMenuView*)shared;
+
 - (void)reset;
 - (void)updateMenuHidden:(BOOL)hidden;
 - (void)backToPreviousMenu;

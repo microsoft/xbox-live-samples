@@ -21,6 +21,13 @@
 
 @implementation IdentityMenuView
 
+// NOTE: IdentityMenuView is instanciated by the main storyboard view controller,
+// so it does not match the standard singleton pattern.
+static IdentityMenuView* sharedInstance = nil;
++ (IdentityMenuView*)shared {
+    return sharedInstance;
+}
+
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -38,6 +45,8 @@
 }
 
 - (void)initialize {
+    sharedInstance = self;
+
     [[NSBundle mainBundle] loadNibNamed:@"IdentityMenuView" owner:self options:nil];
     [self addSubview:self.contentView];
     self.contentView.frame = self.bounds;
@@ -52,7 +61,6 @@
     
     self.userImageView.layer.cornerRadius = self.userImageView.bounds.size.width / 2.0;
     
-    IdentityMenu_Integration::getInstance()->identityMenuInstance = (void *)CFBridgingRetain(self);
     [self updateIdentityButtons:ID_NONE];
     [self updateUserImageView:nil];
     [self updateUserIDLabel:nil];

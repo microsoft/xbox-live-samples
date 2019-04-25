@@ -5,6 +5,8 @@
 
 @interface SocialMenuView : UIView
 
++ (SocialMenuView*)shared;
+
 - (void)reset;
 - (void)updateMenuHidden:(BOOL)hidden;
 - (void)backToPreviousMenu;

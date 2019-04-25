@@ -10,11 +10,18 @@
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIButton *backToSocialButton;
 
-@property (strong) SocialDisplayUserMenuView *socialDisplayUserMenuView;
-
 @end
 
 @implementation SocialUserMenuView
+
++ (SocialUserMenuView*)shared {
+    static SocialUserMenuView *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[SocialUserMenuView alloc] initWithFrame:CGRectZero];
+    });
+    return sharedInstance;
+}
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -52,9 +59,7 @@
 
 - (void)updateMenuHidden:(BOOL)hidden {
     if (hidden) {
-        if (self.socialDisplayUserMenuView) {
-            [self.socialDisplayUserMenuView backToPreviousMenu];
-        }
+        [[SocialDisplayUserMenuView shared] backToPreviousMenu];
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -87,13 +92,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SampleLog(LL_TRACE, "Clicked View User.");
     
-    if (!self.socialDisplayUserMenuView) {
-        self.socialDisplayUserMenuView = [[SocialDisplayUserMenuView alloc] initWithFrame:self.bounds];
-    }
-    
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.socialDisplayUserMenuView reset];
-        [self addSubview:self.socialDisplayUserMenuView];
+        [SocialDisplayUserMenuView shared].frame = self.bounds;
+        [[SocialDisplayUserMenuView shared] reset];
+        [self addSubview:[SocialDisplayUserMenuView shared]];
     });
 }
 
