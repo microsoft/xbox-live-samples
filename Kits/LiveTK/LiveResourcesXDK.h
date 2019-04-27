@@ -23,11 +23,12 @@ namespace ATG
     class LiveResources : public std::enable_shared_from_this<LiveResources>
     {
     public:
-        // autoManageUser:
+        // Constructor Paramters:
+        //   autoManageUser:
         //     1) sets current user to the first user it finds upon calling Initialize()
         //     2) switches to new users as they sign in
         //     3) attempts to find another signed in user when current user signs out
-        // isGuestUserAllowed: when true, guest users are valid users to use in auto user management or when resuming from suspend
+        //   isGuestUserAllowed: when true, guest users are valid users to use in auto user management or when resuming from suspend
         LiveResources(bool autoManageUser = true, bool isGuestUserAllowed = false);
 
         void Initialize();

@@ -1,0 +1,471 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Durango">
+      <Configuration>Release</Configuration>
+      <Platform>Durango</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Profile|Durango">
+      <Configuration>Profile</Configuration>
+      <Platform>Durango</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Durango">
+      <Configuration>Debug</Configuration>
+      <Platform>Durango</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <RootNamespace>GameSaveSample</RootNamespace>
+    <ProjectGuid>{732faf48-b97a-4095-b225-d2902fa2744c}</ProjectGuid>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <Keyword>Win32Proj</Keyword>
+    <ApplicationEnvironment>title</ApplicationEnvironment>
+    <!-- - - - -->
+    <PlatformToolset>v141</PlatformToolset>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <TargetRuntime>Native</TargetRuntime>
+    <ProjectName>GameSaveXDKCppWinRT</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Durango'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <EmbedManifest>false</EmbedManifest>
+    <GenerateManifest>false</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Durango'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <EmbedManifest>false</EmbedManifest>
+    <GenerateManifest>false</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Durango'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <EmbedManifest>false</EmbedManifest>
+    <GenerateManifest>false</GenerateManifest>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Durango'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Durango'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Durango'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Durango'">
+    <ReferencePath>$(Console_SdkLibPath);$(Console_SdkWindowsMetadataPath)</ReferencePath>
+    <LibraryPath>$(Console_SdkLibPath)</LibraryPath>
+    <LibraryWPath>$(Console_SdkLibPath);$(Console_SdkWindowsMetadataPath)</LibraryWPath>
+    <IncludePath>$(Console_SdkIncludeRoot)</IncludePath>
+    <ExecutablePath>$(Console_SdkRoot)bin;$(VCInstallDir)bin\x86_amd64;$(VCInstallDir)bin;$(WindowsSDK_ExecutablePath_x86);$(VSInstallDir)Common7\Tools\bin;$(VSInstallDir)Common7\tools;$(VSInstallDir)Common7\ide;$(ProgramFiles)\HTML Help Workshop;$(MSBuildToolsPath32);$(FxCopDir);$(PATH);</ExecutablePath>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Durango'">
+    <ReferencePath>$(Console_SdkLibPath);$(Console_SdkWindowsMetadataPath)</ReferencePath>
+    <LibraryPath>$(Console_SdkLibPath)</LibraryPath>
+    <LibraryWPath>$(Console_SdkLibPath);$(Console_SdkWindowsMetadataPath)</LibraryWPath>
+    <IncludePath>$(Console_SdkIncludeRoot)</IncludePath>
+    <ExecutablePath>$(Console_SdkRoot)bin;$(VCInstallDir)bin\x86_amd64;$(VCInstallDir)bin;$(WindowsSDK_ExecutablePath_x86);$(VSInstallDir)Common7\Tools\bin;$(VSInstallDir)Common7\tools;$(VSInstallDir)Common7\ide;$(ProgramFiles)\HTML Help Workshop;$(MSBuildToolsPath32);$(FxCopDir);$(PATH);</ExecutablePath>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Durango'">
+    <ReferencePath>$(Console_SdkLibPath);$(Console_SdkWindowsMetadataPath)</ReferencePath>
+    <LibraryPath>$(Console_SdkLibPath)</LibraryPath>
+    <LibraryWPath>$(Console_SdkLibPath);$(Console_SdkWindowsMetadataPath)</LibraryWPath>
+    <IncludePath>$(Console_SdkIncludeRoot)</IncludePath>
+    <ExecutablePath>$(Console_SdkRoot)bin;$(VCInstallDir)bin\x86_amd64;$(VCInstallDir)bin;$(WindowsSDK_ExecutablePath_x86);$(VSInstallDir)Common7\Tools\bin;$(VSInstallDir)Common7\tools;$(VSInstallDir)Common7\ide;$(ProgramFiles)\HTML Help Workshop;$(MSBuildToolsPath32);$(FxCopDir);$(PATH);</ExecutablePath>
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Durango'">
+    <Link>
+      <AdditionalDependencies>d3d11_x.lib;combase.lib;kernelx.lib;uuid.lib;etwplus.lib;%(XboxExtensionsDependencies)</AdditionalDependencies>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+    </Link>
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>.;..;..\Common;..\GameLogic;..\..\..\..\Kits\DirectXTK\Inc;..\..\..\..\Kits\LiveTK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories />
+      <ForcedUsingFiles />
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>NDEBUG;__WRL_NO_DEFAULT_LIB__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalOptions>/await /Zc:noexceptTypes- %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DisableSpecificWarnings>5043</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <FXCompile>
+      <ShaderModel>5.0</ShaderModel>
+      <EnableDebuggingInformation>true</EnableDebuggingInformation>
+      <AdditionalOptions>/Qstrip_debug /Fd"$(OutDir)%(Filename).pdb" %(AdditionalOptions)</AdditionalOptions>
+    </FXCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Durango'">
+    <Link>
+      <AdditionalDependencies>pixEvt.lib;d3d11_x.lib;combase.lib;kernelx.lib;uuid.lib;etwplus.lib;%(XboxExtensionsDependencies)</AdditionalDependencies>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+    </Link>
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>.;..;..\Common;..\GameLogic;..\..\..\..\Kits\DirectXTK\Inc;..\..\..\..\Kits\LiveTK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories />
+      <ForcedUsingFiles />
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>NDEBUG;__WRL_NO_DEFAULT_LIB__;PROFILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalOptions>/await /Zc:noexceptTypes- %(AdditionalOptions)</AdditionalOptions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <DisableSpecificWarnings>5043</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <FXCompile>
+      <ShaderModel>5.0</ShaderModel>
+      <EnableDebuggingInformation>true</EnableDebuggingInformation>
+      <AdditionalOptions>/Qstrip_debug /Fd"$(OutDir)%(Filename).pdb" %(AdditionalOptions)</AdditionalOptions>
+    </FXCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Durango'">
+    <Link>
+      <AdditionalDependencies>pixEvt.lib;d3d11_x.lib;combase.lib;kernelx.lib;uuid.lib;etwplus.lib;%(XboxExtensionsDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
+    </Link>
+    <ClCompile>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>.;..;..\Common;..\GameLogic;..\..\..\..\Kits\DirectXTK\Inc;..\..\..\..\Kits\LiveTK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories />
+      <ForcedUsingFiles />
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <MinimalRebuild>false</MinimalRebuild>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;__WRL_NO_DEFAULT_LIB__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <AdditionalOptions>/await /Zc:noexceptTypes- %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>5043</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <SupportJustMyCode>false</SupportJustMyCode>
+    </ClCompile>
+    <FXCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FXCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <AppxManifest Include="PackageXDK.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Assets\blank.png">
+      <Link>Assets\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Board\BOARD_BG.jpg">
+      <Link>Assets\Board\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Board\gameboard.png">
+      <Link>Assets\Board\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Board\gameboard_letter_ON.png">
+      <Link>Assets\Board\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Board\wordformed_arrow_horiz.png">
+      <Link>Assets\Board\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Board\wordformed_arrow_vert.png">
+      <Link>Assets\Board\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnDeleteStateBlob.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnDeleteStateBlob_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnDeleteStateContainer.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnDeleteStateContainer_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnGetState.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnGetState_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnListContainer.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnListContainerBlobs.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnListContainerBlobs_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnListContainer_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnReadState.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnReadState_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot01.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot01_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot02.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot02_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot03.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot03_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot04.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot04_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot05.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot05_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot06.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot06_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot07.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot07_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot08.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot08_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot09.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot09_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveState.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveState_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\a.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\b.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\dpad.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\lb.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\ls.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\lt.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\menu.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\rb.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\rs.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\rt.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\view.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\x.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\y.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Store\LogoX.png">
+      <Link>Assets\Store\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Store\SmallLogoX.png">
+      <Link>Assets\Store\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Store\SplashScreenX.png">
+      <Link>Assets\Store\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Store\StoreLogo.png">
+      <Link>Assets\Store\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Store\WideLogoX.png">
+      <Link>Assets\Store\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\WordGame_logo.png">
+      <Link>Assets\%(Filename)%(Extension)</Link>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Assets\Fonts\Consolas_12_NP.spritefont">
+      <DeploymentContent>true</DeploymentContent>
+      <Link>Assets\Fonts\%(Filename)%(Extension)</Link>
+    </None>
+    <None Include="..\Assets\Fonts\Consolas_16_NP.spritefont">
+      <DeploymentContent>true</DeploymentContent>
+      <Link>Assets\Fonts\%(Filename)%(Extension)</Link>
+    </None>
+    <None Include="..\Assets\Fonts\SegoeUILight_42_NP.spritefont">
+      <DeploymentContent>true</DeploymentContent>
+      <Link>Assets\Fonts\%(Filename)%(Extension)</Link>
+    </None>
+    <None Include="..\Assets\Fonts\SegoeUISemilight_18_NP.spritefont">
+      <DeploymentContent>true</DeploymentContent>
+      <Link>Assets\Fonts\%(Filename)%(Extension)</Link>
+    </None>
+    <None Include="..\Assets\Fonts\SegoeUISemilight_42_NP.spritefont">
+      <DeploymentContent>true</DeploymentContent>
+      <Link>Assets\Fonts\%(Filename)%(Extension)</Link>
+    </None>
+    <None Include="..\Assets\Fonts\SegoeUI_24_NP.spritefont">
+      <DeploymentContent>true</DeploymentContent>
+      <Link>Assets\Fonts\%(Filename)%(Extension)</Link>
+    </None>
+    <None Include="..\Readme.docx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Kits\LiveTK\LiveResourcesCppWinRT_XDK.cpp" />
+    <ClCompile Include="..\Common\InputState.cpp" />
+    <ClCompile Include="..\Common\Log.cpp" />
+    <ClCompile Include="..\Common\Texture2D.cpp" />
+    <ClCompile Include="..\GameLogic\AcquireUserScreenXDK.cpp" />
+    <ClCompile Include="..\GameLogic\ConfirmPopUpScreen.cpp" />
+    <ClCompile Include="..\GameLogic\ContentManager.cpp" />
+    <ClCompile Include="..\GameLogic\ErrorPopUpScreen.cpp" />
+    <ClCompile Include="..\GameLogic\GameBoardScreen.cpp" />
+    <ClCompile Include="..\GameLogic\GameSaveManagerXDK.cpp" />
+    <ClCompile Include="..\GameLogic\GameScreen.cpp" />
+    <ClCompile Include="..\GameLogic\LaunchOptionsScreen.cpp" />
+    <ClCompile Include="..\GameLogic\MenuScreen.cpp" />
+    <ClCompile Include="..\GameLogic\ScreenManager.cpp" />
+    <ClCompile Include="..\GameLogic\StateManager.cpp" />
+    <ClCompile Include="..\pch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\SampleGame.cpp" />
+    <ClCompile Include="DeviceResources.cpp" />
+    <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Kits\LiveTK\LiveResourcesCppWinRT_XDK.h" />
+    <ClInclude Include="..\Common\DirectXHelper.h" />
+    <ClInclude Include="..\Common\Helpers.h" />
+    <ClInclude Include="..\Common\InputState.h" />
+    <ClInclude Include="..\Common\Log.h" />
+    <ClInclude Include="..\Common\StepTimer.h" />
+    <ClInclude Include="..\Common\StringHelpers.h" />
+    <ClInclude Include="..\Common\Texture2D.h" />
+    <ClInclude Include="..\Common\WrapBuffer.h" />
+    <ClInclude Include="..\GameLogic\AcquireUserScreen.h" />
+    <ClInclude Include="..\GameLogic\ConfirmPopUpScreen.h" />
+    <ClInclude Include="..\GameLogic\ContentManager.h" />
+    <ClInclude Include="..\GameLogic\ErrorPopUpScreen.h" />
+    <ClInclude Include="..\GameLogic\GameBoard.h" />
+    <ClInclude Include="..\GameLogic\GameBoardScreen.h" />
+    <ClInclude Include="..\GameLogic\GameSave.h" />
+    <ClInclude Include="..\GameLogic\GameSaveManager.h" />
+    <ClInclude Include="..\GameLogic\GameSaveContainerMetadata.h" />
+    <ClInclude Include="..\GameLogic\GameScreen.h" />
+    <ClInclude Include="..\GameLogic\LaunchOptionsScreen.h" />
+    <ClInclude Include="..\GameLogic\MenuScreen.h" />
+    <ClInclude Include="..\GameLogic\ScreenManager.h" />
+    <ClInclude Include="..\GameLogic\StateManager.h" />
+    <ClInclude Include="..\GlobalConstants.h" />
+    <ClInclude Include="..\pch.h" />
+    <ClInclude Include="..\SampleGame.h" />
+    <ClInclude Include="AsyncOperationPromiseType.h" />
+    <ClInclude Include="DeviceResources.h" />
+    <ClInclude Include="Telemetry.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Kits\DirectXTK\DirectXTK_XboxOneXDK_2017.vcxproj">
+      <Project>{4fdfdccd-ee2e-415c-b458-1e8fdb0d85f2}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Assets\readme_assets.txt">
+      <DeploymentContent>false</DeploymentContent>
+    </Text>
+    <Text Include="..\Assets\TWL06_2to5.txt">
+      <Link>Assets\%(Filename)%(Extension)</Link>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="Xbox Services API, Version=8.0" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\AssetLink.targets" />
+  </ImportGroup>
+</Project>

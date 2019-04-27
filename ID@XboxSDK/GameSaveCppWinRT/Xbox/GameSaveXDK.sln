@@ -1,0 +1,38 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameSaveXDK", "XDK\GameSaveXDK.vcxproj", "{732FAF48-B97A-4095-B225-D2902FA2744C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4FDFDCCD-EE2E-415C-B458-1E8FDB0D85F2} = {4FDFDCCD-EE2E-415C-B458-1E8FDB0D85F2}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTK_XboxOneXDK_2017", "..\..\..\Kits\DirectXTK\DirectXTK_XboxOneXDK_2017.vcxproj", "{4FDFDCCD-EE2E-415C-B458-1E8FDB0D85F2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Durango = Debug|Durango
+		Profile|Durango = Profile|Durango
+		Release|Durango = Release|Durango
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{732FAF48-B97A-4095-B225-D2902FA2744C}.Debug|Durango.ActiveCfg = Debug|Durango
+		{732FAF48-B97A-4095-B225-D2902FA2744C}.Debug|Durango.Build.0 = Debug|Durango
+		{732FAF48-B97A-4095-B225-D2902FA2744C}.Debug|Durango.Deploy.0 = Debug|Durango
+		{732FAF48-B97A-4095-B225-D2902FA2744C}.Profile|Durango.ActiveCfg = Profile|Durango
+		{732FAF48-B97A-4095-B225-D2902FA2744C}.Profile|Durango.Build.0 = Profile|Durango
+		{732FAF48-B97A-4095-B225-D2902FA2744C}.Profile|Durango.Deploy.0 = Profile|Durango
+		{732FAF48-B97A-4095-B225-D2902FA2744C}.Release|Durango.ActiveCfg = Release|Durango
+		{732FAF48-B97A-4095-B225-D2902FA2744C}.Release|Durango.Build.0 = Release|Durango
+		{732FAF48-B97A-4095-B225-D2902FA2744C}.Release|Durango.Deploy.0 = Release|Durango
+		{4FDFDCCD-EE2E-415C-B458-1E8FDB0D85F2}.Debug|Durango.ActiveCfg = Debug|Durango
+		{4FDFDCCD-EE2E-415C-B458-1E8FDB0D85F2}.Debug|Durango.Build.0 = Debug|Durango
+		{4FDFDCCD-EE2E-415C-B458-1E8FDB0D85F2}.Profile|Durango.ActiveCfg = Profile|Durango
+		{4FDFDCCD-EE2E-415C-B458-1E8FDB0D85F2}.Profile|Durango.Build.0 = Profile|Durango
+		{4FDFDCCD-EE2E-415C-B458-1E8FDB0D85F2}.Release|Durango.ActiveCfg = Release|Durango
+		{4FDFDCCD-EE2E-415C-B458-1E8FDB0D85F2}.Release|Durango.Build.0 = Release|Durango
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

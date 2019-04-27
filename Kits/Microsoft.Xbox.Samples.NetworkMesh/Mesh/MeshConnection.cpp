@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-
 #include "pch.h"
 #include "MeshConnection.h"
 #include "MeshManager.h"
@@ -28,6 +25,7 @@ MeshConnection::MeshConnection(Windows::Networking::XboxLive::XboxLiveDeviceAddr
     m_timerSinceLastAttempt(0.0f),
     m_connectionStatus(ConnectionStatus::Disconnected),
     m_consoleId(0xFF),
+    m_remoteId(0),
     m_heartTimer(0.0f)
 {
     m_meshManager = Platform::WeakReference(manager);
@@ -49,6 +47,18 @@ void MeshConnection::SetConsoleId(uint8 consoleId)
 {
     Concurrency::critical_section::scoped_lock lock(m_stateLock);
     m_consoleId = consoleId;
+}
+
+uint64_t MeshConnection::GetRemoteId()
+{
+    Concurrency::critical_section::scoped_lock lock(m_stateLock);
+    return m_remoteId;
+}
+
+void MeshConnection::SetRemoteId(uint64_t consoleId)
+{
+    Concurrency::critical_section::scoped_lock lock(m_stateLock);
+    m_remoteId = consoleId;
 }
 
 Platform::String^ MeshConnection::GetConsoleName()
@@ -174,7 +184,11 @@ void MeshConnection::HandleAssociationChangedEvent(
 #endif
 {
     MeshManager^ meshManager = m_meshManager.Resolve<MeshManager>();
-    meshManager->OnAssociationChange(args, association);
+
+    if (meshManager != nullptr)
+    {
+        meshManager->OnAssociationChange(args, association);
+    }
 }
 
 #ifdef _XBOX_ONE

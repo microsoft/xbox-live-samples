@@ -1,0 +1,566 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{009c64f5-2958-4896-92fd-a9e0080c58a7}</ProjectGuid>
+    <Keyword>DirectXApp</Keyword>
+    <RootNamespace>GameSaveSample</RootNamespace>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <AppContainerApplication>true</AppContainerApplication>
+    <ApplicationType>Windows Store</ApplicationType>
+    <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.14393.0</WindowsTargetPlatformMinVersion>
+    <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ImageContentTask.props" />
+    <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\MeshContentTask.props" />
+    <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ShaderGraphContentTask.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros">
+    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <AppxSymbolPackageEnabled>false</AppxSymbolPackageEnabled>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <IntDir>$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <IntDir>$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IntDir>$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <Link>
+      <AdditionalDependencies>ATGTelemetryUWP.lib; d2d1.lib; d3d11.lib; dxgi.lib; dxguid.lib; windowscodecs.lib; dwrite.lib; %(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\Kits\Telemetry\$(Platform); %(AdditionalLibraryDirectories); $(VCInstallDir)\lib\store\arm; $(VCInstallDir)\lib\arm</AdditionalLibraryDirectories>
+    </Link>
+    <ClCompile>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);.;..;..\Common;..\GameLogic;..\..\..\..\Kits\DirectXTK\Inc;..\..\..\..\Kits\LiveTK;..\..\..\..\Kits\Telemetry;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+    </ClCompile>
+    <FXCompile>
+      <ShaderModel>4.0_level_9_3</ShaderModel>
+    </FXCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <Link>
+      <AdditionalDependencies>ATGTelemetryUWP.lib; d2d1.lib; d3d11.lib; dxgi.lib; dxguid.lib; windowscodecs.lib; dwrite.lib; %(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\Kits\Telemetry\$(Platform); %(AdditionalLibraryDirectories); $(VCInstallDir)\lib\store\arm; $(VCInstallDir)\lib\arm</AdditionalLibraryDirectories>
+    </Link>
+    <ClCompile>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);.;..;..\Common;..\GameLogic;..\..\..\..\Kits\DirectXTK\Inc;..\..\..\..\Kits\LiveTK;..\..\..\..\Kits\Telemetry;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+    </ClCompile>
+    <FXCompile>
+      <ShaderModel>4.0_level_9_3</ShaderModel>
+    </FXCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Link>
+      <AdditionalDependencies>ATGTelemetryUWP.lib; d2d1.lib; d3d11.lib; dxgi.lib; dxguid.lib; windowscodecs.lib; dwrite.lib; %(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\Kits\Telemetry\$(Platform); %(AdditionalLibraryDirectories); $(VCInstallDir)\lib\store; $(VCInstallDir)\lib</AdditionalLibraryDirectories>
+    </Link>
+    <ClCompile>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);.;..;..\Common;..\GameLogic;..\..\..\..\Kits\DirectXTK\Inc;..\..\..\..\Kits\LiveTK;..\..\..\..\Kits\Telemetry;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <TreatWarningAsError>false</TreatWarningAsError>
+    </ClCompile>
+    <FXCompile>
+      <ShaderModel>4.0_level_9_3</ShaderModel>
+    </FXCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Link>
+      <AdditionalDependencies>ATGTelemetryUWP.lib; d2d1.lib; d3d11.lib; dxgi.lib; dxguid.lib; windowscodecs.lib; dwrite.lib; %(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\Kits\Telemetry\$(Platform); %(AdditionalLibraryDirectories); $(VCInstallDir)\lib\store; $(VCInstallDir)\lib</AdditionalLibraryDirectories>
+    </Link>
+    <ClCompile>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);.;..;..\Common;..\GameLogic;..\..\..\..\Kits\DirectXTK\Inc;..\..\..\..\Kits\LiveTK;..\..\..\..\Kits\Telemetry;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <TreatWarningAsError>false</TreatWarningAsError>
+    </ClCompile>
+    <FXCompile>
+      <ShaderModel>4.0_level_9_3</ShaderModel>
+    </FXCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Link>
+      <AdditionalDependencies>ATGTelemetryUWP.lib; d2d1.lib; d3d11.lib; dxgi.lib; dxguid.lib; windowscodecs.lib; dwrite.lib; %(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\Kits\Telemetry\$(Platform); %(AdditionalLibraryDirectories); $(VCInstallDir)\lib\store\amd64; $(VCInstallDir)\lib\amd64</AdditionalLibraryDirectories>
+    </Link>
+    <ClCompile>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);.;..;..\Common;..\GameLogic;..\..\..\..\Kits\DirectXTK\Inc;..\..\..\..\Kits\LiveTK;..\..\..\..\Kits\Telemetry;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+    </ClCompile>
+    <FXCompile>
+      <ShaderModel>4.0_level_9_3</ShaderModel>
+    </FXCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Link>
+      <AdditionalDependencies>ATGTelemetryUWP.lib; d2d1.lib; d3d11.lib; dxgi.lib; dxguid.lib; windowscodecs.lib; dwrite.lib; %(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\Kits\Telemetry\$(Platform); %(AdditionalLibraryDirectories); $(VCInstallDir)\lib\store\amd64; $(VCInstallDir)\lib\amd64</AdditionalLibraryDirectories>
+    </Link>
+    <ClCompile>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);.;..;..\Common;..\GameLogic;..\..\..\..\Kits\DirectXTK\Inc;..\..\..\..\Kits\LiveTK;..\..\..\..\Kits\Telemetry;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <TreatWarningAsError>false</TreatWarningAsError>
+    </ClCompile>
+    <FXCompile>
+      <ShaderModel>4.0_level_9_3</ShaderModel>
+    </FXCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <AppxManifest Include="PackageUWP.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <None Include="..\Assets\Fonts\Consolas_12_NP.spritefont">
+      <Link>Assets\Fonts\%(Filename)%(Extension)</Link>
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="..\Assets\Fonts\Consolas_16_NP.spritefont">
+      <Link>Assets\Fonts\%(Filename)%(Extension)</Link>
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="..\Assets\Fonts\SegoeUILight_42_NP.spritefont">
+      <Link>Assets\Fonts\%(Filename)%(Extension)</Link>
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="..\Assets\Fonts\SegoeUISemilight_18_NP.spritefont">
+      <Link>Assets\Fonts\%(Filename)%(Extension)</Link>
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="..\Assets\Fonts\SegoeUISemilight_42_NP.spritefont">
+      <Link>Assets\Fonts\%(Filename)%(Extension)</Link>
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="..\Assets\Fonts\SegoeUI_24_NP.spritefont">
+      <Link>Assets\Fonts\%(Filename)%(Extension)</Link>
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="..\Readme.docx" />
+    <None Include="packages.config" />
+    <None Include="xboxservices.config">
+      <DeploymentContent>true</DeploymentContent>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Kits\LiveTK\LiveResourcesUWP.cpp" />
+    <ClCompile Include="..\Common\InputState.cpp" />
+    <ClCompile Include="..\Common\Log.cpp" />
+    <ClCompile Include="..\Common\Texture2D.cpp" />
+    <ClCompile Include="..\GameLogic\AcquireUserScreenUWP.cpp" />
+    <ClCompile Include="..\GameLogic\AcquireUserScreenXDK.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\GameLogic\ConfirmPopUpScreen.cpp" />
+    <ClCompile Include="..\GameLogic\ContentManager.cpp" />
+    <ClCompile Include="..\GameLogic\ErrorPopUpScreen.cpp" />
+    <ClCompile Include="..\GameLogic\GameBoardScreen.cpp" />
+    <ClCompile Include="..\GameLogic\GameSaveManagerUWP.cpp" />
+    <ClCompile Include="..\GameLogic\GameSaveManagerXDK.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\GameLogic\GameScreen.cpp" />
+    <ClCompile Include="..\GameLogic\LaunchOptionsScreen.cpp" />
+    <ClCompile Include="..\GameLogic\MenuScreen.cpp" />
+    <ClCompile Include="..\GameLogic\ScreenManager.cpp" />
+    <ClCompile Include="..\GameLogic\StateManager.cpp" />
+    <ClCompile Include="..\pch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\SampleGame.cpp" />
+    <ClCompile Include="DeviceResources.cpp" />
+    <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Kits\LiveTK\LiveResourcesUWP.h" />
+    <ClInclude Include="..\Common\DirectXHelper.h" />
+    <ClInclude Include="..\Common\Helpers.h" />
+    <ClInclude Include="..\Common\InputState.h" />
+    <ClInclude Include="..\Common\Log.h" />
+    <ClInclude Include="..\Common\StepTimer.h" />
+    <ClInclude Include="..\Common\StringHelpers.h" />
+    <ClInclude Include="..\Common\Texture2D.h" />
+    <ClInclude Include="..\Common\WrapBuffer.h" />
+    <ClInclude Include="..\GameLogic\AcquireUserScreen.h" />
+    <ClInclude Include="..\GameLogic\ConfirmPopUpScreen.h" />
+    <ClInclude Include="..\GameLogic\ContentManager.h" />
+    <ClInclude Include="..\GameLogic\ErrorPopUpScreen.h" />
+    <ClInclude Include="..\GameLogic\GameBoard.h" />
+    <ClInclude Include="..\GameLogic\GameBoardScreen.h" />
+    <ClInclude Include="..\GameLogic\GameSave.h" />
+    <ClInclude Include="..\GameLogic\GameSaveContainerMetadata.h" />
+    <ClInclude Include="..\GameLogic\GameSaveManager.h" />
+    <ClInclude Include="..\GameLogic\GameScreen.h" />
+    <ClInclude Include="..\GameLogic\LaunchOptionsScreen.h" />
+    <ClInclude Include="..\GameLogic\MenuScreen.h" />
+    <ClInclude Include="..\GameLogic\ScreenManager.h" />
+    <ClInclude Include="..\GameLogic\StateManager.h" />
+    <ClInclude Include="..\GlobalConstants.h" />
+    <ClInclude Include="..\pch.h" />
+    <ClInclude Include="..\SampleGame.h" />
+    <ClInclude Include="DeviceResources.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Kits\DirectXTK\DirectXTK_Windows10.vcxproj">
+      <Project>{f4776924-619c-42c7-88b2-82c947ccc9e7}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Assets\blank.png">
+      <Link>Assets\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Board\BOARD_BG_PC.jpg">
+      <Link>Assets\Board\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Board\gameboard.png">
+      <Link>Assets\Board\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Board\gameboard_letter_ON.png">
+      <Link>Assets\Board\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Board\wordformed_arrow_horiz.png">
+      <Link>Assets\Board\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Board\wordformed_arrow_vert.png">
+      <Link>Assets\Board\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnDeleteStateBlob.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnDeleteStateBlob_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnDeleteStateContainer.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnDeleteStateContainer_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnGetState.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnGetState_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnListContainer.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnListContainerBlobs.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnListContainerBlobs_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnListContainer_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnReadState.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnReadState_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot01.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot01_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot02.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot02_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot03.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot03_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot04.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot04_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot05.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot05_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot06.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot06_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot07.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot07_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot08.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot08_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot09.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot09_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveState.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveState_ON.png">
+      <Link>Assets\Buttons\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\a.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\b.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\dpad.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\lb.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\ls.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\lt.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\menu.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\rb.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\rs.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\rt.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\view.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\x.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Controller\y.png">
+      <Link>Assets\Controller\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Store\Logo.png">
+      <Link>Assets\Store\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Store\SmallLogo.png">
+      <Link>Assets\Store\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Store\SplashScreenUWP.png">
+      <Link>Assets\Store\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\Store\StoreLogo.png">
+      <Link>Assets\Store\%(Filename)%(Extension)</Link>
+    </Image>
+    <Image Include="..\Assets\WordGame_logo.png">
+      <Link>Assets\%(Filename)%(Extension)</Link>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Assets\readme_assets.txt">
+      <DeploymentContent>false</DeploymentContent>
+    </Text>
+    <Text Include="..\Assets\TWL06_2to5.txt">
+      <Link>Assets\%(Filename)%(Extension)</Link>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\Kits\Telemetry\ARM\ATGTelemetryUWP.dll">
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Platform)'=='ARM'">true</DeploymentContent>
+      <Link>ATGTelemetryUWP.dll</Link>
+    </None>
+    <None Include="..\..\..\..\Kits\Telemetry\Win32\ATGTelemetryUWP.dll">
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Platform)'=='Win32'">true</DeploymentContent>
+      <Link>ATGTelemetryUWP.dll</Link>
+    </None>
+    <None Include="..\..\..\..\Kits\Telemetry\x64\ATGTelemetryUWP.dll">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Platform)'=='x64'">true</DeploymentContent>
+      <Link>ATGTelemetryUWP.dll</Link>
+    </None>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ImageContentTask.targets" />
+    <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\MeshContentTask.targets" />
+    <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ShaderGraphContentTask.targets" />
+    <Import Project="..\AssetLink.targets" />
+    <Import Project="..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.ARM.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.ARM.targets" Condition="Exists('..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.ARM.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.ARM.targets')" />
+    <Import Project="..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.x64.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.x64.targets" Condition="Exists('..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.x64.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.x64.targets')" />
+    <Import Project="..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.x86.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.x86.targets" Condition="Exists('..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.x86.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.x86.targets')" />
+    <Import Project="..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.ARM.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.ARM.targets" Condition="Exists('..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.ARM.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.ARM.targets')" />
+    <Import Project="..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.x64.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.x64.targets" Condition="Exists('..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.x64.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.x64.targets')" />
+    <Import Project="..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.x86.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.x86.targets" Condition="Exists('..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.x86.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.x86.targets')" />
+    <Import Project="..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets" Condition="Exists('..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.ARM.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.ARM.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.ARM.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.ARM.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.x64.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.x64.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.x64.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.x86.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.x86.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v140.x86.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.ARM.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.ARM.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.ARM.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.ARM.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.x64.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.x64.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.x64.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.x86.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.x86.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.v141.x86.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Xbox.Live.SDK.Cpp.UWP.2018.6.20181010.2\build\native\Microsoft.Xbox.Live.SDK.Cpp.UWP.targets'))" />
+  </Target>
+</Project>

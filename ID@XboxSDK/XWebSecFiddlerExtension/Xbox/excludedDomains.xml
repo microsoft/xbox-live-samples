@@ -1,0 +1,5 @@
+<filterlist>
+   <domain protocol='http' name='*.xboxlive.com' />
+   <domain protocol='http' name='*.xbox.com' />
+   <domain protocol='http' name='*.windowsupdate.com' />
+</filterlist>

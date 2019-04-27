@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NetworkManifest xmlns="http://schemas.microsoft.com/xbox/2012/networkmanifest">
+    <SocketDescriptions>
+        <SocketDescription Name="PeerSocketUDP" SecureIpProtocol="Udp" BoundPort="43210">
+            <AllowedUsages>
+                <SecureDeviceSocketUsage Type="Accept" />
+                <SecureDeviceSocketUsage Type="Initiate" />
+                <SecureDeviceSocketUsage Type="SendChat" />
+                <SecureDeviceSocketUsage Type="SendGameData" />
+                <SecureDeviceSocketUsage Type="ReceiveChat" />
+                <SecureDeviceSocketUsage Type="ReceiveGameData" />
+            </AllowedUsages>
+        </SocketDescription>
+    </SocketDescriptions>
+    <SecureDeviceAssociationTemplates>
+        <SecureDeviceAssociationTemplate Name="PeerToHostUDP"
+                                         InitiatorSocketDescription="PeerSocketUDP"
+                                         AcceptorSocketDescription="PeerSocketUDP"
+                                         MultiplayerSessionRequirement="Required">
+            <AllowedUsages>
+                <SecureDeviceAssociationUsage Type="InitiateFromMicrosoftConsole" />
+                <SecureDeviceAssociationUsage Type="AcceptOnMicrosoftConsole" />
+                <SecureDeviceAssociationUsage Type="InitiateFromWindowsDesktop" />
+                <SecureDeviceAssociationUsage Type="AcceptOnWindowsDesktop" />
+            </AllowedUsages>
+        </SecureDeviceAssociationTemplate>
+    </SecureDeviceAssociationTemplates>
+</NetworkManifest>
