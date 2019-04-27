@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-
 #pragma once
 
 #include "UserMeshConnectionPropertyBag.h"
@@ -34,6 +31,9 @@ internal:
 public:
     uint8 GetConsoleId();
     void SetConsoleId(uint8 consoleId);
+
+    uint64_t GetRemoteId();
+    void SetRemoteId(uint64_t consoleId);
 
     Platform::String^ GetConsoleName();
     void SetConsoleName(Platform::String^ consoleName);
@@ -97,6 +97,7 @@ private:
     std::map<Platform::String^, UserMeshConnectionPropertyBag^> m_userIdsToUserData;
 
     uint8 m_consoleId;
+    uint64_t m_remoteId;
     Platform::String^ m_consoleName;
     Platform::Object^ m_customProperty;
     ConnectionStatus m_connectionStatus;
