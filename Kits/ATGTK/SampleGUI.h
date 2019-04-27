@@ -1,14 +1,26 @@
-// Copyright (c) Microsoft Corporation
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-
+//--------------------------------------------------------------------------------------
+// File: SampleGUI.h
 //
 // A simple set of UI widgets for use in ATG samples
 //
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
+// ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
+// PARTICULAR PURPOSE.
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+//-------------------------------------------------------------------------------------
+
 #pragma once
 
 #include "GamePad.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+
+#if defined(__d3d12_h__) || defined(__d3d12_x_h__)
+#include "DescriptorHeap.h"
+#include "ResourceUploadBatch.h"
+#endif
 
 #include <wchar.h>
 
@@ -44,9 +56,16 @@ namespace ATG
         virtual void ComputeLayout(const RECT& parent);
         virtual void ComputeLayout(const RECT& bounds, float dx, float dy);
 
-        virtual bool CanFocus() const { return false; }
+        virtual bool CanFocus() const { return false;  }
         virtual bool DefaultFocus() const { return false; }
-        virtual void OnFocus(bool in) { m_focus = in; }
+        virtual void OnFocus(bool in)
+        { 
+            m_focus = in;
+            if (in && m_focusCb)
+            {
+                m_focusCb(nullptr, this);
+            }
+        }
 
         virtual bool OnSelected(IPanel* panel) { panel; return false; }
 
@@ -61,8 +80,13 @@ namespace ATG
             m_callBack = callback;
         }
 
+        void SetFocusCb(_In_opt_ callback_t callback)
+        {
+            m_focusCb = callback;
+        }
+
         unsigned GetHotKey() const { return m_hotKey; }
-        void SetHotKey(unsigned hotkey) { m_hotKey = hotkey; }
+        void SetHotKey(unsigned hotkey) { m_hotKey = hotkey;  }
 
         void SetId(unsigned id) { m_id = id; }
         unsigned GetId() const { return m_id; }
@@ -95,6 +119,7 @@ namespace ATG
         RECT        m_layoutRect;
         RECT        m_screenRect;
         callback_t  m_callBack;
+        callback_t  m_focusCb;
         unsigned    m_hotKey;
         unsigned    m_id;
         void*       m_user;
@@ -108,7 +133,8 @@ namespace ATG
         TextLabel(unsigned id, _In_z_ const wchar_t* text, const RECT& rect, unsigned style = 0);
 
         // Properties
-        void XM_CALLCONV SetForegroundColor(DirectX::FXMVECTOR color) { DirectX::XMStoreFloat4(&m_color, color); }
+        void XM_CALLCONV SetForegroundColor(DirectX::FXMVECTOR color) { DirectX::XMStoreFloat4(&m_fgColor, color); }
+        void XM_CALLCONV SetBackgroundColor(DirectX::FXMVECTOR color) { DirectX::XMStoreFloat4(&m_bgColor, color); }
 
         static const unsigned c_StyleAlignLeft = 0;
         static const unsigned c_StyleAlignCenter = 0x1;
@@ -139,11 +165,12 @@ namespace ATG
 
     private:
         unsigned            m_style;
-        DirectX::XMFLOAT4   m_color;
+        DirectX::XMFLOAT4   m_fgColor;
+        DirectX::XMFLOAT4   m_bgColor;
         std::wstring        m_text;
         std::wstring        m_wordWrap;
     };
-
+    
     // Static image
     class Image : public IControl
     {
@@ -168,7 +195,8 @@ namespace ATG
         Legend(unsigned id, _In_z_ const wchar_t* text, const RECT& rect, unsigned style = 0);
 
         // Properties
-        void XM_CALLCONV SetForegroundColor(DirectX::FXMVECTOR color) { DirectX::XMStoreFloat4(&m_color, color); }
+        void XM_CALLCONV SetForegroundColor(DirectX::FXMVECTOR color) { DirectX::XMStoreFloat4(&m_fgColor, color); }
+        void XM_CALLCONV SetBackgroundColor(DirectX::FXMVECTOR color) { DirectX::XMStoreFloat4(&m_bgColor, color); }
 
         static const unsigned c_StyleAlignLeft = 0;
         static const unsigned c_StyleAlignCenter = 0x1;
@@ -196,7 +224,8 @@ namespace ATG
 
     private:
         unsigned            m_style;
-        DirectX::XMFLOAT4   m_color;
+        DirectX::XMFLOAT4   m_bgColor;
+        DirectX::XMFLOAT4   m_fgColor;
         std::wstring        m_text;
     };
 
@@ -207,8 +236,14 @@ namespace ATG
         Button(unsigned id, _In_z_ const wchar_t* text, const RECT& rect);
 
         // Properties
+        void ShowBorder(bool show = true) { m_showBorder = show; }
+        void NoFocusColor(bool noFocusColor = true) { m_noFocusColor = noFocusColor; }
+        void FocusOnText(bool focusOnText = true ) { m_focusOnText = focusOnText; }
+
         void SetEnabled(bool enabled = true) { m_enabled = enabled; }
         bool IsEnabled() const { return m_enabled; }
+
+        void XM_CALLCONV SetColor(DirectX::FXMVECTOR color) { DirectX::XMStoreFloat4(&m_color, color); }
 
         static const unsigned c_StyleExit = 0x1;
         static const unsigned c_StyleDefault = 0x2;
@@ -233,9 +268,13 @@ namespace ATG
         virtual bool OnSelected(IPanel* panel) override;
 
     private:
-        bool            m_enabled;
-        unsigned        m_style;
-        std::wstring    m_text;
+        bool               m_enabled;
+        bool               m_showBorder;
+        bool               m_noFocusColor;
+        bool               m_focusOnText;
+        unsigned           m_style;
+        std::wstring       m_text;
+        DirectX::XMFLOAT4  m_color;
     };
 
     // Pressable image
@@ -356,15 +395,53 @@ namespace ATG
         ~ProgressBar();
 
         // Properties
-        void SetProgress(float progress) { m_progress = std::min(std::max(progress, 0.f), 1.f); }
+        void SetProgress(float progress) { m_progress = std::min( std::max(progress, 0.f), 1.f); }
         float GetProgress() const { return m_progress; }
+        void ShowPercentage(bool show = true) { m_showPct = show; }
 
         // IControl
         virtual void Render() override;
 
     private:
         float m_progress;
+        bool m_showPct;
     };
+
+    // TextList
+    class TextList : public IControl
+    {
+    public:
+        TextList(unsigned id, const RECT& rect, unsigned style = 0, int itemHeight = 0);
+        ~TextList();
+
+        // Items
+        struct Item
+        {
+            std::wstring    text;
+            DirectX::XMFLOAT4 color;
+        };
+
+        void XM_CALLCONV AddItem(_In_z_ const wchar_t* text, DirectX::FXMVECTOR color = DirectX::Colors::White);
+        void XM_CALLCONV InsertItem(int index, _In_z_ const wchar_t* text, DirectX::FXMVECTOR color = DirectX::Colors::White);
+        void RemoveItem(int index);
+        void RemoveAllItems();
+
+        // IControl
+        virtual void Render() override;
+        virtual bool CanFocus() const override { return false; }
+        virtual bool Update(float elapsedTime, const DirectX::GamePad::State& pad) override;
+        virtual bool Update(float elapsedTime, const DirectX::Mouse::State& mstate, const DirectX::Keyboard::State& kbstate) override;
+    
+    private:
+        bool                m_enabled;
+        int                 m_itemHeight;
+        unsigned            m_style;
+        int                 m_topItem;
+        RECT                m_itemRect;
+        int                 m_lastHeight;
+        std::vector<Item>   m_items;
+    };
+
 
     // List box
     class ListBox : public IControl
@@ -409,6 +486,7 @@ namespace ATG
 
         static const unsigned c_StyleMultiSelection = 0x1;
         static const unsigned c_StyleTransparent = 0x2;
+        static const unsigned c_StyleScrollBar = 0x4;
 
         static const unsigned c_StyleFontSmall = 0x10000;
         static const unsigned c_StyleFontMid = 0;
@@ -432,12 +510,13 @@ namespace ATG
         int                 m_topItem;
         int                 m_focusItem;
         RECT                m_itemRect;
+        RECT                m_scrollRect;
+        RECT                m_trackRect;
+        RECT                m_thumbRect;
         int                 m_lastHeight;
         std::vector<Item>   m_items;
 
-        static const long c_ScrollWidth = 16;
-        static const long c_BorderSize = 6;
-        static const long c_MarginSize = 5;
+        void UpdateRects();
     };
 
     // Text box
@@ -451,6 +530,8 @@ namespace ATG
         void XM_CALLCONV SetForegroundColor(DirectX::FXMVECTOR color) { DirectX::XMStoreFloat4(&m_color, color); }
 
         static const unsigned c_StyleTransparent = 0x1;
+        static const unsigned c_StyleScrollBar = 0x2;
+        static const unsigned c_StyleNoBackground = 0x4;
 
         static const unsigned c_StyleFontSmall = 0x10000;
         static const unsigned c_StyleFontMid = 0;
@@ -476,15 +557,17 @@ namespace ATG
         unsigned            m_style;
         int                 m_topLine;
         RECT                m_itemRect;
+        RECT                m_scrollRect;
+        RECT                m_trackRect;
+        RECT                m_thumbRect;
         int                 m_lastHeight;
         DirectX::XMFLOAT4   m_color;
         std::wstring        m_text;
         std::wstring        m_wordWrap;
         std::vector<size_t> m_wordWrapLines;
+        int                 m_lastWheelValue;
 
-        static const long c_ScrollWidth = 16;
-        static const long c_BorderSize = 6;
-        static const long c_MarginSize = 5;
+        void UpdateRects();
     };
 
     //----------------------------------------------------------------------------------
@@ -495,7 +578,7 @@ namespace ATG
         virtual ~IPanel() {}
 
         // Methods
-        virtual void Show() = 0;
+        virtual void Show() =  0;
 
         virtual void Render() = 0;
 
@@ -542,10 +625,15 @@ namespace ATG
         void*       m_user;
     };
 
+    // Style flags for Popup and Overlay
+    const unsigned int c_styleCustomPanel = 1;       // Use this if you want a custom panel where you add controls programatically
+    const unsigned int c_stylePopupEmphasis = 2;     // Fades out other UI elements when rendering the popup in order to give it emphasis
+    const unsigned int c_styleSuppressCancel = 4;    // Suppress the default cancel behavior that would normally occur when 'B' is pressed
+
     class Popup : public IPanel
     {
     public:
-        Popup(const RECT& rect);
+        Popup(const RECT& rect, unsigned int styleFlags = 0);
         ~Popup();
 
         // IPanel
@@ -559,10 +647,13 @@ namespace ATG
         virtual IControl* Find(unsigned id) override;
         virtual void SetFocus(_In_ IControl* ctrl) override;
         virtual void OnWindowSize(const RECT& layout) override;
-
+        
     private:
         bool                    m_select;
         bool                    m_cancel;
+        bool                    m_suppressCancel;
+        bool                    m_emphasis;
+        const bool              m_custom;
         IControl*               m_focusControl;
         std::vector<IControl*>  m_controls;
     };
@@ -590,7 +681,7 @@ namespace ATG
     class Overlay : public IPanel
     {
     public:
-        Overlay(const RECT& rect);
+        Overlay(const RECT& rect, long styleFlags = 0);
         ~Overlay();
 
         // IPanel
@@ -608,6 +699,8 @@ namespace ATG
     private:
         bool                    m_select;
         bool                    m_cancel;
+        bool                    m_suppressCancel;
+        const bool              m_custom;
         IControl*               m_focusControl;
         std::vector<IControl*>  m_controls;
     };
@@ -616,6 +709,7 @@ namespace ATG
     struct UIConfig
     {
         bool forceSRGB;
+        bool pmAlpha;
 
         wchar_t largeFontName[MAX_PATH];
         wchar_t largeItalicFontName[MAX_PATH];
@@ -639,25 +733,30 @@ namespace ATG
         DirectX::XMFLOAT4 colorFocus;
         DirectX::XMFLOAT4 colorBackground;
         DirectX::XMFLOAT4 colorTransparent;
-        DirectX::XMFLOAT4 colorChecked;
         DirectX::XMFLOAT4 colorProgress;
 
         enum COLORS
         {
+            RED,
             GREEN,
             BLUE,
             ORANGE,
+            YELLOW,
             DARK_GREY,
+            MID_GREY,
             LIGHT_GREY,
             OFF_WHITE,
             WHITE,
+            BLACK,
             MAX_COLORS,
+            
         };
 
         DirectX::XMFLOAT4 colorDictionary[MAX_COLORS];
 
-        UIConfig(bool linear = false) :
-            forceSRGB(linear)
+        UIConfig(bool linear = false, bool pmalpha = true) :
+            forceSRGB(linear),
+            pmAlpha(pmalpha)
         {
             using DirectX::XMFLOAT4;
 
@@ -684,17 +783,20 @@ namespace ATG
                 colorSelected = XMFLOAT4(0.955973506f, 0.955973506f, 0.955973506f, 1.f);            // White
                 colorFocus = XMFLOAT4(0.005181516f, 0.201556236f, 0.005181516f, 1.f);               // Green
                 colorBackground = XMFLOAT4(0.f, 0.f, 0.f, 1.f);                                     // Black
-                colorTransparent = XMFLOAT4(0.033105, 0.033105, 0.033105f, 0.5f);
-                colorChecked = XMFLOAT4(0.001517635f, 0.114435382f, 0.610495627f, 1.f);             // Blue
-                colorProgress = XMFLOAT4(1.f, 1.f, 0.f, 1.f);                                       // Yellow
+                colorTransparent = XMFLOAT4(0.033105f, 0.033105f, 0.033105f, 0.5f);
+                colorProgress = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.f);                                    // MidGrey
 
+                colorDictionary[RED] = XMFLOAT4(1.f, 0.f, 0.f, 1.f);
                 colorDictionary[GREEN] = XMFLOAT4(0.005181516f, 0.201556236f, 0.005181516f, 1.f);
                 colorDictionary[BLUE] = XMFLOAT4(0.001517635f, 0.114435382f, 0.610495627f, 1.f);
                 colorDictionary[ORANGE] = XMFLOAT4(0.545724571f, 0.026241219f, 0.001517635f, 1.f);
+                colorDictionary[YELLOW] = XMFLOAT4(1.f, 1.f, 0.f, 1.f);
                 colorDictionary[DARK_GREY] = XMFLOAT4(0.033104762f, 0.033104762f, 0.033104762f, 1.f);
+                colorDictionary[MID_GREY] = XMFLOAT4(0.113861285f, 0.113861285f, 0.113861285f, 1.f);
                 colorDictionary[LIGHT_GREY] = XMFLOAT4(0.194617808f, 0.194617808f, 0.194617808f, 1.f);
                 colorDictionary[OFF_WHITE] = XMFLOAT4(0.361306787f, 0.361306787f, 0.361306787f, 1.f);
                 colorDictionary[WHITE] = XMFLOAT4(0.955973506f, 0.955973506f, 0.955973506f, 1.f);
+                colorDictionary[BLACK] = XMFLOAT4(0.f, 0.f, 0.f, 1.f);
             }
             else
             {
@@ -705,16 +807,19 @@ namespace ATG
                 colorFocus = XMFLOAT4(0.062745102f, 0.486274511f, 0.062745102f, 1.f);               // Green
                 colorBackground = XMFLOAT4(0.f, 0.f, 0.f, 1.f);                                     // Black
                 colorTransparent = XMFLOAT4(0.2f, 0.2f, 0.2f, 0.5f);
-                colorChecked = XMFLOAT4(0.019607844f, 0.372549027f, 0.803921580f, 1.f);             // Blue
-                colorProgress = XMFLOAT4(1.f, 1.f, 0.f, 1.f);                                       // Yellow
+                colorProgress = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.f);                                    // MidGrey
 
+                colorDictionary[RED] = XMFLOAT4(1.f, 0.f, 0.f, 1.f);
                 colorDictionary[GREEN] = XMFLOAT4(0.062745102f, 0.486274511f, 0.062745102f, 1.f);
                 colorDictionary[BLUE] = XMFLOAT4(0.019607844f, 0.372549027f, 0.803921580f, 1.f);
                 colorDictionary[ORANGE] = XMFLOAT4(0.764705896f, 0.176470593f, 0.019607844f, 1.f);
+                colorDictionary[YELLOW] = XMFLOAT4(1.f, 1.f, 0.f, 1.f);
                 colorDictionary[DARK_GREY] = XMFLOAT4(0.200000003f, 0.200000003f, 0.200000003f, 1.f);
+                colorDictionary[MID_GREY] = XMFLOAT4(0.371653974f, 0.371653974f, 0.371653974f, 1.f);
                 colorDictionary[LIGHT_GREY] = XMFLOAT4(0.478431374f, 0.478431374f, 0.478431374f, 1.f);
                 colorDictionary[OFF_WHITE] = XMFLOAT4(0.635294139f, 0.635294139f, 0.635294139f, 1.f);
                 colorDictionary[WHITE] = XMFLOAT4(0.980392158f, 0.980392158f, 0.980392158f, 1.f);
+                colorDictionary[BLACK] = XMFLOAT4(0.f, 0.f, 0.f, 1.f);
             }
         }
     };
@@ -723,7 +828,17 @@ namespace ATG
     {
     public:
         UIManager(const UIConfig& config);
+#if defined(__d3d12_h__) || defined(__d3d12_x_h__)
+        UIManager(_In_ ID3D12Device *device,
+            const DirectX::RenderTargetState& renderTarget,
+            DirectX::ResourceUploadBatch& resourceUpload,
+            DirectX::DescriptorPile& pile,
+            const UIConfig& config);
+#elif defined(__d3d11_h__) || defined(__d3d11_x_h__)
         UIManager(_In_ ID3D11DeviceContext* context, const UIConfig& config);
+#else
+#   error Please #include <d3d11.h> or <d3d12.h>
+#endif
 
         UIManager(UIManager&& moveFrom);
         UIManager& operator= (UIManager&& moveFrom);
@@ -769,6 +884,9 @@ namespace ATG
             throw std::exception("Find (control)");
         }
 
+        // Close all visible panels
+        void CloseAll();
+
         // Process user input for gamepad controls
         bool Update(float elapsedTime, const DirectX::GamePad::State& pad);
 
@@ -776,21 +894,41 @@ namespace ATG
         bool Update(float elapsedTime, DirectX::Mouse& mouse, DirectX::Keyboard& kb);
 
         // Render the visible UI panels
+#if defined(__d3d12_h__) || defined(__d3d12_x_h__)
+        void Render(_In_ ID3D12GraphicsCommandList* commandList);
+#elif defined(__d3d11_h__) || defined(__d3d11_x_h__)
         void Render();
+#endif
 
         // Set the screen viewport
         void SetWindow(const RECT& layout);
 
+        // Set view rotation
+        void SetRotation(DXGI_MODE_ROTATION rotation);
+
         // Texture registry for images (used by controls)
         static const unsigned c_LayoutImageIdStart = 0x10000;
 
+#if defined(__d3d12_h__) || defined(__d3d12_x_h__)
+        void RegisterImage(unsigned id, D3D12_GPU_DESCRIPTOR_HANDLE tex, DirectX::XMUINT2 texSize);
+#elif defined(__d3d11_h__) || defined(__d3d11_x_h__)
         void RegisterImage(unsigned id, _In_ ID3D11ShaderResourceView* tex);
+#endif
+
         void UnregisterImage(unsigned id);
         void UnregisterAllImages();
 
         // Direct3D device management
         void ReleaseDevice();
+
+#if defined(__d3d12_h__) || defined(__d3d12_x_h__)
+        void RestoreDevice(_In_ ID3D12Device* device,
+            const DirectX::RenderTargetState& renderTarget,
+            DirectX::ResourceUploadBatch& resourceUpload,
+            DirectX::DescriptorPile& pile);
+#elif defined(__d3d11_h__) || defined(__d3d11_x_h__)
         void RestoreDevice(_In_ ID3D11DeviceContext* context);
+#endif
 
         // Reset UI state (such as coming back from suspend)
         void Reset();
@@ -800,7 +938,7 @@ namespace ATG
 
         // Enumerators
         void Enumerate(std::function<void(unsigned id, IPanel*)> enumCallback);
-
+                
         // Common callback adapters
         void CallbackYesNoCancel(_In_ IPanel* panel, std::function<void(bool, bool)> yesnocallback);
 
@@ -821,7 +959,7 @@ namespace ATG
         friend class ProgressBar;
         friend class ListBox;
         friend class TextBox;
-
+        friend class TextList;
         friend class Popup;
         friend class HUD;
         friend class Overlay;

@@ -40,19 +40,22 @@ namespace ATG
     class LiveInfoHUD
     {
     public:
-        LiveInfoHUD(const wchar_t *sampleTitle);
+        LiveInfoHUD(_In_z_ wchar_t const* sampleTitle);
 
-        void Initialize(std::shared_ptr<xbox::services::xbox_live_context> context);
+        void Initialize(std::shared_ptr<xbox::services::xbox_live_context> context, int windowWidth = 0, int windowHeight = 0);
 
         void ReleaseDevice();
-        void RestoreDevice(_In_ ID3D11DeviceContext *context);
-
+        void RestoreDevice(_In_ ID3D11DeviceContext* context);
 
         void SetUser(std::shared_ptr<xbox::services::xbox_live_context> context);
 
         void Render();
+
+        void SetWindowSize(int width, int height) { m_width = width; m_height = height; }
+
     private:
         void GetGamerPic(std::shared_ptr<xbox::services::xbox_live_context> context);
+        void SetGamerPic(_In_ uint8_t const* data = nullptr, size_t size = 0);
 
         std::wstring                                     m_sampleTitle;
         std::wstring                                     m_serviceConfigId;
@@ -68,5 +71,8 @@ namespace ATG
         std::unique_ptr<DirectX::SpriteFont>         m_smallFont;
         std::unique_ptr<DirectX::SpriteFont>         m_boldFont;
         std::unique_ptr<DirectX::SpriteFont>         m_titleFont;
+
+        int                                          m_width;
+        int                                          m_height;
     };
 }

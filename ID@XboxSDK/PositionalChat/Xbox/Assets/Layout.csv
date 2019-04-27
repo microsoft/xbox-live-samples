@@ -1,0 +1,19 @@
+CUSTOM_OVERLAY,200,0,0,1920,1080
+LABEL,201,144,135,300,40,Positional Chat Sample
+IMAGE,203,169,201,177,42,participantsLbl.png
+LEGEND,204,138,929,1700,36,[A] Join Chat Session  [X] Find Chat Session  [B] Close Sample  [Y] Assign user,SMALL
+
+CUSTOM_OVERLAY,300,0,0,1920,1080
+LABEL,301,144,135,300,40,Positional Dll Sample
+IMAGE,303,167,201,177,42,participantsLbl.png
+
+IMAGE,317,795,247,626,641,dbuglog.png
+LABEL,320,1070,206,500,30,GameChat2 is active,SMALL,#800000
+
+LEGEND,305,700,135,1700,50,Press [View] to toggle Position View
+LEGEND,304,100,949,1700,50,[A] Toggle Mute  [LB] /[RB] Toggle Channel  [Y] Send Message  [Menu] Invite Users  [View] Audio Position  [RThumb] Party/GameChat  [B] Exit Session,SMALL
+
+CUSTOM_OVERLAY,400,0,0,1920,1080
+LABEL,101,144,135,300,40,Positional Dll Sample
+LABEL,102,1195,504,528,684,Looking for sessions...,SMALL
+LEGEND,103,138,929,763,36,[A] Join Selected  [X] Refresh List  [B] Cancel,SMALL

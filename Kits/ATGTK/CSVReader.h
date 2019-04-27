@@ -1,9 +1,12 @@
-// Copyright (c) Microsoft Corporation
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-
+//--------------------------------------------------------------------------------------
+// File: CSVReader.h
 //
 // Simple parser for .csv (Comma-Separated Values) files.
 //
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//-------------------------------------------------------------------------------------
+
 #pragma once
 
 #include <exception>
@@ -18,12 +21,11 @@ namespace DX
     public:
         enum class Encoding
         {
-            ANSI,   // File is ANSI (codepage 1252)
             UTF16,  // File is Unicode UTF-16
             UTF8,   // File is Unicode UTF-8
         };
 
-        explicit CSVReader(_In_z_ const wchar_t* fileName, Encoding encoding = Encoding::ANSI, bool ignoreComments = false) :
+        explicit CSVReader(_In_z_ const wchar_t* fileName, Encoding encoding = Encoding::UTF8, bool ignoreComments = false) :
             m_end(nullptr),
             m_currentChar(nullptr),
             m_currentLine(0),
@@ -86,9 +88,7 @@ namespace DX
             else
             {
                 // If we are not UTF16, we have to convert...
-                UINT cp = (encoding == Encoding::UTF8) ? CP_UTF8 : 1252;
-
-                int cch = ::MultiByteToWideChar(cp, 0, reinterpret_cast<LPCSTR>(data.get()), -1, nullptr, 0);
+                int cch = ::MultiByteToWideChar(CP_UTF8, 0, reinterpret_cast<LPCSTR>(data.get()), -1, nullptr, 0);
 
                 if (cch <= 0)
                 {
@@ -97,7 +97,7 @@ namespace DX
 
                 m_data.reset(new wchar_t[cch]);
 
-                int result = ::MultiByteToWideChar(cp, 0, reinterpret_cast<LPCSTR>(data.get()), -1, m_data.get(), cch);
+                int result = ::MultiByteToWideChar(CP_UTF8, 0, reinterpret_cast<LPCSTR>(data.get()), -1, m_data.get(), cch);
 
                 if (result <= 0)
                 {
@@ -267,9 +267,9 @@ namespace DX
     private:
         struct handle_closer { void operator()(HANDLE h) { if (h) CloseHandle(h); } };
 
-        typedef public std::unique_ptr<void, handle_closer> ScopedHandle;
+        typedef std::unique_ptr<void, handle_closer> ScopedHandle;
 
-        inline HANDLE safe_handle(HANDLE h) { return (h == INVALID_HANDLE_VALUE) ? 0 : h; }
+        inline HANDLE safe_handle(HANDLE h) { return (h == INVALID_HANDLE_VALUE) ? nullptr : h; }
 
         std::unique_ptr<wchar_t[]>  m_data;
         const wchar_t*              m_end;

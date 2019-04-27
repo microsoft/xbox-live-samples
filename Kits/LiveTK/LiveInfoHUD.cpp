@@ -16,29 +16,44 @@
 #include "ATGColors.h"
 #include "WICTextureLoader.h"
 
+namespace
+{
+    // Provides a way to modify a buffer that's passed by value through PPL continuation tasks
+    struct BufferFrame
+    {
+        Windows::Storage::Streams::Buffer^ buffer;
+    };
+}
+
 namespace ATG
 {
-    LiveInfoHUD::LiveInfoHUD(const wchar_t *sampleTitle) :
+    LiveInfoHUD::LiveInfoHUD(_In_z_ wchar_t const* sampleTitle) :
         m_sampleTitle(sampleTitle),
-        m_gamerTag(L"No User Signed in")
+        m_gamerTag(L"No User Signed in"),
+        m_width(0),
+        m_height(0)
     {
 
     }
 
-    void LiveInfoHUD::Initialize(std::shared_ptr<xbox::services::xbox_live_context> context)
+    void LiveInfoHUD::Initialize(std::shared_ptr<xbox::services::xbox_live_context> context, int windowWidth, int windowHeight)
     {
         auto config = xbox::services::xbox_live_app_config::get_app_config_singleton();
 
         m_serviceConfigId = config->scid();
 
         wchar_t buffer[16] = {};
-        swprintf_s(buffer,L"0x%08X",config->title_id());
+        swprintf_s(buffer, L"0x%08X", config->title_id());
         m_titleId = buffer;
 
         m_sandboxId = config->sandbox();
 
-        if(context != nullptr)
+        if (context)
+        {
             SetUser(context);
+        }
+
+        SetWindowSize(windowWidth, windowHeight);
     }
 
     void LiveInfoHUD::ReleaseDevice()
@@ -51,7 +66,7 @@ namespace ATG
         m_context.Reset();
     }
 
-    void LiveInfoHUD::RestoreDevice(_In_ ID3D11DeviceContext *context)
+    void LiveInfoHUD::RestoreDevice(_In_ ID3D11DeviceContext* context)
     {
         m_context = context;
         m_batch = std::make_unique<DirectX::SpriteBatch>(context);
@@ -63,23 +78,19 @@ namespace ATG
         m_boldFont = std::make_unique<DirectX::SpriteFont>(device.Get(), L"SegoeUI_18_Bold.spritefont");
         m_titleFont = std::make_unique<DirectX::SpriteFont>(device.Get(), L"SegoeUI_36.spritefont");
 
-        DirectX::CreateWICTextureFromFile(device.Get(), L".\\Assets\\GamerPic.png", nullptr, m_gamerPic.GetAddressOf());
+        SetGamerPic();
     }
 
     void LiveInfoHUD::SetUser(std::shared_ptr<xbox::services::xbox_live_context> context)
     {
 #if defined(_XBOX_ONE) && defined(_TITLE)
-        if (context == nullptr || context->user() == nullptr || !context->user()->IsSignedIn)
+        if (!context || !context->user() || !context->user()->IsSignedIn)
 #else
-        if (context == nullptr || context->user() == nullptr || !context->user()->is_signed_in())
+        if (!context || !context->user() || !context->user()->is_signed_in())
 #endif
         {
             m_gamerTag = L"No User Signed in";
-
-            Microsoft::WRL::ComPtr<ID3D11Device> device;
-            m_context->GetDevice(device.GetAddressOf());
-
-            DirectX::CreateWICTextureFromFile(device.Get(), L".\\Assets\\GamerPic.png", nullptr, m_gamerPic.GetAddressOf());
+            SetGamerPic();
         }
         else
         {
@@ -102,21 +113,21 @@ namespace ATG
 #if defined(_XBOX_ONE) && defined(_TITLE)
         static const DirectX::XMMATRIX scale = DirectX::XMMatrixIdentity();
 #else
-        static const DirectX::XMMATRIX scale = DirectX::XMMatrixScaling(720.f / 1080.f, 720.f / 1080.f, 1.f);
+        DirectX::XMMATRIX scale = DirectX::XMMatrixScaling(m_width / 1920.f, m_height / 1080.f, 1.f);
 #endif
-        m_batch->Begin(DirectX::SpriteSortMode_Deferred,nullptr,nullptr,nullptr,nullptr,nullptr,scale);
+        m_batch->Begin(DirectX::SpriteSortMode_Deferred, nullptr, nullptr, nullptr, nullptr, nullptr, scale);
 
-        m_titleFont->DrawString(m_batch.get(), m_sampleTitle.c_str(), DirectX::XMFLOAT2(78.f,44.f), ATG::Colors::OffWhite, 0.0f);
+        m_titleFont->DrawString(m_batch.get(), m_sampleTitle.c_str(), DirectX::XMFLOAT2(88.f, 44.f), ATG::Colors::OffWhite, 0.0f);
 
-        m_boldFont->DrawString(m_batch.get(), L"Sandbox Id:", DirectX::XMFLOAT2(270.f, 1019.f), ATG::Colors::OffWhite, 0.0f);
-        m_boldFont->DrawString(m_batch.get(), L"Title Id:", DirectX::XMFLOAT2(590.f, 1019.f), ATG::Colors::OffWhite, 0.0f);
-        m_boldFont->DrawString(m_batch.get(), L"Service Config Id:", DirectX::XMFLOAT2(950.f, 1019.f), ATG::Colors::OffWhite, 0.0f);
+        m_boldFont->DrawString(m_batch.get(), L"Sandbox Id:", DirectX::XMFLOAT2(270.f, 999.f), ATG::Colors::OffWhite, 0.0f);
+        m_boldFont->DrawString(m_batch.get(), L"Title Id:", DirectX::XMFLOAT2(590.f, 999.f), ATG::Colors::OffWhite, 0.0f);
+        m_boldFont->DrawString(m_batch.get(), L"Service Config Id:", DirectX::XMFLOAT2(950.f, 999.f), ATG::Colors::OffWhite, 0.0f);
 
-        m_smallFont->DrawString(m_batch.get(), m_sandboxId.c_str(), DirectX::XMFLOAT2(410.f, 1019.f), ATG::Colors::OffWhite, 0.0f);
-        m_smallFont->DrawString(m_batch.get(), m_titleId.c_str(), DirectX::XMFLOAT2(680.f, 1019.f), ATG::Colors::OffWhite, 0.0f);
-        m_smallFont->DrawString(m_batch.get(), m_serviceConfigId.c_str(), DirectX::XMFLOAT2(1155.f, 1019.f), ATG::Colors::OffWhite, 0.0f);
+        m_smallFont->DrawString(m_batch.get(), m_sandboxId.c_str(), DirectX::XMFLOAT2(410.f, 999.f), ATG::Colors::OffWhite, 0.0f);
+        m_smallFont->DrawString(m_batch.get(), m_titleId.c_str(), DirectX::XMFLOAT2(680.f, 999.f), ATG::Colors::OffWhite, 0.0f);
+        m_smallFont->DrawString(m_batch.get(), m_serviceConfigId.c_str(), DirectX::XMFLOAT2(1155.f, 999.f), ATG::Colors::OffWhite, 0.0f);
 
-        m_smallFont->DrawString(m_batch.get(), m_serviceConfigId.c_str(), DirectX::XMFLOAT2(1155.f, 1019.f), ATG::Colors::OffWhite, 0.0f);
+        m_smallFont->DrawString(m_batch.get(), m_serviceConfigId.c_str(), DirectX::XMFLOAT2(1155.f, 999.f), ATG::Colors::OffWhite, 0.0f);
 
         auto pos = DirectX::XMFLOAT2(1770.f, 70.f);
         pos.x -= DirectX::XMVectorGetX(m_smallFont->MeasureString(m_gamerTag.c_str()));
@@ -136,36 +147,30 @@ namespace ATG
         if (user)
         {
 #if defined(_XBOX_ONE) && defined(_TITLE)
-            auto buffer = ref new Windows::Storage::Streams::Buffer(1024 * 100);
+            auto bufferFrame = std::make_shared<BufferFrame>();
+            bufferFrame->buffer = ref new Windows::Storage::Streams::Buffer(1024 * 8);
 
             concurrency::create_task(
                 user->DisplayInfo->GetGamerPictureAsync(
                     Windows::Xbox::System::UserPictureSize::Small,
-                    buffer
+                    bufferFrame->buffer
                 )
-            ).then([this, user, buffer](concurrency::task<Windows::Xbox::System::GetPictureResult^> t) mutable
+            ).then([this, user, bufferFrame](concurrency::task<Windows::Xbox::System::GetPictureResult^> t)
             {
                 try
                 {
                     auto result = t.get();
         
-                    if (result->RequiredBufferSize > 0)
+                    if (result->Result.Value == E_BOUNDS)
                     {
-                        buffer = ref new Windows::Storage::Streams::Buffer(result->RequiredBufferSize);
+                        bufferFrame->buffer = ref new Windows::Storage::Streams::Buffer(result->RequiredBufferSize);
         
                         return concurrency::create_task(
                             user->DisplayInfo->GetGamerPictureAsync(
                                 Windows::Xbox::System::UserPictureSize::Small,
-                                buffer
+                                bufferFrame->buffer
                             )
                         );
-                    }
-                    else
-                    {
-                        return concurrency::create_task([this, result]()
-                        {
-                            return result;
-                        });
                     }
                 }
                 catch (...)
@@ -173,11 +178,8 @@ namespace ATG
                     // Ignore and keep default
                 }
         
-                return concurrency::create_task([this]() -> Windows::Xbox::System::GetPictureResult^
-                {
-                    return nullptr;
-                });
-            }).then([this, buffer](concurrency::task<Windows::Xbox::System::GetPictureResult^> t)
+                return t;
+            }).then([this, bufferFrame](concurrency::task<Windows::Xbox::System::GetPictureResult^> t)
             {
                 try
                 {
@@ -185,7 +187,7 @@ namespace ATG
         
                     if (SUCCEEDED(result->Result.Value))
                     {
-                        auto reader = Windows::Storage::Streams::DataReader::FromBuffer(buffer);
+                        auto reader = Windows::Storage::Streams::DataReader::FromBuffer(bufferFrame->buffer);
         
                         std::vector<uint8_t> data(reader->UnconsumedBufferLength);
         
@@ -197,24 +199,8 @@ namespace ATG
                                     static_cast<unsigned int>(data.size())
                                     )
                             );
-        
-                            Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> tex;
-        
-                            Microsoft::WRL::ComPtr<ID3D11Device> device;
-                            m_context->GetDevice(device.GetAddressOf());
-        
-                            auto hr = DirectX::CreateWICTextureFromMemory(
-                                device.Get(),
-                                reinterpret_cast<uint8_t*>(data.data()),
-                                data.size(),
-                                nullptr,
-                                tex.GetAddressOf()
-                            );
-        
-                            if (SUCCEEDED(hr))
-                            {
-                                m_gamerPic.Swap(tex); // take ownership of resource
-                            }
+
+                            SetGamerPic(data.data(), data.size());
                         }
                     }
                 }
@@ -252,25 +238,8 @@ namespace ATG
                                       if (response->err_code())
                                           return;
 
-                                      Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> tex;
-
-                                      Microsoft::WRL::ComPtr<ID3D11Device> device;
-                                      m_context->GetDevice(device.GetAddressOf());
-
-                                      auto &image = response->response_body_vector();
-
-                                      auto hr = DirectX::CreateWICTextureFromMemory(
-                                          device.Get(), 
-                                          image.data(), 
-                                          image.size(), 
-                                          nullptr, 
-                                          tex.GetAddressOf()
-                                      );
-
-                                      if (SUCCEEDED(hr))
-                                      {
-                                          m_gamerPic.Swap(tex); // take ownership of resource
-                                      }
+                                      auto image = response->response_body_vector();
+                                      SetGamerPic(image.data(), image.size());
                                   }
                                   catch (...)
                                   {
@@ -285,6 +254,42 @@ namespace ATG
                           }
                       });
 #endif
+        }
+    }
+
+    void LiveInfoHUD::SetGamerPic(_In_ uint8_t const* data, size_t size)
+    {
+        if (!m_context)
+            return;
+
+        HRESULT hr = E_FAIL;
+        Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> tex;
+        Microsoft::WRL::ComPtr<ID3D11Device> device;
+
+        m_context->GetDevice(device.GetAddressOf());
+
+        if (data && size > 0)
+        {
+            hr = DirectX::CreateWICTextureFromMemory(
+                device.Get(),
+                data,
+                size,
+                nullptr,
+                tex.GetAddressOf()
+            );
+        }
+        else
+        {
+            hr = DirectX::CreateWICTextureFromFile(
+                device.Get(),
+                L".\\Assets\\GamerPic.png",
+                nullptr,
+                tex.GetAddressOf());
+        }
+
+        if (SUCCEEDED(hr))
+        {
+            m_gamerPic.Swap(tex); // take ownership of resource
         }
     }
 }

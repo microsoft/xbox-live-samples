@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest"
+         xmlns:mx="http://schemas.microsoft.com/appx/2013/xbox/manifest"
+         IgnorableNamespaces="mx">
+  
+  <Identity Name="ca9ec4c2-b34f-4980-aa7c-ceb64d49d2af"
+            Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+            Version="1.0.0.0" />
+  
+  <Properties>
+    <DisplayName>PositionalChat</DisplayName>
+    <PublisherDisplayName>Xbox Advanced Technology Group</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+    <Description>PositionalChat</Description>
+  </Properties>
+  
+  <Prerequisites>
+    <OSMinVersion>6.2</OSMinVersion>
+    <OSMaxVersionTested>6.2</OSMaxVersionTested>
+  </Prerequisites>
+  
+  <Resources>
+    <Resource Language="en-us"/>
+  </Resources>
+  
+  <Applications>
+    <Application Id="App" 
+        Executable="$targetnametoken$.exe" 
+        EntryPoint="PositionalChat.App">
+        <VisualElements 
+            DisplayName="PositionalChat"
+            Logo="Assets\Logo.png"
+            SmallLogo="Assets\SmallLogo.png"
+            Description="PositionalChat"
+            ForegroundText="dark"
+            BackgroundColor="#000000">
+            <SplashScreen Image="Assets\SplashScreen.png" />
+            <DefaultTile WideLogo="Assets\WideLogo.png" />
+        </VisualElements>
+        <Extensions>
+          <mx:Extension Category="xbox.live">
+            <mx:XboxLive TitleId="18FC087D" PrimaryServiceConfigId="bc3b0100-7ecb-4ab6-ad27-efbb18fc087d" />
+          </mx:Extension>
+          <mx:Extension Category="xbox.system.resources">
+            <mx:XboxSystemResources />
+          </mx:Extension>
+          <mx:Extension Category="windows.xbox.networking">
+            <mx:XboxNetworkingManifest>
+              <mx:SocketDescriptions>
+                <mx:SocketDescription Name="PeerSocketUDP" SecureIpProtocol="Udp" BoundPort="43210">
+                  <mx:AllowedUsages>
+                    <mx:SecureDeviceSocketUsage Type="Accept" />
+                    <mx:SecureDeviceSocketUsage Type="Initiate" />
+                    <mx:SecureDeviceSocketUsage Type="SendChat" />
+                    <mx:SecureDeviceSocketUsage Type="SendGameData" />
+                    <mx:SecureDeviceSocketUsage Type="ReceiveChat" />
+                    <mx:SecureDeviceSocketUsage Type="ReceiveGameData" />
+                  </mx:AllowedUsages>
+                </mx:SocketDescription>
+              </mx:SocketDescriptions>
+              <mx:SecureDeviceAssociationTemplates>
+                <mx:SecureDeviceAssociationTemplate
+                    Name="PeerToHostUDP"
+                    InitiatorSocketDescription="PeerSocketUDP"
+                    AcceptorSocketDescription="PeerSocketUDP"
+                    MultiplayerSessionRequirement="Required">
+                  <mx:AllowedUsages>
+                    <mx:SecureDeviceAssociationUsage Type="InitiateFromMicrosoftConsole" />
+                    <mx:SecureDeviceAssociationUsage Type="AcceptOnMicrosoftConsole" />
+                    <mx:SecureDeviceAssociationUsage Type="InitiateFromWindowsDesktop" />
+                    <mx:SecureDeviceAssociationUsage Type="AcceptOnWindowsDesktop" />
+                  </mx:AllowedUsages>
+                </mx:SecureDeviceAssociationTemplate>
+              </mx:SecureDeviceAssociationTemplates>
+            </mx:XboxNetworkingManifest>
+          </mx:Extension>
+        </Extensions>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClientServer" />
+    <mx:Capability Name="kinectAudio"/>
+    <mx:Capability Name="kinectGamechat"/>
+  </Capabilities>
+  <Extensions>
+    <mx:PackageExtension Category="windows.kinect">
+      <mx:Kinect IsVersionLocked="false">
+        <mx:AudioPipeline Version="1.14.8" />
+        <mx:SpeechPipeline Version="1.14.8" />
+        <mx:VisionPipeline Version="1.14.8" />
+      </mx:Kinect>
+    </mx:PackageExtension>
+  </Extensions>
+</Package>

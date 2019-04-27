@@ -1,0 +1,149 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Types="clr-namespace:XWebSecFiddlerExtension.Types" x:Class="XWebSecFiddlerExtension.XWebSecFiddlerViewControl" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" LastChildFill="True">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <Grid/>
+            </StackPanel>
+        </DockPanel>
+        <TabControl Grid.Row="1">
+            <TabItem Header="Overall Status" x:Name="StatusTab">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Status:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="30,0,0,0" VerticalAlignment="Top" FontSize="24"/>
+                    <Label x:Name="StatusText" Content="n/a" Grid.Row="1"  Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" FontSize="24" Foreground="Gray"/>
+                    <Label Content="HTTPS domains:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Margin="30,0,0,0" VerticalAlignment="Bottom"/>
+                    <Label x:Name="HttpsDomains" Content="0" Grid.Row="2"  Grid.Column="1" HorizontalAlignment="Left" Margin="8,0,0,0" VerticalAlignment="Bottom" Foreground="Gray"/>
+                    <Label Content="HTTP domains:" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Margin="30,0,0,0" VerticalAlignment="Bottom"/>
+                    <Label x:Name="HttpDomains" Content="0" Grid.Row="3"  Grid.Column="1" HorizontalAlignment="Left" Margin="8,0,0,0" VerticalAlignment="Bottom" Foreground="Gray"/>
+                    <Label Content="Filtered domains:" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Margin="30,0,0,0" VerticalAlignment="Bottom"/>
+                    <Label x:Name="ExcludedDomains" Content="0" Grid.Row="4"  Grid.Column="1" HorizontalAlignment="Left" Margin="8,0,0,0" VerticalAlignment="Bottom" Foreground="Gray"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Domain List" x:Name="DomainTab">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Column="0" LastChildFill="True">
+                        <Label DockPanel.Dock="Top" Foreground="green" HorizontalAlignment="Center" Content="Secure (HTTPS)"/>
+                        <DataGrid x:Name="HttpsDataGrid" HorizontalAlignment="Stretch" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" AutoGenerateColumns="False" SelectionUnit="FullRow" ClipboardCopyMode="ExcludeHeader" GridLinesVisibility="None" Background="White" SelectionChanged="OnHttpsListSelectionChanged">
+                            <DataGrid.RowStyle>
+                                <Style TargetType="{x:Type DataGridRow}"/>
+                            </DataGrid.RowStyle>
+                            <DataGrid.CellStyle>
+                                <Style TargetType="{x:Type DataGridCell}">
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                </Style>
+                            </DataGrid.CellStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="# of requests" Binding="{Binding Path=count}" Width="auto"/>
+                                <DataGridTextColumn Header="Domain Name" Binding="{Binding Path=domainName}" Width="auto"/>
+                                <DataGridTextColumn Header="WebSocket" Binding="{Binding Path=ws}" Width="Auto"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+                    <GridSplitter Grid.Column="0" Grid.Row="0" Width="3" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
+                    <DockPanel Grid.Column="1" LastChildFill="True" >
+                        <Label DockPanel.Dock="Top" Foreground="red" HorizontalAlignment="Center" Content="Insecure (HTTP)"/>
+                        <DataGrid x:Name="HttpDataGrid" HorizontalAlignment="Stretch" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" AutoGenerateColumns="False" SelectionUnit="FullRow" ClipboardCopyMode="ExcludeHeader" GridLinesVisibility="None" Background="White" SelectionChanged="OnHttpListSelectionChanged">
+                            <DataGrid.RowStyle>
+                                <Style TargetType="{x:Type DataGridRow}"/>
+                            </DataGrid.RowStyle>
+                            <DataGrid.CellStyle>
+                                <Style TargetType="{x:Type DataGridCell}">
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                </Style>
+                            </DataGrid.CellStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="# of requests" Binding="{Binding Path=count}" Width="Auto"/>
+                                <DataGridTextColumn Header="Domain Name" Binding="{Binding Path=domainName}" Width="Auto"/>
+                                <DataGridTextColumn Header="WebSocket" Binding="{Binding Path=ws}" Width="Auto"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Filter List" x:Name="DomainFilterTab">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="58*"/>
+                        <ColumnDefinition Width="339*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Column="0" LastChildFill="True" Grid.ColumnSpan="2">
+                        <Label DockPanel.Dock="Top" Foreground="Gray" HorizontalAlignment="Center" Content="Filtered Domain Matches"/>
+                        <DataGrid x:Name="FilteredDataGrid" HorizontalAlignment="Stretch" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" AutoGenerateColumns="False" SelectionUnit="FullRow" ClipboardCopyMode="ExcludeHeader" GridLinesVisibility="None" Background="White" SelectionChanged="OnFilterListSelectionChanged">
+                            <DataGrid.RowStyle>
+                                <Style TargetType="{x:Type DataGridRow}"/>
+                            </DataGrid.RowStyle>
+                            <DataGrid.CellStyle>
+                                <Style TargetType="{x:Type DataGridCell}">
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                </Style>
+                            </DataGrid.CellStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn x:Name="Count" Header="# of requests" Width="90" Binding="{Binding Path=filterCount}"/>
+                                <DataGridTextColumn Header="Protocol" Width="Auto" Binding="{Binding Path=filterHttps}"/>
+                                <DataGridTextColumn Header="Domain Name" Width="Auto" Binding="{Binding Path=filterDomainName}"/>
+                                <DataGridTextColumn Header="WebSocket" Width="Auto" Binding="{Binding Path=filterWS}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <!--<Expander Grid.Row="4" Header="About" ExpandDirection="Down" IsExpanded="False">-->
+        <DockPanel Grid.Row="4">
+            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                <Label HorizontalAlignment="Left" VerticalContentAlignment="Center" Height="26" VerticalAlignment="Bottom">
+                    <Hyperlink x:Name="UpdateLink" Click="UpdateLink_Click" IsEnabled="False">
+                        <Run Text="Update"/>
+                    </Hyperlink>
+                </Label>
+            </StackPanel>
+            <Label x:Name="VersionLabel" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                <Label.Foreground>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.GrayTextColorKey}}"/>
+                </Label.Foreground>
+            </Label>
+        </DockPanel>
+        <Rectangle x:Name="LoadBackground" Fill="#FF262627" Grid.Row="1" Stroke="Black" Opacity="0.3" Visibility="Hidden"/>
+        <ProgressBar x:Name="LoadProgressBar" Height="24" Margin="0,258,0,0" Grid.Row="1" VerticalAlignment="Top" IsIndeterminate="True" RenderTransformOrigin="1.871,-3.857" Background="{x:Null}" Foreground="#FF067C1B" Visibility="Hidden"/>
+        <Label x:Name="LoadProcessingLabel" Content="Processing..." Margin="357,282,371,0" Grid.Row="1" FontStyle="Italic" HorizontalAlignment="Center" Height="26" VerticalAlignment="Top" Visibility="Hidden"/>
+        <!--</Expander>-->
+    </Grid>
+</UserControl>

@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="GameLogic">
+      <UniqueIdentifier>{2c2ba50a-bf76-49e3-99f9-59de6cd95728}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{9aeaaf64-f205-475b-af17-81cb970eb0da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{69a9bfc9-6254-4cc3-ab33-d53473185209}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameScreens">
+      <UniqueIdentifier>{76000e96-5c31-4c09-9ec7-3d5bf5a41b07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Board">
+      <UniqueIdentifier>{a0af73a6-1fbc-49f6-8ebb-31200d4cf21c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Buttons">
+      <UniqueIdentifier>{f32f78a1-481b-4509-a292-7a30dbce8126}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Controller">
+      <UniqueIdentifier>{1a34aedb-4873-49fa-9629-15c061fcd1a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Fonts">
+      <UniqueIdentifier>{aebfc865-f55b-4edd-8f31-174f4a801eaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Store">
+      <UniqueIdentifier>{cf4e8c33-3317-45c5-b2e4-304d9a912bfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Xbox Live Tool Kit">
+      <UniqueIdentifier>{2b7f262c-f2c2-4d62-b3f7-09fcf366dd1f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="PackageXDK.appxmanifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Assets\Board\BOARD_BG.jpg">
+      <Filter>Assets\Board</Filter>
+    </Image>
+    <Image Include="..\Assets\Board\gameboard.png">
+      <Filter>Assets\Board</Filter>
+    </Image>
+    <Image Include="..\Assets\Board\gameboard_letter_ON.png">
+      <Filter>Assets\Board</Filter>
+    </Image>
+    <Image Include="..\Assets\Board\wordformed_arrow_horiz.png">
+      <Filter>Assets\Board</Filter>
+    </Image>
+    <Image Include="..\Assets\Board\wordformed_arrow_vert.png">
+      <Filter>Assets\Board</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnDeleteStateBlob.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnDeleteStateBlob_ON.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnDeleteStateContainer.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnDeleteStateContainer_ON.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnGetState.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnGetState_ON.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnListContainer.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnListContainer_ON.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnListContainerBlobs.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnListContainerBlobs_ON.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnReadState.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnReadState_ON.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot01.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot01_ON.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot02.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot02_ON.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot03.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot03_ON.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot04.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot04_ON.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot05.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot05_ON.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot06.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot06_ON.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot07.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot07_ON.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot08.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot08_ON.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot09.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveSlot09_ON.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveState.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Buttons\btnSaveState_ON.png">
+      <Filter>Assets\Buttons</Filter>
+    </Image>
+    <Image Include="..\Assets\Controller\a.png">
+      <Filter>Assets\Controller</Filter>
+    </Image>
+    <Image Include="..\Assets\Controller\b.png">
+      <Filter>Assets\Controller</Filter>
+    </Image>
+    <Image Include="..\Assets\Controller\dpad.png">
+      <Filter>Assets\Controller</Filter>
+    </Image>
+    <Image Include="..\Assets\Controller\lb.png">
+      <Filter>Assets\Controller</Filter>
+    </Image>
+    <Image Include="..\Assets\Controller\ls.png">
+      <Filter>Assets\Controller</Filter>
+    </Image>
+    <Image Include="..\Assets\Controller\lt.png">
+      <Filter>Assets\Controller</Filter>
+    </Image>
+    <Image Include="..\Assets\Controller\menu.png">
+      <Filter>Assets\Controller</Filter>
+    </Image>
+    <Image Include="..\Assets\Controller\rb.png">
+      <Filter>Assets\Controller</Filter>
+    </Image>
+    <Image Include="..\Assets\Controller\rs.png">
+      <Filter>Assets\Controller</Filter>
+    </Image>
+    <Image Include="..\Assets\Controller\rt.png">
+      <Filter>Assets\Controller</Filter>
+    </Image>
+    <Image Include="..\Assets\Controller\view.png">
+      <Filter>Assets\Controller</Filter>
+    </Image>
+    <Image Include="..\Assets\Controller\x.png">
+      <Filter>Assets\Controller</Filter>
+    </Image>
+    <Image Include="..\Assets\Controller\y.png">
+      <Filter>Assets\Controller</Filter>
+    </Image>
+    <Image Include="..\Assets\blank.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="..\Assets\Store\StoreLogo.png">
+      <Filter>Assets\Store</Filter>
+    </Image>
+    <Image Include="..\Assets\WordGame_logo.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="..\Assets\Store\LogoX.png">
+      <Filter>Assets\Store</Filter>
+    </Image>
+    <Image Include="..\Assets\Store\SmallLogoX.png">
+      <Filter>Assets\Store</Filter>
+    </Image>
+    <Image Include="..\Assets\Store\WideLogoX.png">
+      <Filter>Assets\Store</Filter>
+    </Image>
+    <Image Include="..\Assets\Store\SplashScreenX.png">
+      <Filter>Assets\Store</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Assets\Fonts\SegoeUILight_42_NP.spritefont">
+      <Filter>Assets\Fonts</Filter>
+    </None>
+    <None Include="..\Assets\Fonts\SegoeUISemilight_18_NP.spritefont">
+      <Filter>Assets\Fonts</Filter>
+    </None>
+    <None Include="..\Assets\Fonts\SegoeUI_24_NP.spritefont">
+      <Filter>Assets\Fonts</Filter>
+    </None>
+    <None Include="..\Assets\Fonts\SegoeUISemilight_42_NP.spritefont">
+      <Filter>Assets\Fonts</Filter>
+    </None>
+    <None Include="..\Assets\Fonts\Consolas_12_NP.spritefont">
+      <Filter>Assets\Fonts</Filter>
+    </None>
+    <None Include="..\Assets\Fonts\Consolas_16_NP.spritefont">
+      <Filter>Assets\Fonts</Filter>
+    </None>
+    <None Include="..\Readme.docx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\pch.cpp" />
+    <ClCompile Include="..\GameLogic\ContentManager.cpp">
+      <Filter>GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\InputState.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Log.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameLogic\ScreenManager.cpp">
+      <Filter>GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SampleGame.cpp" />
+    <ClCompile Include="..\Common\Texture2D.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameLogic\StateManager.cpp">
+      <Filter>GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameLogic\AcquireUserScreenUWP.cpp">
+      <Filter>GameScreens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameLogic\AcquireUserScreenXDK.cpp">
+      <Filter>GameScreens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameLogic\ConfirmPopUpScreen.cpp">
+      <Filter>GameScreens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameLogic\ErrorPopUpScreen.cpp">
+      <Filter>GameScreens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameLogic\GameScreen.cpp">
+      <Filter>GameScreens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameLogic\MenuScreen.cpp">
+      <Filter>GameScreens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameLogic\GameBoardScreen.cpp">
+      <Filter>GameScreens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameLogic\LaunchOptionsScreen.cpp">
+      <Filter>GameScreens</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceResources.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="..\GameLogic\GameSaveManagerUWP.cpp">
+      <Filter>GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GameLogic\GameSaveManagerXDK.cpp">
+      <Filter>GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Kits\LiveTK\LiveResourcesXDK.cpp">
+      <Filter>Xbox Live Tool Kit</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\pch.h" />
+    <ClInclude Include="..\GameLogic\ContentManager.h">
+      <Filter>GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\StepTimer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\StringHelpers.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\InputState.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Log.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameLogic\ScreenManager.h">
+      <Filter>GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SampleGame.h" />
+    <ClInclude Include="..\Common\DirectXHelper.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Helpers.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Texture2D.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\WrapBuffer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameLogic\GameSave.h">
+      <Filter>GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameLogic\GameSaveManager.h">
+      <Filter>GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameLogic\StateManager.h">
+      <Filter>GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameLogic\AcquireUserScreen.h">
+      <Filter>GameScreens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameLogic\ConfirmPopUpScreen.h">
+      <Filter>GameScreens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameLogic\ErrorPopUpScreen.h">
+      <Filter>GameScreens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameLogic\GameScreen.h">
+      <Filter>GameScreens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameLogic\MenuScreen.h">
+      <Filter>GameScreens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameLogic\GameBoardScreen.h">
+      <Filter>GameScreens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameLogic\GameBoard.h">
+      <Filter>GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameLogic\LaunchOptionsScreen.h">
+      <Filter>GameScreens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GameLogic\GameSaveContainerMetadata.h">
+      <Filter>GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceResources.h" />
+    <ClInclude Include="..\GlobalConstants.h" />
+    <ClInclude Include="Telemetry.h" />
+    <ClInclude Include="..\..\..\..\Kits\LiveTK\LiveResourcesXDK.h">
+      <Filter>Xbox Live Tool Kit</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Assets\TWL06_2to5.txt">
+      <Filter>Assets</Filter>
+    </Text>
+    <Text Include="..\Assets\readme_assets.txt">
+      <Filter>Assets</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

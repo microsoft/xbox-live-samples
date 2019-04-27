@@ -1,9 +1,12 @@
-// Copyright (c) Microsoft Corporation
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-
+//--------------------------------------------------------------------------------------
+// File: ControllerFont.h
 //
 // Class for compositing text with Xbox controller font button sprites
 //
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//-------------------------------------------------------------------------------------
+
 #pragma once
 
 #include "SpriteBatch.h"
@@ -31,7 +34,7 @@ namespace DX
     };
 
     inline void XM_CALLCONV DrawControllerString(_In_ DirectX::SpriteBatch* spriteBatch, _In_ DirectX::SpriteFont* textFont, _In_ DirectX::SpriteFont* butnFont,
-                                                 _In_z_ wchar_t const* text, DirectX::XMFLOAT2 const& position, DirectX::FXMVECTOR color = DirectX::Colors::White, float scale = 1)
+        _In_z_ wchar_t const* text, DirectX::XMFLOAT2 const& position, DirectX::FXMVECTOR color = DirectX::Colors::White, float scale = 1)
     {
         using namespace DirectX;
 
@@ -46,7 +49,7 @@ namespace DX
         float offsetY = buttonScale / 2.f;
 
         size_t j = 0;
-        wchar_t strBuffer[4096] = {0};
+        wchar_t strBuffer[4096] = {};
 
         bool buttonText = false;
 
@@ -60,7 +63,7 @@ namespace DX
 
                 if (text[ch] == L']')
                 {
-                    wchar_t button[2] = { 0 };
+                    wchar_t button[2] = {};
 
                     if (_wcsicmp(strBuffer, L"[A]") == 0)
                     {
@@ -119,7 +122,7 @@ namespace DX
                         *button = static_cast<wchar_t>(ControllerFont::LeftTrigger);
                     }
 
-                    if ( *button )
+                    if (*button)
                     {
                         float bsize = XMVectorGetX(butnFont->MeasureString(button));
                         float offsetX = (bsize * buttonScale / 2.f);
@@ -147,7 +150,7 @@ namespace DX
                 case '[':
                     if (*strBuffer)
                     {
-                        textFont->DrawString(spriteBatch, strBuffer, outPos, color, 0.f, XMFLOAT2(0.f, 0.f), XMFLOAT2(scale,scale));
+                        textFont->DrawString(spriteBatch, strBuffer, outPos, color, 0.f, XMFLOAT2(0.f, 0.f), XMFLOAT2(scale, scale));
                         outPos.x += XMVectorGetX(textFont->MeasureString(strBuffer)) * scale;
                         memset(strBuffer, 0, sizeof(strBuffer));
                         j = 0;
@@ -197,7 +200,7 @@ namespace DX
         float offsetY = buttonScale / 2.f;
 
         size_t j = 0;
-        wchar_t strBuffer[4096] = { 0 };
+        wchar_t strBuffer[4096] = {};
 
         bool buttonText = false;
 
@@ -212,7 +215,7 @@ namespace DX
 
                 if (text[ch] == L']')
                 {
-                    wchar_t button[2] = { 0 };
+                    wchar_t button[2] = {};
 
                     if (_wcsicmp(strBuffer, L"[A]") == 0)
                     {
