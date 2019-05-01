@@ -6,7 +6,7 @@
 #import <GameScene.h>
 //#import <IdentityMenu_Integration.h>
 
-#define DEFAULT_ID_TITLE    @"GamerTag"
+#define DEFAULT_ID_TITLE    @"GamerTag ?"
 
 @interface IdentityDisplayView() {}
 
@@ -15,6 +15,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *userIDLabel;
 @property (nonatomic, weak) IBOutlet UILabel *userGamerScoreLabel;
 @property (nonatomic, weak) IBOutlet UILabel *userRelationshipLabel;
+@property (nonatomic, weak) IBOutlet UILabel *userStatusLabel;
 
 @end
 
@@ -43,7 +44,6 @@
 
     self.userImageView.layer.cornerRadius = self.userImageView.bounds.size.width / 2.0;
     
-    //IdentityMenu_Integration::getInstance()->identityMenuInstance = (void *)CFBridgingRetain(self);
     [self updateUserImageView:nil];
     [self updateUserIDLabel:nil];
     [self updateUserGamerScore:@"0"];
@@ -119,7 +119,7 @@
 - (void)updateUserGamerScore:(NSString*)score {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (score == nil) {
-            self.userGamerScoreLabel.text = @"";
+            self.userGamerScoreLabel.text = @"Gamer Score: ?";
             return;
         }
         
@@ -127,13 +127,24 @@
     });
 }
 
-- (void)updateUserRelationship:(NSString *)relationship {
+- (void)updateUserStatus:(NSString*)status {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (relationship == nil) {
-            self.userRelationshipLabel.text = @"";
+        if (status == nil) {
+            self.userStatusLabel.text = @"Status: ?";
             return;
         }
+        
+        self.userStatusLabel.text = [NSString stringWithFormat:@"Status: %@", status];
+    });
+}
 
+- (void)updateUserRelationship:(NSString*)relationship {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (relationship == nil) {
+            self.userRelationshipLabel.text = @"Relationship: ?";
+            return;
+        }
+        
         self.userRelationshipLabel.text = [NSString stringWithFormat:@"Relationship: %@", relationship];
     });
 }

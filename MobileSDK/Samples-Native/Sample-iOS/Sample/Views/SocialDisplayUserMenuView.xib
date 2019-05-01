@@ -13,7 +13,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SocialDisplayUserMenuView" customModule="Sample" customModuleProvider="target">
             <connections>
                 <outlet property="backToSocialUserButton" destination="YbG-S5-57d" id="rWg-U8-UwG"/>
-                <outlet property="changeRelationshipButton" destination="0SG-EV-xDy" id="Dsj-jh-joS"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="3MF-tM-HSD"/>
                 <outlet property="identityContainer" destination="zsQ-Rb-ur0" id="R7G-i4-tcf"/>
             </connections>
@@ -33,16 +32,6 @@
                         <constraint firstAttribute="height" constant="90" id="x4D-ZU-V59"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0SG-EV-xDy">
-                    <rect key="frame" x="0.0" y="98" width="350" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="AHs-kt-7nS"/>
-                    </constraints>
-                    <state key="normal" title="Change Relationship"/>
-                    <connections>
-                        <action selector="changeRelationshipButtonTapped" destination="-1" eventType="touchUpInside" id="YWN-8h-1lu"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YbG-S5-57d" userLabel="Back To Social User Button">
                     <rect key="frame" x="0.0" y="170" width="350" height="30"/>
                     <constraints>
@@ -57,14 +46,11 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="YbG-S5-57d" secondAttribute="trailing" id="7Iu-hb-WIR"/>
-                <constraint firstItem="0SG-EV-xDy" firstAttribute="top" secondItem="zsQ-Rb-ur0" secondAttribute="bottom" constant="8" id="AWG-ug-YVj"/>
                 <constraint firstItem="YbG-S5-57d" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JXL-H3-wHs"/>
                 <constraint firstItem="YbG-S5-57d" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="eAO-Xy-yf0"/>
-                <constraint firstItem="0SG-EV-xDy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="iwe-0i-bUn"/>
                 <constraint firstItem="zsQ-Rb-ur0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="kiu-l5-7Zu"/>
                 <constraint firstAttribute="top" secondItem="zsQ-Rb-ur0" secondAttribute="top" id="mFe-kh-JmP"/>
                 <constraint firstAttribute="trailing" secondItem="zsQ-Rb-ur0" secondAttribute="trailing" id="roM-OL-M3x"/>
-                <constraint firstAttribute="trailing" secondItem="0SG-EV-xDy" secondAttribute="trailing" id="wAq-ba-cjq"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>

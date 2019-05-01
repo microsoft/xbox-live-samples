@@ -60,8 +60,6 @@
     self.backToMainButton.layer.cornerRadius = 10.0f;
 
     [self reset];
-    
-    //AchievementsMenu_Integration::getInstance()->achievementsMenuInstance = (void *)CFBridgingRetain(self);
 }
 
 - (void)dealloc {

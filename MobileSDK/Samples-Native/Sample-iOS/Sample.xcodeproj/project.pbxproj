@@ -18,6 +18,8 @@
 		9C75D575226549CA0065713C /* HttpClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9C75D570226549CA0065713C /* HttpClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9C75D576226549CA0065713C /* Xal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C75D571226549CA0065713C /* Xal.framework */; };
 		9C75D577226549CA0065713C /* Xal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9C75D571226549CA0065713C /* Xal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9C766A86227A1A7A008DB9CE /* Social_Integration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C766A84227A1A7A008DB9CE /* Social_Integration.cpp */; };
+		9C766A88227A4F3A008DB9CE /* Social_Gameplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C766A87227A4F3A008DB9CE /* Social_Gameplay.cpp */; };
 		9C76D68D225D3338007CB87B /* XAsync_Integration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C76D686225D3338007CB87B /* XAsync_Integration.cpp */; };
 		9C76D68E225D3338007CB87B /* XSAPI_Integration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C76D687225D3338007CB87B /* XSAPI_Integration.cpp */; };
 		9C76D68F225D3338007CB87B /* Identity_Integration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C76D688225D3338007CB87B /* Identity_Integration.cpp */; };
@@ -102,6 +104,9 @@
 		9C75D56F226549CA0065713C /* xsapi-c.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "xsapi-c.framework"; path = "../../XboxLiveSDK/iOS/Debug/xsapi-c.framework"; sourceTree = "<group>"; };
 		9C75D570226549CA0065713C /* HttpClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HttpClient.framework; path = ../../XboxLiveSDK/iOS/Debug/HttpClient.framework; sourceTree = "<group>"; };
 		9C75D571226549CA0065713C /* Xal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Xal.framework; path = ../../XboxLiveSDK/iOS/Debug/Xal.framework; sourceTree = "<group>"; };
+		9C766A84227A1A7A008DB9CE /* Social_Integration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Social_Integration.cpp; path = ../../../../Integration/Social_Integration.cpp; sourceTree = "<group>"; };
+		9C766A85227A1A7A008DB9CE /* Social_Integration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Social_Integration.h; path = ../../../../Integration/Social_Integration.h; sourceTree = "<group>"; };
+		9C766A87227A4F3A008DB9CE /* Social_Gameplay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Social_Gameplay.cpp; sourceTree = "<group>"; };
 		9C76D683225D3338007CB87B /* Identity_Integration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Identity_Integration.h; path = ../../../../Integration/Identity_Integration.h; sourceTree = "<group>"; };
 		9C76D684225D3338007CB87B /* Achievements_Integration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Achievements_Integration.h; path = ../../../../Integration/Achievements_Integration.h; sourceTree = "<group>"; };
 		9C76D685225D3338007CB87B /* Adv_Identity_Integration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Adv_Identity_Integration.h; path = ../../../../Integration/Adv_Identity_Integration.h; sourceTree = "<group>"; };
@@ -210,6 +215,8 @@
 				9C76D687225D3338007CB87B /* XSAPI_Integration.cpp */,
 				9C76D684225D3338007CB87B /* Achievements_Integration.h */,
 				9C76D689225D3338007CB87B /* Achievements_Integration.cpp */,
+				9C766A85227A1A7A008DB9CE /* Social_Integration.h */,
+				9C766A84227A1A7A008DB9CE /* Social_Integration.cpp */,
 			);
 			path = Integration;
 			sourceTree = "<group>";
@@ -331,6 +338,7 @@
 			children = (
 				9CD96A95224AF2F900C0A0E2 /* Identity_Gameplay.cpp */,
 				9CD96A96224AF2F900C0A0E2 /* Achievements_Gameplay.cpp */,
+				9C766A87227A4F3A008DB9CE /* Social_Gameplay.cpp */,
 			);
 			path = Gameplay;
 			sourceTree = "<group>";
@@ -500,8 +508,10 @@
 				9C96373822664C1000BBDABD /* SocialGroupMenuView.mm in Sources */,
 				9C7D108B224D971300657375 /* AchievementsMenuView.mm in Sources */,
 				9C76D690225D3338007CB87B /* Achievements_Integration.cpp in Sources */,
+				9C766A86227A1A7A008DB9CE /* Social_Integration.cpp in Sources */,
 				9CE671802267E3F5003AFE58 /* SocialDisplayGroupMenuView.mm in Sources */,
 				9CEB52A5224AE67A006306BE /* ScreenLog.mm in Sources */,
+				9C766A88227A4F3A008DB9CE /* Social_Gameplay.cpp in Sources */,
 				9C835A0122443A8B0083B340 /* RootViewController.mm in Sources */,
 				9C96373722664C1000BBDABD /* IdentityDisplayView.mm in Sources */,
 				9C76D68D225D3338007CB87B /* XAsync_Integration.cpp in Sources */,

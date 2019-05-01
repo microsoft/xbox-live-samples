@@ -8,7 +8,6 @@
 
 @property (nonatomic, weak) IBOutlet UIView *contentView;
 @property (nonatomic, weak) IBOutlet UIView *identityContainer;
-@property (nonatomic, weak) IBOutlet UIButton *changeRelationshipButton;
 @property (nonatomic, weak) IBOutlet UIButton *backToSocialUserButton;
 
 @property (nonatomic, strong) IdentityDisplayView *identityDisplayView;
@@ -47,10 +46,6 @@
     [self addSubview:self.contentView];
     self.contentView.frame = self.bounds;
 
-    self.changeRelationshipButton.layer.borderWidth = 1.0f;
-    self.changeRelationshipButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.changeRelationshipButton.layer.cornerRadius = 10.0f;
-
     self.backToSocialUserButton.layer.borderWidth = 1.0f;
     self.backToSocialUserButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.backToSocialUserButton.layer.cornerRadius = 10.0f;
@@ -59,8 +54,6 @@
     [self.identityDisplayView embedInView:self.identityContainer];
     
     [self reset];
-
-    //AchievementsMenu_Integration::getInstance()->achievementsMenuInstance = (void *)CFBridgingRetain(self);
 }
 
 - (void)dealloc {
@@ -68,6 +61,11 @@
 }
 
 - (void)reset {
+    [self updateUserIDLabel:nil];
+    [self updateUserImageView:nil];
+    [self updateUserGamerScore:nil];
+    [self updateUserStatus:nil];
+    [self updateUserRelationship:nil];
 }
 
 - (void)backToPreviousMenu {
@@ -94,6 +92,12 @@
     }
 }
 
+- (void)updateUserStatus:(NSString*)status {
+    if (self.identityDisplayView) {
+        [self.identityDisplayView updateUserStatus:status];
+    }
+}
+
 - (void)updateUserRelationship:(NSString *)relationship {
     if (self.identityDisplayView) {
         [self.identityDisplayView updateUserRelationship:relationship];
@@ -101,10 +105,6 @@
 }
 
 #pragma mark - IBActions
-
-- (IBAction) changeRelationshipButtonTapped {
-    SampleLog(LL_TRACE, "Social-Display-User Add GroupChange Relationship tapped.");
-}
 
 - (IBAction) backToSocialUserButtonTapped {
     SampleLog(LL_TRACE, "Social-Display-User Back-To-Social-User tapped.");

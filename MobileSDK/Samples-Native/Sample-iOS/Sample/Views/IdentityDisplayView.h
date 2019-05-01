@@ -12,6 +12,7 @@
 - (void)updateUserImageView:(UIImage*)image;
 - (void)updateUserIDLabel:(NSString*)title;
 - (void)updateUserGamerScore:(NSString*)score;
+- (void)updateUserStatus:(NSString*)status;
 - (void)updateUserRelationship:(NSString*)relationship;
 
 @end

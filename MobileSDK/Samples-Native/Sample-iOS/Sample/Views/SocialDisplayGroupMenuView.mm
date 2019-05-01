@@ -37,7 +37,7 @@
         [self initialize];
     }
     return self;
-}
+} 
 
 - (void)initialize {
     [[NSBundle mainBundle] loadNibNamed:@"SocialDisplayGroupMenuView" owner:self options:nil];
