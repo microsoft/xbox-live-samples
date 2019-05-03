@@ -124,7 +124,9 @@ void Social_UpdateSocialManager()
         SampleLog(LL_ERROR, "Error code: %s", ConvertHRtoString(hr).c_str());
         return;
     }
-    
+
+    bool doRefresh = false;
+
     for (int i = 0; i < eventCount; i++)
     {
         XblSocialManagerEvent event = events[i];
@@ -135,7 +137,7 @@ void Social_UpdateSocialManager()
             case XblSocialManagerEventType::PresenceChanged:
             case XblSocialManagerEventType::SocialUserGroupLoaded:
             case XblSocialManagerEventType::SocialUserGroupUpdated:
-                Social_Gameplay_RefreshSocialGroups();
+                doRefresh = true;
                 break;
             
             //case XblSocialManagerEventType::ProfilesChanged:
@@ -146,6 +148,10 @@ void Social_UpdateSocialManager()
             default:
                 break;
         }
+    }
+
+    if (doRefresh) {
+        Social_Gameplay_RefreshSocialGroups();
     }
 }
 #pragma endregion

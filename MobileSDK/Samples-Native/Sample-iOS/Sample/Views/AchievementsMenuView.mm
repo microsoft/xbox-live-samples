@@ -25,8 +25,8 @@
 
 @implementation AchievementsMenuView
 
+static AchievementsMenuView *sharedInstance = [[AchievementsMenuView alloc] initWithFrame:CGRectZero];
 + (AchievementsMenuView*)shared {
-    static AchievementsMenuView *sharedInstance = [[AchievementsMenuView alloc] initWithFrame:CGRectZero];
     return sharedInstance;
 }
 

@@ -56,6 +56,7 @@
 		9CE671802267E3F5003AFE58 /* SocialDisplayGroupMenuView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9CE6717F2267E3F5003AFE58 /* SocialDisplayGroupMenuView.mm */; };
 		9CE671822267EA2C003AFE58 /* SocialDisplayGroupMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CE671812267EA2C003AFE58 /* SocialDisplayGroupMenuView.xib */; };
 		9CEB52A5224AE67A006306BE /* ScreenLog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9CEB52A3224AE67A006306BE /* ScreenLog.mm */; };
+		E762F854227CF3F300AD2B98 /* SocialGroupDisplayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E762F853227CF3F300AD2B98 /* SocialGroupDisplayTableViewCell.m */; };
 		E7C0E2CA227BA40D00265781 /* SocialGroupMenu_Integration.mm in Sources */ = {isa = PBXBuildFile; fileRef = E7C0E2C8227BA40D00265781 /* SocialGroupMenu_Integration.mm */; };
 /* End PBXBuildFile section */
 
@@ -171,6 +172,8 @@
 		9CE671812267EA2C003AFE58 /* SocialDisplayGroupMenuView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SocialDisplayGroupMenuView.xib; sourceTree = "<group>"; };
 		9CEB52A3224AE67A006306BE /* ScreenLog.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = ScreenLog.mm; path = Sample/ScreenLog.mm; sourceTree = SOURCE_ROOT; };
 		9CEB52A4224AE67A006306BE /* ScreenLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ScreenLog.h; path = Sample/ScreenLog.h; sourceTree = SOURCE_ROOT; };
+		E762F852227CF3F300AD2B98 /* SocialGroupDisplayTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SocialGroupDisplayTableViewCell.h; sourceTree = "<group>"; };
+		E762F853227CF3F300AD2B98 /* SocialGroupDisplayTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SocialGroupDisplayTableViewCell.m; sourceTree = "<group>"; };
 		E7C0E2C8227BA40D00265781 /* SocialGroupMenu_Integration.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SocialGroupMenu_Integration.mm; sourceTree = "<group>"; };
 		E7C0E2C9227BA40D00265781 /* SocialGroupMenu_Integration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SocialGroupMenu_Integration.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -254,6 +257,8 @@
 				9CE6717E2267E3F5003AFE58 /* SocialDisplayGroupMenuView.h */,
 				9CE6717F2267E3F5003AFE58 /* SocialDisplayGroupMenuView.mm */,
 				9CE671812267EA2C003AFE58 /* SocialDisplayGroupMenuView.xib */,
+				E762F852227CF3F300AD2B98 /* SocialGroupDisplayTableViewCell.h */,
+				E762F853227CF3F300AD2B98 /* SocialGroupDisplayTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -508,6 +513,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E762F854227CF3F300AD2B98 /* SocialGroupDisplayTableViewCell.m in Sources */,
 				9C96373922664C1000BBDABD /* SocialMenuView.mm in Sources */,
 				9CD96A98224AF2F900C0A0E2 /* Achievements_Gameplay.cpp in Sources */,
 				9C96373822664C1000BBDABD /* SocialGroupMenuView.mm in Sources */,

@@ -19,8 +19,8 @@
 
 @implementation SocialGroupMenuView
 
+static SocialGroupMenuView *sharedInstance = [[SocialGroupMenuView alloc] initWithFrame:CGRectZero];
 + (SocialGroupMenuView*)shared {
-    static SocialGroupMenuView *sharedInstance = [[SocialGroupMenuView alloc] initWithFrame:CGRectZero];
     return sharedInstance;
 }
 
@@ -91,7 +91,7 @@
 
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self->socialGroupFriends) {
-            self.friendsGroupButton.enabled = self->socialGroupFriends->trackedUsersCount > 0;
+            self.friendsGroupButton.enabled = self->socialGroupFriends->usersCount > 0;
         } else {
             self.friendsGroupButton.enabled = false;
         }
@@ -103,7 +103,7 @@
 
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self->socialGroupFavorite) {
-            self.favoritesGroupButton.enabled = self->socialGroupFavorite->trackedUsersCount > 0;
+            self.favoritesGroupButton.enabled = self->socialGroupFavorite->usersCount > 0;
         } else {
             self.favoritesGroupButton.enabled = false;
         }
@@ -111,7 +111,7 @@
 }
 
 - (void)refreshSocialGroups {
-
+    [[SocialDisplayGroupMenuView shared] refreshSocialGroup];
 }
 
 #pragma mark - IBActions
@@ -122,6 +122,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [SocialDisplayGroupMenuView shared].frame = self.bounds;
         [[SocialDisplayGroupMenuView shared] reset];
+        [[SocialDisplayGroupMenuView shared] setSocialGroup:self->socialGroupFriends];
         [self addSubview:[SocialDisplayGroupMenuView shared]];
     });
 }
@@ -132,6 +133,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [SocialDisplayGroupMenuView shared].frame = self.bounds;
         [[SocialDisplayGroupMenuView shared] reset];
+        [[SocialDisplayGroupMenuView shared] setSocialGroup:self->socialGroupFavorite];
         [self addSubview:[SocialDisplayGroupMenuView shared]];
     });
 }

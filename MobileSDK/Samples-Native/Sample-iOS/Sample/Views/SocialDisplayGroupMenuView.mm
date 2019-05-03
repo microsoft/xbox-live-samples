@@ -3,8 +3,13 @@
 
 #import "SocialDisplayGroupMenuView.h"
 #import "IdentityDisplayView.h"
+#import "SocialGroupDisplayTableViewCell.h"
 
-@interface SocialDisplayGroupMenuView() {}
+@interface SocialDisplayGroupMenuView() {
+    XblSocialManagerUserGroup* socialGroup;
+    uint32_t socialGroupSize;
+    XblSocialManagerUser socialGroupUsers[64];
+}
 
 @property (nonatomic, weak) IBOutlet UIView *contentView;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -14,8 +19,8 @@
 
 @implementation SocialDisplayGroupMenuView
 
+static SocialDisplayGroupMenuView *sharedInstance = [[SocialDisplayGroupMenuView alloc] initWithFrame:CGRectZero];
 + (SocialDisplayGroupMenuView*)shared {
-    static SocialDisplayGroupMenuView *sharedInstance = [[SocialDisplayGroupMenuView alloc] initWithFrame:CGRectZero];
     return sharedInstance;
 }
 
@@ -59,21 +64,78 @@
     });
 }
 
+- (void)setSocialGroup:(XblSocialManagerUserGroup*)socialGroup {
+    self->socialGroup = socialGroup;
+    self->socialGroupSize = 0;
+
+    [self refreshSocialGroup];
+}
+
+- (void)refreshSocialGroup {
+    if (self->socialGroup) {
+        self->socialGroupSize = self->socialGroup->usersCount;
+
+        XblSocialManagerUserGroupGetUsers(self->socialGroup, self->socialGroupSize, self->socialGroupUsers);
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    }
+}
+
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self->socialGroupSize;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *tableCellIdentifier = @"SocialDisplayGroupTableCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
+    SocialGroupDisplayTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
+        cell = [[SocialGroupDisplayTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
         
-        IdentityDisplayView *identityDisplayView = [[IdentityDisplayView alloc] initWithFrame:CGRectZero];
-        [identityDisplayView embedInView:cell];
+        cell.identityDisplayView = [[IdentityDisplayView alloc] initWithFrame:CGRectZero];
+        [cell.identityDisplayView embedInView:cell];
     }
-    
+
+    if (indexPath.row < self->socialGroupSize) {
+        XblSocialManagerUser user = self->socialGroupUsers[indexPath.row];
+
+        [cell.identityDisplayView updateUserIDLabel:[NSString stringWithUTF8String:user.gamertag]];
+
+        NSString* urlString = [NSString stringWithUTF8String:user.displayPicUrlRaw];
+        UIImage* userImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
+        [cell.identityDisplayView updateUserImageView:userImage];
+
+        [cell.identityDisplayView updateUserGamerScore:[NSString stringWithUTF8String:user.gamerscore]];
+        [cell.identityDisplayView updateUserRelationship:user.isFavorite ? @"Favorite" : @"Friend"];
+
+        /* Not finding the Xbl Presence header files???
+        NSString* userState;
+        switch (user.presenceRecord.userState) {
+            case XblPresenceUserState.Online:
+                userState = @"Online";
+                break;
+            case XblPresenceUserState.Away:
+                userState = @"Away";
+                break;
+            case XblPresenceUserState.Offline:
+                userState = @"Offline";
+                break;
+            //case XblPresenceUserState.Unknown:
+            default:
+                userState = @"Unknown";
+                break;
+        }
+        [cell.identityDisplayView updateUserStatus:userState];
+         */ [cell.identityDisplayView updateUserStatus:nil];
+    } else {
+        [cell.identityDisplayView updateUserIDLabel:nil];
+        [cell.identityDisplayView updateUserImageView:nil];
+        [cell.identityDisplayView updateUserGamerScore:nil];
+        [cell.identityDisplayView updateUserRelationship:nil];
+        [cell.identityDisplayView updateUserStatus:nil];
+    }
     return cell;
 }
 

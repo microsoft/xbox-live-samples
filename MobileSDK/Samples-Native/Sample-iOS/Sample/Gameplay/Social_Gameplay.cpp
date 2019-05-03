@@ -23,6 +23,7 @@ void Social_Gameplay_UpdateFavoriteSocialGroup(
 
 void Social_Gameplay_RefreshSocialGroups()
 {
-    // TODO: Implement.
     SampleLog(LL_TRACE, "Refresh Social Groups");
+
+    SocialGroupMenu_Integration::getInstance()->refreshSocialGroups();
 }

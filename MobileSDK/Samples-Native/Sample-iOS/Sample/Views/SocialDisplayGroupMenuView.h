@@ -11,5 +11,7 @@
 
 - (void)reset;
 - (void)backToPreviousMenu;
+- (void)setSocialGroup:(XblSocialManagerUserGroup*)socialGroup;
+- (void)refreshSocialGroup;
 
 @end

@@ -14,8 +14,8 @@
 
 @implementation SocialUserMenuView
 
+static SocialUserMenuView *sharedInstance = [[SocialUserMenuView alloc] initWithFrame:CGRectZero];
 + (SocialUserMenuView*)shared {
-    static SocialUserMenuView *sharedInstance = [[SocialUserMenuView alloc] initWithFrame:CGRectZero];
     return sharedInstance;
 }
 
