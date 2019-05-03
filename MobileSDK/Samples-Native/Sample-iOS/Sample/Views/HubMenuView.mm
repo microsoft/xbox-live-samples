@@ -15,8 +15,7 @@
 
 @implementation HubMenuView
 
-// NOTE: HubMenuView is instanciated by the main storyboard view controller,
-// so it does not match the standard singleton pattern.
+// NOTE: HubMenuView is instanciated by the main storyboard view controller.
 static HubMenuView* sharedInstance = nil;
 + (HubMenuView*)shared {
     return sharedInstance;

@@ -3,20 +3,26 @@
 
 #import <pch.h>
 #import <Social_Integration.h>
+#import <SocialGroupMenu_Integration.h>
 
 void Social_Gameplay_UpdateFriendsSocialGroup(
     _In_ XblSocialManagerUserGroup* friendsGroup)
 {
-    // TODO: Implement.
+    SampleLog(LL_TRACE, "Update Friends Social Group");
+
+    SocialGroupMenu_Integration::getInstance()->updateSocialGroupFriends(friendsGroup);
 }
 
 void Social_Gameplay_UpdateFavoriteSocialGroup(
     _In_ XblSocialManagerUserGroup* favoriteGroup)
 {
-    // TODO: Implement.
+    SampleLog(LL_TRACE, "Update Favorite Social Group");
+
+    SocialGroupMenu_Integration::getInstance()->updateSocialGroupFavorites(favoriteGroup);
 }
 
 void Social_Gameplay_RefreshSocialGroups()
 {
     // TODO: Implement.
+    SampleLog(LL_TRACE, "Refresh Social Groups");
 }

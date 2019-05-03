@@ -40,14 +40,14 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Gamer Score: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="32S-Ro-FV1">
-                    <rect key="frame" x="0.0" y="77.5" width="88.5" height="14.5"/>
+                    <rect key="frame" x="4" y="77.5" width="88.5" height="14.5"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Relationship: ?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ftM-6s-aYo">
-                    <rect key="frame" x="267.5" y="77.5" width="82.5" height="14.5"/>
+                    <rect key="frame" x="263.5" y="77.5" width="82.5" height="14.5"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <nil key="textColor"/>
@@ -62,7 +62,7 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="ftM-6s-aYo" secondAttribute="trailing" id="4Xm-xB-GVy"/>
+                <constraint firstAttribute="trailing" secondItem="ftM-6s-aYo" secondAttribute="trailing" constant="4" id="4Xm-xB-GVy"/>
                 <constraint firstAttribute="bottom" secondItem="ftM-6s-aYo" secondAttribute="bottom" constant="8" id="4vZ-dJ-RTc"/>
                 <constraint firstItem="X2A-mR-621" firstAttribute="leading" secondItem="S2P-Rd-xy7" secondAttribute="trailing" constant="8" id="7tO-eN-1YP"/>
                 <constraint firstAttribute="bottom" secondItem="32S-Ro-FV1" secondAttribute="bottom" constant="8" id="AV3-hr-RM5"/>
@@ -70,7 +70,7 @@
                 <constraint firstItem="S2P-Rd-xy7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="kMq-zf-pZL"/>
                 <constraint firstAttribute="top" secondItem="S2P-Rd-xy7" secondAttribute="top" id="le0-vY-z4w"/>
                 <constraint firstItem="fxE-bT-Qy2" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="lub-0E-hNe"/>
-                <constraint firstItem="32S-Ro-FV1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ncT-7p-Nv8"/>
+                <constraint firstItem="32S-Ro-FV1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="4" id="ncT-7p-Nv8"/>
                 <constraint firstAttribute="trailing" secondItem="X2A-mR-621" secondAttribute="trailing" id="nt7-Jq-ITH"/>
                 <constraint firstAttribute="bottom" secondItem="fxE-bT-Qy2" secondAttribute="bottom" constant="8" id="tph-rE-Xrw"/>
             </constraints>

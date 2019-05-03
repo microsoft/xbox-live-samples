@@ -26,11 +26,7 @@
 @implementation AchievementsMenuView
 
 + (AchievementsMenuView*)shared {
-    static AchievementsMenuView *sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[AchievementsMenuView alloc] initWithFrame:CGRectZero];
-    });
+    static AchievementsMenuView *sharedInstance = [[AchievementsMenuView alloc] initWithFrame:CGRectZero];
     return sharedInstance;
 }
 

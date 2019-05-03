@@ -11,4 +11,8 @@
 - (void)updateMenuHidden:(BOOL)hidden;
 - (void)backToPreviousMenu;
 
+- (void)setSocialGroupFriends:(XblSocialManagerUserGroup*)friends;
+- (void)setSocialGroupFavorites:(XblSocialManagerUserGroup*)favorites;
+- (void)refreshSocialGroups;
+
 @end

@@ -56,6 +56,7 @@
 		9CE671802267E3F5003AFE58 /* SocialDisplayGroupMenuView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9CE6717F2267E3F5003AFE58 /* SocialDisplayGroupMenuView.mm */; };
 		9CE671822267EA2C003AFE58 /* SocialDisplayGroupMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9CE671812267EA2C003AFE58 /* SocialDisplayGroupMenuView.xib */; };
 		9CEB52A5224AE67A006306BE /* ScreenLog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9CEB52A3224AE67A006306BE /* ScreenLog.mm */; };
+		E7C0E2CA227BA40D00265781 /* SocialGroupMenu_Integration.mm in Sources */ = {isa = PBXBuildFile; fileRef = E7C0E2C8227BA40D00265781 /* SocialGroupMenu_Integration.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -170,6 +171,8 @@
 		9CE671812267EA2C003AFE58 /* SocialDisplayGroupMenuView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SocialDisplayGroupMenuView.xib; sourceTree = "<group>"; };
 		9CEB52A3224AE67A006306BE /* ScreenLog.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = ScreenLog.mm; path = Sample/ScreenLog.mm; sourceTree = SOURCE_ROOT; };
 		9CEB52A4224AE67A006306BE /* ScreenLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ScreenLog.h; path = Sample/ScreenLog.h; sourceTree = SOURCE_ROOT; };
+		E7C0E2C8227BA40D00265781 /* SocialGroupMenu_Integration.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SocialGroupMenu_Integration.mm; sourceTree = "<group>"; };
+		E7C0E2C9227BA40D00265781 /* SocialGroupMenu_Integration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SocialGroupMenu_Integration.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -354,6 +357,8 @@
 				9C71C3582254385D000AFB97 /* HubMenu_Integration.mm */,
 				9C71C34F22542785000AFB97 /* AchievementsMenu_Integration.h */,
 				9C71C35022542785000AFB97 /* AchievementsMenu_Integration.mm */,
+				E7C0E2C9227BA40D00265781 /* SocialGroupMenu_Integration.h */,
+				E7C0E2C8227BA40D00265781 /* SocialGroupMenu_Integration.mm */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -527,6 +532,7 @@
 				9C71C34E22542280000AFB97 /* IdentityMenu_Integration.mm in Sources */,
 				9C76D691225D3338007CB87B /* Adv_Identity_Integration.cpp in Sources */,
 				9C76D68F225D3338007CB87B /* Identity_Integration.cpp in Sources */,
+				E7C0E2CA227BA40D00265781 /* SocialGroupMenu_Integration.mm in Sources */,
 				9C76D68E225D3338007CB87B /* XSAPI_Integration.cpp in Sources */,
 				9C71C35622542B95000AFB97 /* IdentityMenuView.mm in Sources */,
 				9C96373F22664C1000BBDABD /* SocialUserMenuView.mm in Sources */,

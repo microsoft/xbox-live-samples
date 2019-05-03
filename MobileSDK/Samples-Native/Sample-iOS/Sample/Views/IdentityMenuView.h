@@ -9,7 +9,7 @@
 
 + (IdentityMenuView*)shared;
 
-- (void)updateIdentityButtons:(int)status;
+- (void)updateSignInState:(int)status;
 - (void)updateUserImageView:(UIImage*)image;
 - (void)updateUserIDLabel:(NSString*)title;
 - (void)updateUserGamerScore:(NSString*)score;

@@ -15,11 +15,7 @@
 @implementation SocialUserMenuView
 
 + (SocialUserMenuView*)shared {
-    static SocialUserMenuView *sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[SocialUserMenuView alloc] initWithFrame:CGRectZero];
-    });
+    static SocialUserMenuView *sharedInstance = [[SocialUserMenuView alloc] initWithFrame:CGRectZero];
     return sharedInstance;
 }
 

@@ -142,6 +142,7 @@ void Social_UpdateSocialManager()
             //case XblSocialManagerEventType::SocialRelationshipsChanged:
             //case XblSocialManagerEventType::LocalUserAdded:
             //case XblSocialManagerEventType::LocalUserRemoved:
+            //case XblSocialManagerEventType::UnknownEvent:
             default:
                 break;
         }

@@ -25,7 +25,7 @@ void IdentityMenu_Integration::init()
 void IdentityMenu_Integration::updateIdentityButtons(int status)
 {
     if ([IdentityMenuView shared]) {
-        [[IdentityMenuView shared] updateIdentityButtons:status];
+        [[IdentityMenuView shared] updateSignInState:status];
     }
 }
 

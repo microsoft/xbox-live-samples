@@ -5,6 +5,7 @@
 #import "TextViewLog.h"
 #import <Identity_Integration.h>
 #import <XSAPI_Integration.h>
+#import <Social_Integration.h>
 #import <GameScene.h>
 
 @interface RootViewController ()
@@ -33,6 +34,12 @@
         SampleLog(LL_ERROR, "XalTryAddDefaultUserSilentlyAsync Failed!");
         SampleLog(LL_ERROR, "Error code: %s", ConvertHRtoString(hr).c_str());
     }
+
+    // Setup the update timer at 60/sec.
+    [NSTimer scheduledTimerWithTimeInterval:(1000.0 / 60.0) repeats:true block:
+    ^(NSTimer * _Nonnull timer) {
+        Social_UpdateSocialManager();
+    }];
 }
 
 @end

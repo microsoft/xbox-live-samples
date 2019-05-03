@@ -5,7 +5,10 @@
 #import <GameScene.h>
 #import "SocialDisplayGroupMenuView.h"
 
-@interface SocialGroupMenuView() {}
+@interface SocialGroupMenuView() {
+    XblSocialManagerUserGroup* socialGroupFriends;
+    XblSocialManagerUserGroup* socialGroupFavorite;
+}
 
 @property (nonatomic, weak) IBOutlet UIView *contentView;
 @property (nonatomic, weak) IBOutlet UIButton *friendsGroupButton;
@@ -17,11 +20,7 @@
 @implementation SocialGroupMenuView
 
 + (SocialGroupMenuView*)shared {
-    static SocialGroupMenuView *sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[SocialGroupMenuView alloc] initWithFrame:CGRectZero];
-    });
+    static SocialGroupMenuView *sharedInstance = [[SocialGroupMenuView alloc] initWithFrame:CGRectZero];
     return sharedInstance;
 }
 
@@ -42,6 +41,9 @@
 }
 
 - (void)initialize {
+    self->socialGroupFriends = nil;
+    self->socialGroupFavorite = nil;
+
     [[NSBundle mainBundle] loadNibNamed:@"SocialGroupMenuView" owner:self options:nil];
     [self addSubview:self.contentView];
     self.contentView.frame = self.bounds;
@@ -82,6 +84,34 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self removeFromSuperview];
     });
+}
+
+- (void)setSocialGroupFriends:(XblSocialManagerUserGroup*)friends {
+    self->socialGroupFriends = friends;
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self->socialGroupFriends) {
+            self.friendsGroupButton.enabled = self->socialGroupFriends->trackedUsersCount > 0;
+        } else {
+            self.friendsGroupButton.enabled = false;
+        }
+    });
+}
+
+- (void)setSocialGroupFavorites:(XblSocialManagerUserGroup*)favorites {
+    self->socialGroupFavorite = favorites;
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self->socialGroupFavorite) {
+            self.favoritesGroupButton.enabled = self->socialGroupFavorite->trackedUsersCount > 0;
+        } else {
+            self.favoritesGroupButton.enabled = false;
+        }
+    });
+}
+
+- (void)refreshSocialGroups {
+
 }
 
 #pragma mark - IBActions

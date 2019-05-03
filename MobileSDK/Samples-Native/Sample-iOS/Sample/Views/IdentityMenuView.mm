@@ -3,6 +3,7 @@
 
 #import "IdentityMenuView.h"
 #import <Identity_Integration.h>
+#import <Social_Integration.h>
 #import <GameScene.h>
 #import <IdentityMenu_Integration.h>
 
@@ -17,12 +18,13 @@
 @property (nonatomic, weak) IBOutlet UIButton *signInButton;
 @property (nonatomic, weak) IBOutlet UIButton *signOutButton;
 
+@property (nonatomic, assign) NSUInteger signInState;
+
 @end
 
 @implementation IdentityMenuView
 
-// NOTE: IdentityMenuView is instanciated by the main storyboard view controller,
-// so it does not match the standard singleton pattern.
+// NOTE: IdentityMenuView is instanciated by the main storyboard view controller.
 static IdentityMenuView* sharedInstance = nil;
 + (IdentityMenuView*)shared {
     return sharedInstance;
@@ -61,7 +63,7 @@ static IdentityMenuView* sharedInstance = nil;
     
     self.userImageView.layer.cornerRadius = self.userImageView.bounds.size.width / 2.0;
     
-    [self updateIdentityButtons:ID_NONE];
+    [self updateSignInState:ID_NONE];
     [self updateUserImageView:nil];
     [self updateUserIDLabel:nil];
     [self updateUserGamerScore:nil];
@@ -71,28 +73,54 @@ static IdentityMenuView* sharedInstance = nil;
     SampleLog(LL_TRACE, "Identity Menu dealloc!!!!");
 }
 
-- (void)updateIdentityButtons:(int)status {
+- (void)updateSignInState:(int)status {
+    // Update the UI for the sign-in/out buttons.
     dispatch_async(dispatch_get_main_queue(), ^{
         switch (status) {
             case ID_SIGNED_IN:
                 self.signInButton.enabled = false;
                 self.signOutButton.enabled = true;
                 break;
+
             case ID_SIGNED_OUT:
                 self.signInButton.enabled = true;
                 self.signOutButton.enabled = false;
                 break;
+
             default:
                 self.signInButton.enabled = false;
                 self.signOutButton.enabled = false;
                 break;
         }
     });
-    
-    if (status == ID_SIGNED_IN) {
-        // Try to grab the user's profile.
-        XblContextHandle contextHandle = GameScene::getInstance()->getXblContext();
-        Identity_GetDefaultGamerProfileAsync(nil, contextHandle);
+
+    // Do XBL calls for sign-in/out.
+    self.signInState = status;
+    switch (self.signInState) {
+        case ID_SIGNED_IN: {
+            // Try to grab the user's profile.
+            XblContextHandle contextHandle = GameScene::getInstance()->getXblContext();
+            Identity_GetDefaultGamerProfileAsync(nil, contextHandle);
+
+            // Add the signed-in user to Social.
+            XalUserHandle user = GameScene::getInstance()->getCurrentUser();
+            if (user) {
+                Social_AddUserToSocialManager(user);
+            }
+            break;
+        }
+
+        case ID_SIGNED_OUT: {
+            // Remove the signed-out user to Social.
+            XalUserHandle user = GameScene::getInstance()->getCurrentUser();
+            if (user) {
+                Social_RemoveUserFromSocialManager(user);
+            }
+            break;
+        }
+
+        default:
+            break;
     }
 }
 

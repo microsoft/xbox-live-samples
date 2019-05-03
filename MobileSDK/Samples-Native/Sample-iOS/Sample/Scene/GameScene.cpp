@@ -86,7 +86,12 @@ bool GameScene::hasXblContext()
 XalUserHandle GameScene::getCurrentUser()
 {
     XalUserHandle user = nullptr;
-    
+
+    if (m_xblContext == nullptr) {
+        SampleLog(LL_WARNING, "No XBL Context available, so no user available.");
+        return nullptr;
+    }
+
     HRESULT hr = XblContextGetUser(m_xblContext, &user);
     
     if (FAILED(hr))
