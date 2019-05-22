@@ -3,10 +3,10 @@
 
 #pragma once
 
-class GameScene
+class Game_Integration
 {
 public:
-    static GameScene* getInstance();
+    static Game_Integration* getInstance();
     
     void init();
     

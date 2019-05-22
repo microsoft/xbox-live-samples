@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-#import <pch.h>
 #import <XSAPI_Integration.h>
-#import <GameScene.h>
+#import <Game_Integration.h>
 #import <AchievementsMenu_Integration.h>
 
 #pragma region Achievements Gameplay Internal
-std::string Achievements_Gameplay_ProgressToString(_In_ XblAchievement achievement)
+
+std::string Achievements_Gameplay_ProgressToString(
+    _In_ XblAchievement achievement)
 {
     std::stringstream stream;
 
@@ -36,7 +37,9 @@ std::string Achievements_Gameplay_ProgressToString(_In_ XblAchievement achieveme
     return stream.str();
 }
 
-void Achievements_Gameplay_DisplayAchievements(_In_ XblAchievement* achievements, _In_ uint32_t achievementsCount)
+void Achievements_Gameplay_DisplayAchievements(
+    _In_ XblAchievement* achievements,
+    _In_ uint32_t achievementsCount)
 {
     for (uint32_t i = 0; i < achievementsCount; ++i)
     {
@@ -44,9 +47,11 @@ void Achievements_Gameplay_DisplayAchievements(_In_ XblAchievement* achievements
         SampleLog(LL_INFO, "State: %s", Achievements_Gameplay_ProgressToString(achievements[i]).c_str());
     }
 }
+
 #pragma endregion
 
 #pragma region Achievements Gameplay
+
 void Achievements_Gameplay_GetAchievementsForTitle(
     _In_ HRESULT result,
     _In_ XblAchievementsResultHandle achievementsResultHandle,
@@ -125,4 +130,5 @@ void Achievements_Gameplay_UpdateAchievement(
 
     }
 }
+
 #pragma endregion

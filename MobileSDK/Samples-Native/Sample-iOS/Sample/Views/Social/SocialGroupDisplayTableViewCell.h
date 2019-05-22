@@ -5,10 +5,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HubMenuView : UIView
+@class IdentityDisplayView;
 
-- (void)updateMenuHidden:(BOOL)hidden;
-- (void)achievementsMenuExit;
-- (void)socialMenuExit;
+@interface SocialGroupDisplayTableViewCell : UITableViewCell
+
+@property (nonatomic, strong) IdentityDisplayView* identityDisplayView;
 
 @end

@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-#import <pch.h>
 #import <Identity_Integration.h>
 #import <XSAPI_Integration.h>
-#import <GameScene.h>
-#import <IdentityMenu_Integration.h>
+#import <Game_Integration.h>
 #import <HubMenu_Integration.h>
+#import <IdentityMenu_Integration.h>
+#import <SocialUserMenu_Integration.h>
 
 #pragma region Identity Gameplay Internal
+
 void Identity_Gameplay_CloseUserContext(_In_ XblContextHandle xblContext)
 {
     if (xblContext)
@@ -39,9 +40,9 @@ HRESULT Identity_Gameplay_SignInUser(_In_ XalUserHandle newUser, _In_ bool resol
         if (SUCCEEDED(hr))
         {
             // Close the previous Xbl Context, if one existed
-            Identity_Gameplay_CloseUserContext(GameScene::getInstance()->getXblContext());
+            Identity_Gameplay_CloseUserContext(Game_Integration::getInstance()->getXblContext());
             
-            GameScene::getInstance()->setXblContext(newXblContext);
+            Game_Integration::getInstance()->setXblContext(newXblContext);
             
             SampleLog(LL_INFO, ""); // New line
             if (resolveIssuesWithUI)
@@ -99,10 +100,14 @@ HRESULT Identity_Gameplay_SignInUser(_In_ XalUserHandle newUser, _In_ bool resol
     
     return hr;
 }
+
 #pragma endregion
 
 #pragma region Identity Gameplay
-void Identity_Gameplay_TrySignInUserSilently(_In_ XalUserHandle newUser, _In_ HRESULT result)
+
+void Identity_Gameplay_TrySignInUserSilently(
+    _In_ XalUserHandle newUser,
+    _In_ HRESULT result)
 {
     // TODO: The game dev should implement logic below as desired to hook it up with the rest of the game
     HRESULT hr = result;
@@ -122,7 +127,9 @@ void Identity_Gameplay_TrySignInUserSilently(_In_ XalUserHandle newUser, _In_ HR
     }
 }
 
-void Identity_Gameplay_TrySignInUserWithUI(_In_ XalUserHandle newUser, _In_ HRESULT result)
+void Identity_Gameplay_TrySignInUserWithUI(
+    _In_ XalUserHandle newUser,
+    _In_ HRESULT result)
 {
     // TODO: The game dev should implement logic below as desired to hook it up with the rest of the game
     HRESULT hr = result;
@@ -142,7 +149,9 @@ void Identity_Gameplay_TrySignInUserWithUI(_In_ XalUserHandle newUser, _In_ HRES
     }
 }
 
-void Identity_Gameplay_TryResolveUserIssue(_In_ XalUserHandle user, _In_ HRESULT result)
+void Identity_Gameplay_TryResolveUserIssue(
+    _In_ XalUserHandle user,
+    _In_ HRESULT result)
 {
     // TODO: The game dev should implement logic below as desired to hook it up with the rest of the game
 
@@ -163,13 +172,14 @@ void Identity_Gameplay_TryResolveUserIssue(_In_ XalUserHandle user, _In_ HRESULT
     if (user) { XalUserCloseHandle(user); }
 }
 
-void Identity_Gameplay_TrySignOutUser(_In_ HRESULT result)
+void Identity_Gameplay_TrySignOutUser(
+    _In_ HRESULT result)
 {
     // TODO: The game dev should implement logic below as desired to hook it up with the rest of the game
 
     if (SUCCEEDED(result))
     {
-        XblContextHandle xblContext = GameScene::getInstance()->getXblContext();
+        XblContextHandle xblContext = Game_Integration::getInstance()->getXblContext();
 
         XalUserHandle user = nullptr;
         HRESULT hr = XblContextGetUser(xblContext, &user);
@@ -188,7 +198,7 @@ void Identity_Gameplay_TrySignOutUser(_In_ HRESULT result)
         }
 
         Identity_Gameplay_CloseUserContext(xblContext);
-        GameScene::getInstance()->setXblContext(nullptr);
+        Game_Integration::getInstance()->setXblContext(nullptr);
         IdentityMenu_Integration::getInstance()->updateIdentityButtons(ID_SIGNED_OUT);
         HubMenu_Integration::getInstance()->setHubMenuHidden(true);
         
@@ -202,7 +212,9 @@ void Identity_Gameplay_TrySignOutUser(_In_ HRESULT result)
     }
 }
 
-void Identity_Gameplay_GetDefaultGamerProfile(_In_ XblUserProfile userProfile, _In_ HRESULT result)
+void Identity_Gameplay_GetDefaultGamerProfile(
+    _In_ XblUserProfile userProfile,
+    _In_ HRESULT result)
 {
     HRESULT hr = result;
     
@@ -219,13 +231,19 @@ void Identity_Gameplay_GetDefaultGamerProfile(_In_ XblUserProfile userProfile, _
     }
 }
 
-void Identity_Gameplay_GetGamerProfile(_In_ XblUserProfile userProfile, _In_ HRESULT result)
+void Identity_Gameplay_GetGamerProfile(
+    _In_ XblUserProfile userProfile,
+    _In_ HRESULT result)
 {
     HRESULT hr = result;
     
     if (SUCCEEDED(hr))
     {
-        // TODO: Add in functionality for Social Module
+        SocialUserMenu_Integration::getInstance()->updateUserImage(userProfile.gameDisplayPictureResizeUri);
+        SocialUserMenu_Integration::getInstance()->updateUserTitle(userProfile.gamertag);
+        SocialUserMenu_Integration::getInstance()->updateUserGamerScore(userProfile.gamerscore);
+        //SocialUserMenu_Integration::getInstance()->updateUserStatus(userProfile.status);
+        //SocialUserMenu_Integration::getInstance()->updateUserRelationship(userProfile.relationship);
     }
     
     if (FAILED(hr))
@@ -233,4 +251,5 @@ void Identity_Gameplay_GetGamerProfile(_In_ XblUserProfile userProfile, _In_ HRE
         SampleLog(LL_INFO, "Get Gamer Profile failed!");
     }
 }
+
 #pragma endregion

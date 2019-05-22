@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-#import "GameScene.h"
+#import "Game_Integration.h"
 #import <XSAPI_Integration.h>
 #import "IdentityMenu_Integration.h"
 
@@ -11,25 +11,25 @@
 #define TITLE_ID    825707400ull
 #define SANDBOX     "XDKS.1"
 
-static GameScene* s_gameScene = nullptr;
+static Game_Integration* s_gameScene = nullptr;
 
-GameScene* GameScene::getInstance()
+Game_Integration* Game_Integration::getInstance()
 {
     if (!s_gameScene)
     {
-        s_gameScene = new (std::nothrow) GameScene();
+        s_gameScene = new (std::nothrow) Game_Integration();
         s_gameScene->init();
     }
     
     return s_gameScene;
 }
 
-void GameScene::init()
+void Game_Integration::init()
 {
     SampleLog(LL_TRACE, "Entering Game Scene");
 }
 
-bool GameScene::xboxLive_init()
+bool Game_Integration::xboxLive_init()
 {
     // Set Debugger Trace Level for XSAPI
     HCSettingsSetTraceLevel(HCTraceLevel::Verbose);
@@ -66,25 +66,29 @@ bool GameScene::xboxLive_init()
     return true;
 }
 
-void GameScene::setXblContext(XblContextHandle xblContext)
+void Game_Integration::setXblContext(XblContextHandle xblContext)
 {
     std::lock_guard<std::mutex> lock(m_xblContextMutex);
     m_xblContext = xblContext;
 }
 
-XblContextHandle GameScene::getXblContext()
+XblContextHandle Game_Integration::getXblContext()
 {
     std::lock_guard<std::mutex> lock(m_xblContextMutex);
     return m_xblContext;
 }
 
-bool GameScene::hasXblContext()
+bool Game_Integration::hasXblContext()
 {
     return m_xblContext != nullptr;
 }
 
-XalUserHandle GameScene::getCurrentUser()
+XalUserHandle Game_Integration::getCurrentUser()
 {
+    if (!this->hasXblContext()) {
+        return nullptr;
+    }
+
     XalUserHandle user = nullptr;
     
     HRESULT hr = XblContextGetUser(m_xblContext, &user);
@@ -98,7 +102,7 @@ XalUserHandle GameScene::getCurrentUser()
     return user;
 }
 
-uint64_t GameScene::getCurrentUserId()
+uint64_t Game_Integration::getCurrentUserId()
 {
     XalUserHandle user = this->getCurrentUser();
     

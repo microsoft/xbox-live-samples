@@ -8,8 +8,9 @@
 
 #import "IdentityMenuView.h"
 #import <Identity_Integration.h>
-#import <GameScene.h>
+#import <Game_Integration.h>
 #import <IdentityMenu_Integration.h>
+#import <Social_Integration.h>
 
 #define DEFAULT_ID_TITLE    @"Xbox Live iOS Sample"
 
@@ -21,6 +22,8 @@
 @property (nonatomic, weak) IBOutlet UILabel *userGamerScoreLabel;
 @property (nonatomic, weak) IBOutlet UIButton *signInButton;
 @property (nonatomic, weak) IBOutlet UIButton *signOutButton;
+
+@property (nonatomic, assign) NSUInteger signInState;
 
 @end
 
@@ -34,7 +37,7 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder*)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         [self initialize];
@@ -57,15 +60,16 @@
     
     self.userImageView.layer.cornerRadius = self.userImageView.bounds.size.width / 2.0;
     
-    IdentityMenu_Integration::getInstance()->identityMenuInstance = (void *)CFBridgingRetain(self);
     [self updateIdentityButtons:ID_NONE];
     [self updateUserImageView:nil];
     [self updateUserIDLabel:nil];
     [self updateUserGamerScore:nil];
+
+    IdentityMenu_Integration::getInstance()->identityMenuInstance = (void*)CFBridgingRetain(self);
 }
 
 - (void)dealloc {
-    SampleLog(LL_TRACE, "Identity Menu dealloc!!!!");
+    SampleLog(LL_TRACE, "Identity Menu dealloc.");
 }
 
 - (void)updateIdentityButtons:(int)status {
@@ -85,11 +89,41 @@
                 break;
         }
     });
-    
-    if (status == ID_SIGNED_IN) {
-        // Try to grab the user's profile.
-        XblContextHandle contextHandle = GameScene::getInstance()->getXblContext();
-        Identity_GetDefaultGamerProfileAsync(nil, contextHandle);
+
+    self.signInState = status;
+    switch (self.signInState) {
+        case ID_SIGNED_IN: {
+            // Try to get the new user's profile.
+            XblContextHandle contextHandle = Game_Integration::getInstance()->getXblContext();
+            Identity_GetDefaultGamerProfileAsync(nil, contextHandle);
+
+            // Add the signed-in user to Social.
+            XalUserHandle user = Game_Integration::getInstance()->getCurrentUser();
+            if (user) {
+                Social_AddUserToSocialManager(user);
+            }
+
+            uint64_t userId = Game_Integration::getInstance()->getCurrentUserId();
+            SampleLog(LL_INFO, "Signed in user ID %llX.", userId);
+
+            break;
+        }
+
+        case ID_SIGNED_OUT: {
+            // Remove the signed-out user from Social.
+            XalUserHandle user = Game_Integration::getInstance()->getCurrentUser();
+            if (user) {
+                uint64_t userId = Game_Integration::getInstance()->getCurrentUserId();
+                SampleLog(LL_INFO, "Signed out user ID %llX.", userId);
+
+                Social_RemoveUserFromSocialManager(user);
+            }
+
+            break;
+        }
+
+        default:
+            break;
     }
 }
 
@@ -137,7 +171,7 @@
 - (IBAction)signOutAction {
     self.signOutButton.enabled = false;
     
-    Identity_TrySignOutUser(nil, GameScene::getInstance()->getCurrentUser());
+    Identity_TrySignOutUser(nil, Game_Integration::getInstance()->getCurrentUser());
 }
 
 @end
