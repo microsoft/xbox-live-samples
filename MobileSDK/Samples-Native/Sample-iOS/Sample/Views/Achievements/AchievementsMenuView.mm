@@ -3,8 +3,9 @@
 
 #import "AchievementsMenuView.h"
 #import <Achievements_Integration.h>
-#import <GameScene.h>
+#import <Game_Integration.h>
 #import <AchievementsMenu_Integration.h>
+#import "HubMenuView.h"
 
 #define ACHIEVEMENT_ID_1                "1"
 #define SKIP_ITEMS                      0
@@ -12,12 +13,12 @@
 
 @interface AchievementsMenuView() {}
 
-@property (nonatomic, weak) IBOutlet UIView *contentView;
-@property (nonatomic, weak) IBOutlet UIButton *achievementsButton;
-@property (nonatomic, weak) IBOutlet UIButton *nextPageButton;
-@property (nonatomic, weak) IBOutlet UIButton *firstAchievementButton;
-@property (nonatomic, weak) IBOutlet UIButton *updateFirstButton;
-@property (nonatomic, weak) IBOutlet UIButton *backToMainButton;
+@property (nonatomic, weak) IBOutlet UIView* contentView;
+@property (nonatomic, weak) IBOutlet UIButton* achievementsButton;
+@property (nonatomic, weak) IBOutlet UIButton* nextPageButton;
+@property (nonatomic, weak) IBOutlet UIButton* firstAchievementButton;
+@property (nonatomic, weak) IBOutlet UIButton* updateFirstButton;
+@property (nonatomic, weak) IBOutlet UIButton* backToMainButton;
 
 @property (nonatomic, assign) BOOL nextResultsPage;
 @property (nonatomic, assign) XblAchievementsResultHandle resultHandle;
@@ -34,7 +35,7 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder*)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         [self initialize];
@@ -46,6 +47,8 @@
     [[NSBundle mainBundle] loadNibNamed:@"AchievementsMenuView" owner:self options:nil];
     [self addSubview:self.contentView];
     self.contentView.frame = self.bounds;
+
+    self.parentMenu = nil;
     
     self.achievementsButton.layer.borderWidth = 1.0f;
     self.achievementsButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
@@ -67,19 +70,15 @@
     self.backToMainButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.backToMainButton.layer.cornerRadius = 10.0f;
     
-    [self reset];
-    
-    AchievementsMenu_Integration::getInstance()->achievementsMenuInstance = (void *)CFBridgingRetain(self);
-}
-
-- (void)dealloc {
-    SampleLog(LL_TRACE, "Achievements Menu dealloc!!!!");
-}
-
-- (void)reset {
     self.hasNextResultsPage = false;
     self.achievementsResultHandle = nil;
     self.nextPageButton.enabled = false;
+
+    AchievementsMenu_Integration::getInstance()->achievementsMenuInstance = (void*)CFBridgingRetain(self);
+}
+
+- (void)dealloc {
+    SampleLog(LL_TRACE, "Achievements Menu dealloc.");
 }
 
 - (void)setHasNextResultsPage:(BOOL)value {
@@ -102,20 +101,14 @@
     return self.resultHandle;
 }
 
-- (void)backToMain {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self removeFromSuperview];
-    });
-}
-
 #pragma mark - IBActions
 
 - (IBAction) achievementsButtonTapped {
     SampleLog(LL_TRACE, "Achievements get all achievements tapped.");
     
-    if (GameScene::getInstance()->hasXblContext())
+    if (Game_Integration::getInstance()->hasXblContext())
     {
-        XblContextHandle xblContext = GameScene::getInstance()->getXblContext();
+        XblContextHandle xblContext = Game_Integration::getInstance()->getXblContext();
         Achievements_GetAchievementsForTitle(XblGetAsyncQueue(), xblContext, SKIP_ITEMS, MAX_ITEMS);
     }
 }
@@ -123,9 +116,9 @@
 - (IBAction) nextPageButtonTapped {
     SampleLog(LL_TRACE, "Achievements next page tapped.");
     
-    if (GameScene::getInstance()->hasXblContext() && self.nextResultsPage)
+    if (Game_Integration::getInstance()->hasXblContext() && self.nextResultsPage)
     {
-        XblContextHandle xblContext = GameScene::getInstance()->getXblContext();
+        XblContextHandle xblContext = Game_Integration::getInstance()->getXblContext();
         Achievements_GetNextResultsPage(XblGetAsyncQueue(), xblContext, self.resultHandle, MAX_ITEMS);
     }
 }
@@ -133,9 +126,9 @@
 - (IBAction) firstAchievementButtonTapped {
     SampleLog(LL_TRACE, "Achievements first achievement tapped.");
     
-    if (GameScene::getInstance()->hasXblContext())
+    if (Game_Integration::getInstance()->hasXblContext())
     {
-        XblContextHandle xblContext = GameScene::getInstance()->getXblContext();
+        XblContextHandle xblContext = Game_Integration::getInstance()->getXblContext();
         Achievements_GetAchievement(XblGetAsyncQueue(), xblContext, ACHIEVEMENT_ID_1);
     }
 }
@@ -143,17 +136,22 @@
 - (IBAction) updateFirstButtonTapped {
     SampleLog(LL_TRACE, "Achievements update first achievement tapped.");
     
-    if (GameScene::getInstance()->hasXblContext())
+    if (Game_Integration::getInstance()->hasXblContext())
     {
-        XblContextHandle xblContext = GameScene::getInstance()->getXblContext();
+        XblContextHandle xblContext = Game_Integration::getInstance()->getXblContext();
         Achievements_UpdateAchievement(XblGetAsyncQueue(), xblContext, ACHIEVEMENT_ID_1, 100);
     }
 }
 
 - (IBAction) backToMainButtonTapped {
-    SampleLog(LL_TRACE, "Achievements Back-To-Main tapped.");
-    
-    [self backToMain];
+    SampleLog(LL_TRACE, "Achievements Back-To-Hub tapped.");
+
+    CFRelease(AchievementsMenu_Integration::getInstance()->achievementsMenuInstance);
+    AchievementsMenu_Integration::getInstance()->achievementsMenuInstance = nullptr;
+
+    if (self.parentMenu) {
+        [self.parentMenu achievementsMenuExit];
+    }
 }
 
 @end

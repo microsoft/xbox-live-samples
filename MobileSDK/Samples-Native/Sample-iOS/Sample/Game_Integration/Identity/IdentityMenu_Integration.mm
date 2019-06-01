@@ -19,7 +19,7 @@ IdentityMenu_Integration* IdentityMenu_Integration::getInstance()
 
 void IdentityMenu_Integration::init()
 {
-    SampleLog(LL_TRACE, "Initializing Identity Integration");
+    SampleLog(LL_TRACE, "Initializing Menu Integration");
 }
 
 void IdentityMenu_Integration::updateIdentityButtons(int status)

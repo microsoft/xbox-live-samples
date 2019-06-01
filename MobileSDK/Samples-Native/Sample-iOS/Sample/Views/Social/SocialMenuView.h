@@ -5,10 +5,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HubMenuView : UIView
+@class HubMenuView;
 
-- (void)updateMenuHidden:(BOOL)hidden;
-- (void)achievementsMenuExit;
-- (void)socialMenuExit;
+@interface SocialMenuView : UIView
+
+@property (nonatomic, strong) HubMenuView* parentMenu;
+
+- (void)socialUserMenuExit;
+- (void)socialGroupMenuExit;
 
 @end

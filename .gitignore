@@ -16,6 +16,7 @@ MobileSDK/XboxLiveSDK/*
 # Mac
 
 .DS_Store
+._*
 
 # Android Studio
 
