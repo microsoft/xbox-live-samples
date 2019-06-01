@@ -76,16 +76,16 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         switch (status) {
             case ID_SIGNED_IN:
-                self.signInButton.enabled = false;
-                self.signOutButton.enabled = true;
+                self.signInButton.enabled = NO;
+                self.signOutButton.enabled = YES;
                 break;
             case ID_SIGNED_OUT:
-                self.signInButton.enabled = true;
-                self.signOutButton.enabled = false;
+                self.signInButton.enabled = YES;
+                self.signOutButton.enabled = NO;
                 break;
             default:
-                self.signInButton.enabled = false;
-                self.signOutButton.enabled = false;
+                self.signInButton.enabled = NO;
+                self.signOutButton.enabled = NO;
                 break;
         }
     });
@@ -163,13 +163,13 @@
 #pragma mark - IBActions
 
 - (IBAction)signInAction {
-    self.signInButton.enabled = false;
+    self.signInButton.enabled = NO;
     
     Identity_TrySignInUserWithUI(nil);
 }
 
 - (IBAction)signOutAction {
-    self.signOutButton.enabled = false;
+    self.signOutButton.enabled = NO;
     
     Identity_TrySignOutUser(nil, Game_Integration::getInstance()->getCurrentUser());
 }

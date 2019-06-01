@@ -7,9 +7,11 @@
 
 @class SocialUserMenuView;
 
-@interface SocialUserDisplayMenuView : UIView
+@interface IdentityDisplayMenuView : UIView
 
 @property (nonatomic, strong) SocialUserMenuView* parentMenu;
+
+- (void)setXboxLiveUserId:(uint64_t)userId;
 
 - (void)updateUserImageView:(UIImage*)image;
 - (void)updateUserIDLabel:(NSString*)title;

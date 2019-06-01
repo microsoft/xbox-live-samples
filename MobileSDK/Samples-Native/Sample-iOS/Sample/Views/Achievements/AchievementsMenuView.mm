@@ -70,9 +70,9 @@
     self.backToMainButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.backToMainButton.layer.cornerRadius = 10.0f;
     
-    self.hasNextResultsPage = false;
+    self.hasNextResultsPage = NO;
     self.achievementsResultHandle = nil;
-    self.nextPageButton.enabled = false;
+    self.nextPageButton.enabled = NO;
 
     AchievementsMenu_Integration::getInstance()->achievementsMenuInstance = (void*)CFBridgingRetain(self);
 }
