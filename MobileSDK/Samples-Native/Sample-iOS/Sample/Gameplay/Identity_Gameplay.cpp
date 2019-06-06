@@ -6,7 +6,7 @@
 #import <Game_Integration.h>
 #import <HubMenu_Integration.h>
 #import <IdentityMenu_Integration.h>
-#import <SocialUserMenu_Integration.h>
+#import <IdentityDisplayMenu_Integration.h>
 
 #pragma region Identity Gameplay Internal
 
@@ -239,9 +239,9 @@ void Identity_Gameplay_GetGamerProfile(
     
     if (SUCCEEDED(hr))
     {
-        SocialUserMenu_Integration::getInstance()->updateUserImage(userProfile.gameDisplayPictureResizeUri);
-        SocialUserMenu_Integration::getInstance()->updateUserTitle(userProfile.gamertag);
-        SocialUserMenu_Integration::getInstance()->updateUserGamerScore(userProfile.gamerscore);
+        IdentityDisplayMenu_Integration::getInstance()->updateUserImage(userProfile.gameDisplayPictureResizeUri);
+        IdentityDisplayMenu_Integration::getInstance()->updateUserTitle(userProfile.gamertag);
+        IdentityDisplayMenu_Integration::getInstance()->updateUserGamerScore(userProfile.gamerscore);
         //SocialUserMenu_Integration::getInstance()->updateUserStatus(userProfile.status);
         //SocialUserMenu_Integration::getInstance()->updateUserRelationship(userProfile.relationship);
     }

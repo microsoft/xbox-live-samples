@@ -3,12 +3,12 @@
 
 #pragma once
 
-class SocialUserMenu_Integration
+class IdentityDisplayMenu_Integration
 {
 public:
-    void* socialUserMenuInstance;
+    void* identityDisplayMenuInstance;
 
-    static SocialUserMenu_Integration* getInstance();
+    static IdentityDisplayMenu_Integration* getInstance();
 
     void init();
 

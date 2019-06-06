@@ -4,19 +4,14 @@
 #pragma once
 
 #import <UIKit/UIKit.h>
+#import "SocialGroupDisplayView.h"
 
 @class SocialMenuView;
 
-@interface SocialUserMenuView : UIView <UITableViewDelegate, UITableViewDataSource>
+@interface SocialUserMenuView : UIView <SocialGroupDisplayDelegate>
 
 @property (nonatomic, strong) SocialMenuView* parentMenu;
 
-- (void)socialUserDisplayMenuExit;
-
-- (void)updateUserImageView:(UIImage*)image;
-- (void)updateUserIDLabel:(NSString*)title;
-- (void)updateUserGamerScore:(NSString*)score;
-- (void)updateUserStatus:(NSString*)status;
-- (void)updateUserRelationship:(NSString*)relationship;
+- (void)identityDisplayMenuExit;
 
 @end

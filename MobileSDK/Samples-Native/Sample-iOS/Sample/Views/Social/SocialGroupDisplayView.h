@@ -5,11 +5,16 @@
 
 #import <UIKit/UIKit.h>
 
-@class SocialGroupMenuView;
+@protocol SocialGroupDisplayDelegate
 
-@interface SocialGroupDisplayMenuView : UIView
+@optional
+- (void)SocialUserTappedWithXboxId:(uint64_t)userId;
 
-@property (nonatomic, strong) SocialGroupMenuView* parentMenu;
+@end
+
+@interface SocialGroupDisplayView : UITableView <UITableViewDelegate, UITableViewDataSource>
+
+@property (weak) id <SocialGroupDisplayDelegate> socialGroupDisplayDelegate;
 
 - (void)setSocialGroup:(XblSocialManagerUserGroup*)socialGroup;
 - (void)refreshSocialGroup;

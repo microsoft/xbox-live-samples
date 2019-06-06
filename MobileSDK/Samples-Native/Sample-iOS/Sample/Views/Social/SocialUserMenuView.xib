@@ -14,7 +14,7 @@
             <connections>
                 <outlet property="backToSocialButton" destination="zPn-La-3BO" id="4M4-o8-PuI"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="z6j-Nj-3Dv"/>
-                <outlet property="tableView" destination="phF-1k-yOH" id="Rl9-cv-zNU"/>
+                <outlet property="socialGroupDisplayView" destination="phF-1k-yOH" id="rEx-lH-HUi"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -32,13 +32,9 @@
                         <action selector="backToSocialTapped" destination="-1" eventType="touchUpInside" id="6Zq-pP-PP8"/>
                     </connections>
                 </button>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="phF-1k-yOH">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="90" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="phF-1k-yOH" customClass="SocialGroupDisplayView">
                     <rect key="frame" x="0.0" y="0.0" width="352" height="312"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="JOd-5V-Mxq"/>
-                        <outlet property="delegate" destination="-1" id="vFE-mD-4uQ"/>
-                    </connections>
                 </tableView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

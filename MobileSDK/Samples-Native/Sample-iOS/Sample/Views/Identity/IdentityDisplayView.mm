@@ -55,38 +55,10 @@
     self.translatesAutoresizingMaskIntoConstraints = NO;
     [parentView addSubview:self];
 
-    NSLayoutConstraint *leading = [NSLayoutConstraint constraintWithItem:self
-                                                               attribute:NSLayoutAttributeLeading
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:parentView
-                                                               attribute:NSLayoutAttributeLeading
-                                                              multiplier:1.0f
-                                                                constant:0.0f];
-    NSLayoutConstraint *trailing = [NSLayoutConstraint constraintWithItem:self
-                                                                attribute:NSLayoutAttributeTrailing
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:parentView
-                                                                attribute:NSLayoutAttributeTrailing
-                                                               multiplier:1.0f
-                                                                 constant:0.0f];
-    NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:self
-                                                           attribute:NSLayoutAttributeTop
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:parentView
-                                                           attribute:NSLayoutAttributeTop
-                                                          multiplier:1.0f
-                                                            constant:0.0f];
-    NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:self
-                                                              attribute:NSLayoutAttributeBottom
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:parentView
-                                                              attribute:NSLayoutAttributeBottom
-                                                             multiplier:1.0f
-                                                               constant:0.0f];
-    [parentView addConstraint:leading];
-    [parentView addConstraint:trailing];
-    [parentView addConstraint:top];
-    [parentView addConstraint:bottom];
+    NSDictionary *views = @{@"subview" : self};
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    [parentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[subview]|" options:0 metrics:nil views:views]];
+    [parentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subview]|" options:0 metrics:nil views:views]];
 }
 
 - (void)updateUserImageView:(UIImage*)image {

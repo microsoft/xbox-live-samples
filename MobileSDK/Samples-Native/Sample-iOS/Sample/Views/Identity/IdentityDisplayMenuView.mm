@@ -1,11 +1,14 @@
 // Copyright (c) Microsoft Corporation
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-#import "SocialUserDisplayMenuView.h"
-#import "IdentityDisplayView.h"
+#import "IdentityDisplayMenuView.h"
+#import <Identity_Integration.h>
+#import <Game_Integration.h>
+#import <IdentityDisplayMenu_Integration.h>
 #import "SocialUserMenuView.h"
+#import "IdentityDisplayView.h"
 
-@interface SocialUserDisplayMenuView() {}
+@interface IdentityDisplayMenuView() {}
 
 @property (nonatomic, weak) IBOutlet UIView *contentView;
 @property (nonatomic, weak) IBOutlet UIView *identityContainer;
@@ -15,7 +18,7 @@
 
 @end
 
-@implementation SocialUserDisplayMenuView
+@implementation IdentityDisplayMenuView
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -25,7 +28,7 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder*)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         [self initialize];
@@ -34,7 +37,7 @@
 }
 
 - (void)initialize {
-    [[NSBundle mainBundle] loadNibNamed:@"SocialDisplayUserMenuView" owner:self options:nil];
+    [[NSBundle mainBundle] loadNibNamed:@"IdentityDisplayMenuView" owner:self options:nil];
     [self addSubview:self.contentView];
     self.contentView.frame = self.bounds;
 
@@ -50,10 +53,17 @@
     [self updateUserGamerScore:nil];
     [self updateUserStatus:nil];
     [self updateUserRelationship:nil];
+
+    IdentityDisplayMenu_Integration::getInstance()->identityDisplayMenuInstance = (void*)CFBridgingRetain(self);
 }
 
 - (void)dealloc {
-    SampleLog(LL_TRACE, "Social-Display-User Menu dealloc.");
+    SampleLog(LL_TRACE, "Social-User-Display Menu dealloc.");
+}
+
+- (void)setXboxLiveUserId:(uint64_t)userId {
+    XblContextHandle contextHandle = Game_Integration::getInstance()->getXblContext();
+    Identity_GetGamerProfileAsync(nil, contextHandle, userId);
 }
 
 - (void)updateUserImageView:(UIImage*)image {
@@ -80,7 +90,7 @@
     }
 }
 
-- (void)updateUserRelationship:(NSString *)relationship {
+- (void)updateUserRelationship:(NSString*)relationship {
     if (self.identityDisplayView) {
         [self.identityDisplayView updateUserRelationship:relationship];
     }
@@ -89,10 +99,13 @@
 #pragma mark - IBActions
 
 - (IBAction) backToSocialUserButtonTapped {
-    SampleLog(LL_TRACE, "Social-Display-User Back-To-Social-User tapped.");
+    SampleLog(LL_TRACE, "Social-User-Display Back-To-Social-User tapped.");
+
+    CFRelease(IdentityDisplayMenu_Integration::getInstance()->identityDisplayMenuInstance);
+    IdentityDisplayMenu_Integration::getInstance()->identityDisplayMenuInstance = nullptr;
 
     if (self.parentMenu) {
-        [self.parentMenu socialUserDisplayMenuExit];
+        [self.parentMenu identityDisplayMenuExit];
     }
 }
 

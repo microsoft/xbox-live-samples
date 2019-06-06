@@ -42,9 +42,9 @@
 		9CD96A97224AF2F900C0A0E2 /* Identity_Gameplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CD96A95224AF2F900C0A0E2 /* Identity_Gameplay.cpp */; };
 		9CD96A98224AF2F900C0A0E2 /* Achievements_Gameplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CD96A96224AF2F900C0A0E2 /* Achievements_Gameplay.cpp */; };
 		9CEB52A5224AE67A006306BE /* ScreenLog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9CEB52A3224AE67A006306BE /* ScreenLog.mm */; };
-		E73C7EB4228CD76700C1C60C /* SocialUserDisplayMenuView.mm in Sources */ = {isa = PBXBuildFile; fileRef = E73C7EB2228CD76700C1C60C /* SocialUserDisplayMenuView.mm */; };
-		E73C7EB5228CD76700C1C60C /* SocialUserDisplayMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E73C7EB3228CD76700C1C60C /* SocialUserDisplayMenuView.xib */; };
-		E73C7EB8228CEE5C00C1C60C /* SocialUserMenu_Integration.mm in Sources */ = {isa = PBXBuildFile; fileRef = E73C7EB6228CEE5C00C1C60C /* SocialUserMenu_Integration.mm */; };
+		E73C7EB4228CD76700C1C60C /* IdentityDisplayMenuView.mm in Sources */ = {isa = PBXBuildFile; fileRef = E73C7EB2228CD76700C1C60C /* IdentityDisplayMenuView.mm */; };
+		E73C7EB5228CD76700C1C60C /* IdentityDisplayMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E73C7EB3228CD76700C1C60C /* IdentityDisplayMenuView.xib */; };
+		E73C7EB8228CEE5C00C1C60C /* IdentityDisplayMenu_Integration.mm in Sources */ = {isa = PBXBuildFile; fileRef = E73C7EB6228CEE5C00C1C60C /* IdentityDisplayMenu_Integration.mm */; };
 		E7BE07DE22822921008BD861 /* Social_Integration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E7BE07DD22822921008BD861 /* Social_Integration.cpp */; };
 		E7BE07E1228229F5008BD861 /* SocialGroupMenu_Integration.mm in Sources */ = {isa = PBXBuildFile; fileRef = E7BE07DF228229F5008BD861 /* SocialGroupMenu_Integration.mm */; };
 		E7BE07F622822B98008BD861 /* SocialMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7BE07E622822B96008BD861 /* SocialMenuView.xib */; };
@@ -59,6 +59,7 @@
 		E7BE082622824312008BD861 /* SocialGroupDisplayMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7BE082022824311008BD861 /* SocialGroupDisplayMenuView.xib */; };
 		E7BE082822824312008BD861 /* SocialGroupDisplayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E7BE082222824312008BD861 /* SocialGroupDisplayTableViewCell.m */; };
 		E7BE082922824312008BD861 /* SocialGroupDisplayMenuView.mm in Sources */ = {isa = PBXBuildFile; fileRef = E7BE082522824312008BD861 /* SocialGroupDisplayMenuView.mm */; };
+		E7C6E7F6229F4C8C002CEEE6 /* SocialGroupDisplayView.mm in Sources */ = {isa = PBXBuildFile; fileRef = E7C6E7F5229F4C8C002CEEE6 /* SocialGroupDisplayView.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,11 +153,11 @@
 		9CD96A96224AF2F900C0A0E2 /* Achievements_Gameplay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Achievements_Gameplay.cpp; sourceTree = "<group>"; };
 		9CEB52A3224AE67A006306BE /* ScreenLog.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = ScreenLog.mm; path = Sample/Utilities/ScreenLog.mm; sourceTree = SOURCE_ROOT; };
 		9CEB52A4224AE67A006306BE /* ScreenLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ScreenLog.h; path = Sample/Utilities/ScreenLog.h; sourceTree = SOURCE_ROOT; };
-		E73C7EB1228CD76700C1C60C /* SocialUserDisplayMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialUserDisplayMenuView.h; sourceTree = "<group>"; };
-		E73C7EB2228CD76700C1C60C /* SocialUserDisplayMenuView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SocialUserDisplayMenuView.mm; sourceTree = "<group>"; };
-		E73C7EB3228CD76700C1C60C /* SocialUserDisplayMenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SocialUserDisplayMenuView.xib; sourceTree = "<group>"; };
-		E73C7EB6228CEE5C00C1C60C /* SocialUserMenu_Integration.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SocialUserMenu_Integration.mm; sourceTree = "<group>"; };
-		E73C7EB7228CEE5C00C1C60C /* SocialUserMenu_Integration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SocialUserMenu_Integration.h; sourceTree = "<group>"; };
+		E73C7EB1228CD76700C1C60C /* IdentityDisplayMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdentityDisplayMenuView.h; sourceTree = "<group>"; };
+		E73C7EB2228CD76700C1C60C /* IdentityDisplayMenuView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IdentityDisplayMenuView.mm; sourceTree = "<group>"; };
+		E73C7EB3228CD76700C1C60C /* IdentityDisplayMenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IdentityDisplayMenuView.xib; sourceTree = "<group>"; };
+		E73C7EB6228CEE5C00C1C60C /* IdentityDisplayMenu_Integration.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IdentityDisplayMenu_Integration.mm; sourceTree = "<group>"; };
+		E73C7EB7228CEE5C00C1C60C /* IdentityDisplayMenu_Integration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IdentityDisplayMenu_Integration.h; sourceTree = "<group>"; };
 		E7BE07DC22822921008BD861 /* Social_Integration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Social_Integration.h; path = ../../../../Integration/Social_Integration.h; sourceTree = "<group>"; };
 		E7BE07DD22822921008BD861 /* Social_Integration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Social_Integration.cpp; path = ../../../../Integration/Social_Integration.cpp; sourceTree = "<group>"; };
 		E7BE07DF228229F5008BD861 /* SocialGroupMenu_Integration.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SocialGroupMenu_Integration.mm; sourceTree = "<group>"; };
@@ -179,6 +180,8 @@
 		E7BE082322824312008BD861 /* SocialGroupDisplayMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialGroupDisplayMenuView.h; sourceTree = "<group>"; };
 		E7BE082422824312008BD861 /* SocialGroupDisplayTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialGroupDisplayTableViewCell.h; sourceTree = "<group>"; };
 		E7BE082522824312008BD861 /* SocialGroupDisplayMenuView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SocialGroupDisplayMenuView.mm; sourceTree = "<group>"; };
+		E7C6E7F4229F4C8C002CEEE6 /* SocialGroupDisplayView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SocialGroupDisplayView.h; sourceTree = "<group>"; };
+		E7C6E7F5229F4C8C002CEEE6 /* SocialGroupDisplayView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SocialGroupDisplayView.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -350,6 +353,9 @@
 				9C71C35422542B95000AFB97 /* IdentityMenuView.h */,
 				9C71C35522542B95000AFB97 /* IdentityMenuView.mm */,
 				9C71C35222542A1F000AFB97 /* IdentityMenuView.xib */,
+				E73C7EB1228CD76700C1C60C /* IdentityDisplayMenuView.h */,
+				E73C7EB2228CD76700C1C60C /* IdentityDisplayMenuView.mm */,
+				E73C7EB3228CD76700C1C60C /* IdentityDisplayMenuView.xib */,
 			);
 			path = Identity;
 			sourceTree = "<group>";
@@ -373,15 +379,14 @@
 				E7BE0809228239BB008BD861 /* SocialUserMenuView.h */,
 				E7BE0808228239BB008BD861 /* SocialUserMenuView.mm */,
 				E7BE080A228239BB008BD861 /* SocialUserMenuView.xib */,
-				E73C7EB1228CD76700C1C60C /* SocialUserDisplayMenuView.h */,
-				E73C7EB2228CD76700C1C60C /* SocialUserDisplayMenuView.mm */,
-				E73C7EB3228CD76700C1C60C /* SocialUserDisplayMenuView.xib */,
 				E7BE081B22823F96008BD861 /* SocialGroupMenuView.h */,
 				E7BE081A22823F96008BD861 /* SocialGroupMenuView.mm */,
 				E7BE081C22823F96008BD861 /* SocialGroupMenuView.xib */,
 				E7BE082322824312008BD861 /* SocialGroupDisplayMenuView.h */,
 				E7BE082522824312008BD861 /* SocialGroupDisplayMenuView.mm */,
 				E7BE082022824311008BD861 /* SocialGroupDisplayMenuView.xib */,
+				E7C6E7F4229F4C8C002CEEE6 /* SocialGroupDisplayView.h */,
+				E7C6E7F5229F4C8C002CEEE6 /* SocialGroupDisplayView.mm */,
 				E7BE082422824312008BD861 /* SocialGroupDisplayTableViewCell.h */,
 				E7BE082222824312008BD861 /* SocialGroupDisplayTableViewCell.m */,
 			);
@@ -393,6 +398,8 @@
 			children = (
 				9C71C34D22542280000AFB97 /* IdentityMenu_Integration.h */,
 				9C71C34C22542280000AFB97 /* IdentityMenu_Integration.mm */,
+				E73C7EB7228CEE5C00C1C60C /* IdentityDisplayMenu_Integration.h */,
+				E73C7EB6228CEE5C00C1C60C /* IdentityDisplayMenu_Integration.mm */,
 			);
 			path = Identity;
 			sourceTree = "<group>";
@@ -409,8 +416,6 @@
 		E70B337D2294AFC7005E0E26 /* Social */ = {
 			isa = PBXGroup;
 			children = (
-				E73C7EB7228CEE5C00C1C60C /* SocialUserMenu_Integration.h */,
-				E73C7EB6228CEE5C00C1C60C /* SocialUserMenu_Integration.mm */,
 				E7BE07E0228229F5008BD861 /* SocialGroupMenu_Integration.h */,
 				E7BE07DF228229F5008BD861 /* SocialGroupMenu_Integration.mm */,
 			);
@@ -540,7 +545,7 @@
 			files = (
 				9C835A0922443A8D0083B340 /* LaunchScreen.storyboard in Resources */,
 				9C71C35322542A1F000AFB97 /* IdentityMenuView.xib in Resources */,
-				E73C7EB5228CD76700C1C60C /* SocialUserDisplayMenuView.xib in Resources */,
+				E73C7EB5228CD76700C1C60C /* IdentityDisplayMenuView.xib in Resources */,
 				9C7D1088224D94C200657375 /* AchievementsMenuView.xib in Resources */,
 				E7BE081E22823F96008BD861 /* SocialGroupMenuView.xib in Resources */,
 				E7BE082622824312008BD861 /* SocialGroupDisplayMenuView.xib in Resources */,
@@ -575,7 +580,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7BE082822824312008BD861 /* SocialGroupDisplayTableViewCell.m in Sources */,
-				E73C7EB8228CEE5C00C1C60C /* SocialUserMenu_Integration.mm in Sources */,
+				E73C7EB8228CEE5C00C1C60C /* IdentityDisplayMenu_Integration.mm in Sources */,
 				9CD96A98224AF2F900C0A0E2 /* Achievements_Gameplay.cpp in Sources */,
 				9C7D108B224D971300657375 /* AchievementsMenuView.mm in Sources */,
 				9C76D690225D3338007CB87B /* Achievements_Integration.cpp in Sources */,
@@ -583,7 +588,7 @@
 				9C835A0122443A8B0083B340 /* RootViewController.mm in Sources */,
 				E7BE07FD22822B98008BD861 /* SocialMenuView.mm in Sources */,
 				E7BE081D22823F96008BD861 /* SocialGroupMenuView.mm in Sources */,
-				E73C7EB4228CD76700C1C60C /* SocialUserDisplayMenuView.mm in Sources */,
+				E73C7EB4228CD76700C1C60C /* IdentityDisplayMenuView.mm in Sources */,
 				9C76D68D225D3338007CB87B /* XAsync_Integration.cpp in Sources */,
 				9CD96A90224AF10900C0A0E2 /* Game_Integration.cpp in Sources */,
 				9C835A0C22443A8D0083B340 /* main.m in Sources */,
@@ -591,6 +596,7 @@
 				E7BE080B228239BB008BD861 /* SocialUserMenuView.mm in Sources */,
 				9CD96A97224AF2F900C0A0E2 /* Identity_Gameplay.cpp in Sources */,
 				E7BE082922824312008BD861 /* SocialGroupDisplayMenuView.mm in Sources */,
+				E7C6E7F6229F4C8C002CEEE6 /* SocialGroupDisplayView.mm in Sources */,
 				9C71C3592254385D000AFB97 /* HubMenu_Integration.mm in Sources */,
 				9C71C35122542786000AFB97 /* AchievementsMenu_Integration.mm in Sources */,
 				9C7D1086224D75F400657375 /* HubMenuView.mm in Sources */,
@@ -776,7 +782,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Sample/Sample.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = HW88975K84;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../XboxLiveSDK/iOS/Release";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Sample/pch.h;
@@ -806,7 +812,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Sample/Sample.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = HW88975K84;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../XboxLiveSDK/iOS/Release";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Sample/pch.h;

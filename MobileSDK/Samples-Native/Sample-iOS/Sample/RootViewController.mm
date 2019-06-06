@@ -22,7 +22,7 @@
 
     // Setup screen displayed logging.
     self.logTextView.text = @"";
-    self.logTextView.layoutManager.allowsNonContiguousLayout = false;
+    self.logTextView.layoutManager.allowsNonContiguousLayout = NO;
     [[TextViewLog shared] setTextView:self.logTextView];
 
     // Init Xbox Live services.
