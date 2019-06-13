@@ -88,8 +88,7 @@ static uint64_t hardCodedUserIds[10] = {
 #pragma mark - SocialGroupDisplayDelegate
 
 - (void)SocialUserTappedWithXboxId:(uint64_t)userId {
-    // TEMP! Until we can get real user data, this passes in the index to the hard-coded ids.
-    self.selectedUser = hardCodedUserIds[userId];
+    self.selectedUser = userId;
 
     dispatch_async(dispatch_get_main_queue(), ^{
         self.identityDisplayMenuView = [[IdentityDisplayMenuView alloc] initWithFrame:self.bounds];
