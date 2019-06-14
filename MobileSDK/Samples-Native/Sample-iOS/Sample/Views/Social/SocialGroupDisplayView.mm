@@ -14,6 +14,7 @@
     XblSocialManagerUserGroup* socialGroup;
     uint32_t socialGroupSize;
     XblSocialManagerUser socialGroupUsers[32];
+    uint64_t socialGroupTrackedIds[32];
 }
 
 @property (nonatomic, strong) UILabel* emptyUsersPlaceholder;
@@ -96,8 +97,13 @@
         return;
     }
 
-    // TODO: Figure out why this does not get data for user list type social groups?
-    XblSocialManagerUserGroupGetUsers(self->socialGroup, self->socialGroupSize, self->socialGroupUsers);
+    if (self->socialGroup->socialUserGroupType == XblSocialUserGroupType::UserListType) {
+        // Get the user ID list for tracked users social group.
+        XblSocialManagerUserGroupGetUsersTrackedByGroup(self->socialGroup, self->socialGroupSize, self->socialGroupTrackedIds);
+    } else {
+        // Get the users for a filtered social group.
+        XblSocialManagerUserGroupGetUsers(self->socialGroup, self->socialGroupSize, self->socialGroupUsers);
+    }
 
     dispatch_async(dispatch_get_main_queue(), ^{
         self.emptyUsersPlaceholder.hidden = YES;
@@ -122,37 +128,42 @@
     }
 
     if (indexPath.row < self->socialGroupSize) {
-        XblSocialManagerUser user = self->socialGroupUsers[indexPath.row];
+        if (self->socialGroup->socialUserGroupType == XblSocialUserGroupType::UserListType) {
+            uint64_t userId = self->socialGroupTrackedIds[indexPath.row];
+            [cell.identityDisplayView updateUserIDLabel:[NSString stringWithFormat:@"ID: %llul", userId]];
+        } else {
+            XblSocialManagerUser user = self->socialGroupUsers[indexPath.row];
 
-        [cell.identityDisplayView updateUserIDLabel:[NSString stringWithUTF8String:user.gamertag]];
+            [cell.identityDisplayView updateUserIDLabel:[NSString stringWithUTF8String:user.gamertag]];
 
-        NSString* urlString = [NSString stringWithUTF8String:user.displayPicUrlRaw];
-        UIImage* userImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
-        [cell.identityDisplayView updateUserImageView:userImage];
+            NSString* urlString = [NSString stringWithUTF8String:user.displayPicUrlRaw];
+            UIImage* userImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]]];
+            [cell.identityDisplayView updateUserImageView:userImage];
 
-        [cell.identityDisplayView updateUserGamerScore:[NSString stringWithUTF8String:user.gamerscore]];
-        [cell.identityDisplayView updateUserRelationship:user.isFavorite ? @"Favorite" : @"Friend"];
+            [cell.identityDisplayView updateUserGamerScore:[NSString stringWithUTF8String:user.gamerscore]];
+            [cell.identityDisplayView updateUserRelationship:user.isFavorite ? @"Favorite" : @"Friend"];
 
-        // Not finding the Xbl Presence header files???
-        /*
-        NSString* userState;
-        switch (user.presenceRecord.userState) {
-        case XblPresenceUserState.Online:
-            userState = @"Online";
-            break;
-        case XblPresenceUserState.Away:
-            userState = @"Away";
-            break;
-        case XblPresenceUserState.Offline:
-            userState = @"Offline";
-            break;
-        //case XblPresenceUserState.Unknown:
-        default:
-            userState = @"Unknown";
-            break;
+            // Not finding the Xbl Presence header files???
+            /*
+             NSString* userState;
+             switch (user.presenceRecord.userState) {
+                case XblPresenceUserState.Online:
+                    userState = @"Online";
+                    break;
+                case XblPresenceUserState.Away:
+                    userState = @"Away";
+                    break;
+                case XblPresenceUserState.Offline:
+                    userState = @"Offline";
+                    break;
+                //case XblPresenceUserState.Unknown:
+                default:
+                    userState = @"Unknown";
+                    break;
+             }
+             [cell.identityDisplayView updateUserStatus:userState];
+             */ [cell.identityDisplayView updateUserStatus:nil];
         }
-        [cell.identityDisplayView updateUserStatus:userState];
-        */ [cell.identityDisplayView updateUserStatus:nil];
     } else {
         [cell.identityDisplayView updateUserIDLabel:nil];
         [cell.identityDisplayView updateUserImageView:nil];
@@ -168,11 +179,10 @@
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     SampleLog(LL_TRACE, "Clicked Social Group User %d.", indexPath.row);
 
-    if (self.socialGroupDisplayDelegate) {
-        // TEMP! Until we can get real user data, this passes in the selected row index.
-        //uint64_t userId = self->socialGroupUsers[indexPath.row].xboxUserId;
-        //[self.socialGroupDisplayDelegate SocialUserTappedWithXboxId:userId];
-        [self.socialGroupDisplayDelegate SocialUserTappedWithXboxId:indexPath.row];
+    if (self->socialGroup->socialUserGroupType == XblSocialUserGroupType::UserListType
+        && self.socialGroupDisplayDelegate != nil) {
+        uint64_t userId = self->socialGroupTrackedIds[indexPath.row];
+        [self.socialGroupDisplayDelegate SocialUserTappedWithXboxId:userId];
     }
 }
 

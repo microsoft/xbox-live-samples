@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #import "SocialMenuView.h"
-#import <Game_Integration.h>
 #import "SocialUserMenuView.h"
 #import "SocialGroupMenuView.h"
 #import "HubMenuView.h"
