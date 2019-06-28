@@ -6,7 +6,8 @@
 The iOS Sample App can be found in the Xbox Live Samples repository, in 
 `xbox-live-samples/MobileSDK/Samples-Native/Sample-iOS`.
 The project is already set up for the Xbox Live libraries (frameworks).
-(To learn how to set up an iOS project for Xbox Live go to 
+
+To learn how to set up an iOS project for Xbox Live go to 
 [Setting up Xcode targeting iOS](https://docs.microsoft.com/en-us/gaming/xbox-live/get-started/setup-ide/managed-partners/xcode-ios/xcode-ios-mp) 
 (https://docs.microsoft.com/en-us/gaming/xbox-live/get-started/setup-ide/managed-partners/xcode-ios/xcode-ios-mp).
 
@@ -26,7 +27,7 @@ The iOS sample app was built off of Xcode's Single View Controller template for 
 * App entry points (**main.m**, **AppDelegate.h/.m**) - these are boilerplate, from the template. Also standard 
 **info.plist** (already set up for XBL), and **Launch.storyboard** set up with a simple launch view layout.
 	
-* **RootViewController.h/.mm**, Main.storyboard: The main view controller of the app, with the main view 
+* **RootViewController.h/.mm**, **Main.storyboard**: The main view controller of the app, with the main view 
 defined in **Main.storyboard**. Class is defined as Objective-C, but implemented as Objective-C++ (*.mm), 
 so it can call C++ methods.
 		
