@@ -1,7 +1,6 @@
-Xbox Live iOS Native Sample App
+## Xbox Live iOS Native Sample App
 
-Overview:
------------
+## Overview
 
 The iOS Sample App can be found in the Xbox Live Samples repository, in 
 xbox-live-samples/MobileSDK/Samples-Native/Sample-iOS.
@@ -20,8 +19,7 @@ The main view:
 	- Currently handles Identity, Achievements, and Social services of Xbox Live on iOS.
 
 
-Core Project:
----------------
+## Core Project
 
 The iOS sample app was built off of Xcode's Single View Controller template for Objective-C.
 	- app entry points (main.m, AppDelegate.h/.m) - these are boilerplate, from the template.
@@ -41,7 +39,7 @@ The iOS sample app was built off of Xcode's Single View Controller template for 
 		  	- has C++ and Obj-C sections (*.mm files thus load both)
 		  	- note that it is implicitly included in some C++ files for cross-platform stuff?
 	
-	Other source subdirectories are described below (add brief description of each):
+	Other source subdirectories are described below:
 		- Utilities
 		- Integration
 		- Gameplay
@@ -49,8 +47,7 @@ The iOS sample app was built off of Xcode's Single View Controller template for 
 		- Views
 		
 
-Utilities:
-------------
+## Utilities
 
 Useful utilities.
 	- The screen logger:
@@ -62,8 +59,7 @@ Useful utilities.
 	  this file makes sure all the annotations are ignored. This is a public file from <salieri github>.
 
 
-Integration:
---------------
+## Integration
 
 The Integration files are the only source files found outside of the iOS project directory. They can 
 be found at xbox-live-samples/MobileSDK/Integration... these files are cross-platform, and shared by 
@@ -73,63 +69,43 @@ The Integration files are a C++ wrapper around the Xbox Live C defined libraries
 files should not be changed, and the Xcode project does not let you open them, though you can still 
 open and edit them directly through the file system.
 
-The integration files currently cover the following Xbox Live services:
-	- Identity (Sign-In/Out, User Profile)
-	- Achievements
-	- Social
+The integration files currently cover the following Xbox Live services: Identity (Sign-In/Out, User Profile), 
+Achievements, and Social.
 
 The integration files also define and call several Gameplay named C functions, that each app using these 
 files needs to implement.
 
 
-Gameplay:
------------
+## Gameplay
 
 The C++ files here implement the gameplay C functions defined in the cross-platform integration files.
 In general, these gameplay functions are called by Xbox Live services (usually called from asynchronous 
 responses to XBL requests), which then call C++ methods in the Game_Integration subdirectory.
 
 
-Game_Integration:
--------------------
+## Game_Integration
 
 These C++ singleton classes provide communication between the Xbox Live services and the sample app's 
 display views. Most of these classes are implemented as Objective-C++ (.mm) files, so they can call 
 Objective-C classes.
-	- Game_Integration.h/.cpp - Xbox Live initialization, plus context and user access once signed in.
-	
-	- HubMenu_Integration.h/.mm - Integrates with HubMenuView.
-		- Base menu that displays once the user is signed in, with a button for each XBL service to sample.
-			- so far, Achievements & Social.
-		- All other menu views are layered on top of this view as subviews.
-	
-	- Other menu integration files are in subdirectories by Xbox Live service, and named to match the  
-	  Objective-C UIView based menu view each integrates with.
-		- Identity, Achievements, and Social (so far).
 
-Views:
---------
-
-The display and menu views for the iOS sample app.
-	- These are Objective-C classes extending the iOS standard UIView class (or a standard subclass, such as UITableView).
-	- They are all implemented as Objective-C++ (.mm) files, so they can call C++ methods. 
-	- The views are in subdirectories matching Xbox Live service type.
-		- Identity, Achievements, and Social (so far).	
+Game_Integration.h/.cpp - Xbox Live initialization, plus context and user access once signed in.
 	
-	- Each view consists of 3 files:
-		- an Objective-C class header (.h)
-		- an Objective-C++ class implementation file (.mm)
-		- an Interface Builder file (.xib) defining the view's layout.
-			- note that each menu view is entirely independent of each other!
-				- for example, the back button at bottom of each menu XIB is for menu consistency, not functional need 
-				  (for example, a new menu view could have "back" as a top corner "X" button).
+HubMenu_Integration.h/.mm - Integrates with HubMenuView. This is the base menu that displays once the user 
+is signed in, with a button for each XBL service to sample (so far, Achievements & Social). All other menu 
+views are layered on top of this view as subviews.
 	
-	- Menu views that integrate with Xbox Live C++ classes will attach themselves to their 
-	  matching C++ singletons on initialization, and will detach on menu exit.
+Other menu integration files are in subdirectories by Xbox Live service, and named to match the Objective-C 
+UIView based menu view each integrates with (Identity, Achievements, and Social, so far).
 
-TODO:
-=================
+## Views
 
-Talk about design choice:
-	- why simple views rather than view controllers and a navigation view for the menus.
+The display and menu views for the iOS sample app. These are Objective-C classes extending the iOS standard 
+UIView class (or a standard subclass, such as UITableView). They are all implemented as Objective-C++ (.mm) 
+files, so they can call C++ methods. The views are in subdirectories matching Xbox Live service type.
 	
+Each view consists of 3 files: an Objective-C class header (.h), an Objective-C++ class implementation file 
+(.mm), and an Interface Builder file (.xib) defining the view's layout.
+	
+Menu views that integrate with Xbox Live C++ classes will attach themselves to their matching C++ singletons 
+on initialization, and will detach on menu exit.
