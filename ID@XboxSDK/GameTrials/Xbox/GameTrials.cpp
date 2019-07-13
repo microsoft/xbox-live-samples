@@ -37,7 +37,7 @@ namespace
     const int c_playerMessageLabel = 2007;
     const int c_licenseHolderLabel = 2008;
 
-    const wchar_t *c_productId = L"b7bba9b1-0966-45d5-9171-edcfd5802c61";
+    const wchar_t *c_productId = L"613925c8-e7f9-4ed4-bfc4-9187695284dd";
 
     std::wstring FormatTime(uint64_t time)
     {
@@ -126,7 +126,7 @@ void Sample::Initialize(IUnknown* window)
     Windows::ApplicationModel::Store::CurrentApp::LicenseInformation->LicenseChanged +=
         ref new Windows::ApplicationModel::Store::LicenseChangedEventHandler([this]()
         {
-            RefreshLocalLicenseInfo();
+             RefreshLocalLicenseInfo();
         });
 
     RefreshLocalLicenseInfo();
@@ -240,7 +240,7 @@ void Sample::SetupUI()
         // You should use ShowPurchaseAsync in a real trial as it reduces the number steps between the player and purchasing the full game.
         // However, if you have bundles that you would want to try to up sell, then ShowDetailsAsync would be the correct choice.
         Windows::Xbox::ApplicationModel::Store::Product::ShowDetailsAsync(m_liveResources->GetUser(), ref new Platform::String(c_productId));
-        panel->Close();
+		panel->Close();
     });
 
     m_ui->FindControl<IControl>(c_switchUserPopUp, c_actionBtn)->SetCallback([this](IPanel *panel, IControl*)
@@ -338,8 +338,8 @@ void Sample::Update(DX::StepTimer const& timer)
             }
             if (m_gamePadButtons.y == GamePad::ButtonStateTracker::PRESSED)
             {
-                Windows::Xbox::ApplicationModel::Store::Product::ShowDetailsAsync(m_liveResources->GetUser(), ref new Platform::String(c_productId));
-            }
+				Windows::Xbox::ApplicationModel::Store::Product::ShowDetailsAsync(m_liveResources->GetUser(), ref new Platform::String(c_productId));
+			}
         }
     }
     else

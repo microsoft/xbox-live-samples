@@ -67,10 +67,10 @@ namespace ATG
             }
         }
 
-        virtual bool OnSelected(IPanel* panel) { panel; return false; }
+        virtual bool OnSelected(IPanel*) { return false; }
 
-        virtual bool Update(float elapsedTime, const DirectX::GamePad::State& pad) { elapsedTime; pad;  return false; }
-        virtual bool Update(float elapsedTime, const DirectX::Mouse::State& mstate, const DirectX::Keyboard::State& kbstate) { elapsedTime; mstate; kbstate; return false; }
+        virtual bool Update(float /*elapsedTime*/, const DirectX::GamePad::State&) { return false; }
+        virtual bool Update(float /*elapsedTime*/, const DirectX::Mouse::State&, const DirectX::Keyboard::State&) { return false; }
 
         // Properties
         using callback_t = std::function<void(_In_ IPanel*, _In_ IControl*)>;
@@ -264,7 +264,7 @@ namespace ATG
         // IControl
         virtual void Render() override;
         virtual bool CanFocus() const override { return m_enabled; }
-        virtual bool DefaultFocus() const { return (m_style & c_StyleDefault) != 0; }
+        virtual bool DefaultFocus() const override { return (m_style & c_StyleDefault) != 0; }
         virtual bool OnSelected(IPanel* panel) override;
 
     private:
@@ -301,7 +301,7 @@ namespace ATG
         // IControl
         virtual void Render() override;
         virtual bool CanFocus() const override { return m_enabled; }
-        virtual bool DefaultFocus() const { return (m_style & c_StyleDefault) != 0; }
+        virtual bool DefaultFocus() const override { return (m_style & c_StyleDefault) != 0; }
         virtual bool OnSelected(IPanel* panel) override;
 
     private:
@@ -433,7 +433,6 @@ namespace ATG
         virtual bool Update(float elapsedTime, const DirectX::Mouse::State& mstate, const DirectX::Keyboard::State& kbstate) override;
     
     private:
-        bool                m_enabled;
         int                 m_itemHeight;
         unsigned            m_style;
         int                 m_topItem;
@@ -477,8 +476,8 @@ namespace ATG
 
         void SelectItem(int index);
 
-        const Item* GetItem(int index) const { return &m_items[index]; }
-        Item* GetItem(int index) { return &m_items[index]; }
+        const Item* GetItem(int index) const { return &m_items[size_t(index)]; }
+        Item* GetItem(int index) { return &m_items[size_t(index)]; }
 
         // Properties
         void SetEnabled(bool enabled = true) { m_enabled = enabled; }
@@ -584,7 +583,7 @@ namespace ATG
 
         virtual bool Update(float elapsedTime, const DirectX::GamePad::State& pad) = 0;
         virtual bool Update(float elapsedTime, const DirectX::Mouse::State& mstate, const DirectX::Keyboard::State& kbstate) = 0;
-        virtual void Update(float elapsedTime) { elapsedTime; };
+        virtual void Update(float /*elapsedTime*/) { };
 
         virtual void Close() = 0;
         virtual void Cancel() {}
@@ -592,7 +591,7 @@ namespace ATG
         virtual void Add(_In_ IControl* ctrl) = 0;
         virtual IControl* Find(unsigned id) = 0;
 
-        virtual void SetFocus(_In_ IControl* ctrl) { ctrl; }
+        virtual void SetFocus(_In_ IControl*) {}
 
         virtual void OnWindowSize(const RECT& layout) = 0;
 
@@ -641,6 +640,7 @@ namespace ATG
         virtual void Render() override;
         virtual bool Update(float elapsedTime, const DirectX::GamePad::State& pad) override;
         virtual bool Update(float elapsedTime, const DirectX::Mouse::State& mstate, const DirectX::Keyboard::State& kbstate) override;
+        virtual void Update(float) override {}
         virtual void Close() override;
         virtual void Cancel() override;
         virtual void Add(_In_ IControl* ctrl) override;
@@ -669,6 +669,7 @@ namespace ATG
         virtual void Render() override;
         virtual bool Update(float, const DirectX::GamePad::State&) override { return false; }
         virtual bool Update(float, const DirectX::Mouse::State&, const DirectX::Keyboard::State&) override { return false; }
+        virtual void Update(float) override {}
         virtual void Close() override;
         virtual void Add(_In_ IControl* ctrl) override;
         virtual IControl* Find(unsigned id) override;
@@ -681,7 +682,7 @@ namespace ATG
     class Overlay : public IPanel
     {
     public:
-        Overlay(const RECT& rect, long styleFlags = 0);
+        Overlay(const RECT& rect, unsigned int styleFlags = 0);
         ~Overlay();
 
         // IPanel
@@ -689,6 +690,7 @@ namespace ATG
         virtual void Render() override;
         virtual bool Update(float elapsedTime, const DirectX::GamePad::State& pad) override;
         virtual bool Update(float elapsedTime, const DirectX::Mouse::State& mstate, const DirectX::Keyboard::State& kbstate) override;
+        virtual void Update(float) override {}
         virtual void Close() override;
         virtual void Cancel() override;
         virtual void Add(_In_ IControl* ctrl) override;

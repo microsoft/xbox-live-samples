@@ -14,6 +14,9 @@
     <Filter Include="Xbox Live Tool Kit">
       <UniqueIdentifier>{38335c79-6514-4ebe-9d90-dc3f2f52084c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Documentation">
+      <UniqueIdentifier>{ca0514e9-5daf-4f31-b054-288abf7f9607}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -136,6 +139,17 @@
     <None Include="Assets\SampleUI.csv">
       <Filter>Assets</Filter>
     </None>
-    <None Include="Readme.docx" />
+    <None Include="Readme.docx">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="TitleStorage_Readme_ja-jp.docx">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="TitleStorage_Readme_ko-kr.docx">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="TitleStorage_Readme_zh-cn.docx">
+      <Filter>Documentation</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -31,6 +31,9 @@
     <Filter Include="Xbox Live Toolkit">
       <UniqueIdentifier>{902b1e86-b7eb-4446-9b2a-682f62c3f88d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Documentation">
+      <UniqueIdentifier>{c3717c38-0f8f-4075-9ceb-94b03fce0141}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="PackageXDK.appxmanifest" />
@@ -227,7 +230,18 @@
     <None Include="..\Assets\Fonts\Consolas_16_NP.spritefont">
       <Filter>Assets\Fonts</Filter>
     </None>
-    <None Include="..\Readme.docx" />
+    <None Include="..\Readme.docx">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="..\GameSaveCppWinRT_Readme_ja-jp.docx">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="..\GameSaveCppWinRT_Readme_ko-kr.docx">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="..\GameSaveCppWinRT_Readme_zh-cn.docx">
+      <Filter>Documentation</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\pch.cpp" />

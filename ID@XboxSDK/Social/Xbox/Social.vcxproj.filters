@@ -85,7 +85,6 @@
     <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ReadMe.docx" />
     <None Include="..\..\..\Media\Fonts\Courier_16.spritefont">
       <Filter>Assets</Filter>
     </None>
@@ -140,6 +139,18 @@
     <None Include="..\..\..\Media\Fonts\XboxOneControllerLegendSmall.spritefont">
       <Filter>Assets</Filter>
     </None>
+    <None Include="ReadMe.docx">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="Social_ReadMe_ja-jp.docx">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="Social_ReadMe_ko-kr.docx">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="Social_ReadMe_zh-cn.docx">
+      <Filter>Documentation</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ATG Tool Kit">
@@ -150,6 +161,9 @@
     </Filter>
     <Filter Include="Common">
       <UniqueIdentifier>{96c5d953-02c3-4d02-9e4a-333bf6429ad0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Documentation">
+      <UniqueIdentifier>{00f673db-01f9-45ac-877a-5f70ec04c169}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

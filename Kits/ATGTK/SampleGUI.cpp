@@ -288,11 +288,11 @@ namespace
 
             if (iswspace(ch))
             {
-                last_word = ptr - text;
+                last_word = size_t(ptr - text);
             }
             else if (prevch == L'-')
             {
-                last_word = ptr - text - 1;
+                last_word = size_t(ptr - text - 1);
             }
 
             RECT textrect = font->MeasureDrawBounds(str.c_str() + line_start, pos);
@@ -301,8 +301,7 @@ namespace
             {
                 if (last_word > last_line)
                 {
-                    const wchar_t tempch = text[last_word];
-                    str.erase(str.cbegin() + last_word + extra, str.cend());
+                    str.erase(str.cbegin() + ptrdiff_t(last_word + extra), str.cend());
                     str.push_back(L'\n');
                     ++extra;
                     last_line = last_word;
@@ -435,18 +434,18 @@ class UIManager::Impl
 {
 public:
     Impl(const UIConfig& config) :
-        mConfig(config),
 #if defined(__d3d12_h__) || defined(__d3d12_x_h__)
-        m_commandList(nullptr),
         m_defaultTexDescriptor{},
+        m_commandList(nullptr),
 #endif
         m_fullscreen{},
         m_focusPanel(nullptr),
         m_overlayPanel(nullptr),
         m_hudPanel(nullptr),
+        m_heldTimer(0),
         m_mouseLastX(-1),
         m_mouseLastY(-1),
-        m_heldTimer(0)
+        mConfig(config)
     {
         if (s_uiManager)
         {
@@ -506,7 +505,7 @@ public:
                     DebugTrace("ERROR: Expected an id for record %zu\n", reader.RecordIndex() + 1);
                     throw std::exception("LoadLayout");
                 }
-                id = _wtoi(tmp);
+                id = static_cast<unsigned>(_wtoi(tmp));
             }
 
             RECT rct = { 0, 0, 0, 0 };
@@ -557,7 +556,7 @@ public:
                     throw std::exception("LoadLayout");
                 }
 
-                long styleFlags = (_wcsicmp(item, L"CUSTOM_POPUP") == 0) ? c_styleCustomPanel : 0;
+                unsigned int styleFlags = (_wcsicmp(item, L"CUSTOM_POPUP") == 0) ? c_styleCustomPanel : 0;
                 wchar_t styleStr[128] = {};
                 if (reader.NextItem(styleStr))
                 {
@@ -614,7 +613,7 @@ public:
                     throw std::exception("LoadLayout");
                 }
 
-                long styleFlags = (_wcsicmp(item, L"CUSTOM_OVERLAY") == 0) ? c_styleCustomPanel : 0;
+                unsigned int styleFlags = (_wcsicmp(item, L"CUSTOM_OVERLAY") == 0) ? c_styleCustomPanel : 0;
                 wchar_t styleStr[128] = {};
                 if (reader.NextItem(styleStr))
                 {
@@ -1589,72 +1588,49 @@ public:
 
         // Create fonts
 #if !defined(WINAPI_FAMILY) || (WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP)
-        wchar_t path[MAX_PATH] = {};
         wchar_t buff[MAX_PATH] = {};
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.smallFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.smallFontName);
         index = pile.Allocate();
         m_smallFont = std::make_unique<SpriteFont>(device, resourceUpload, buff, pile.GetCpuHandle(index), pile.GetGpuHandle(index));
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.smallItalicFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.smallItalicFontName);
         index = pile.Allocate();
         m_smallItalicFont = std::make_unique<SpriteFont>(device, resourceUpload, buff, pile.GetCpuHandle(index), pile.GetGpuHandle(index));
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.smallBoldFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.smallBoldFontName);
         index = pile.Allocate();
         m_smallBoldFont = std::make_unique<SpriteFont>(device, resourceUpload, buff, pile.GetCpuHandle(index), pile.GetGpuHandle(index));
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.midFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.midFontName);
         index = pile.Allocate();
         m_midFont = std::make_unique<SpriteFont>(device, resourceUpload, buff, pile.GetCpuHandle(index), pile.GetGpuHandle(index));
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.midItalicFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.midItalicFontName);
         index = pile.Allocate();
         m_midItalicFont = std::make_unique<SpriteFont>(device, resourceUpload, buff, pile.GetCpuHandle(index), pile.GetGpuHandle(index));
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.midBoldFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.midBoldFontName);
         index = pile.Allocate();
         m_midBoldFont = std::make_unique<SpriteFont>(device, resourceUpload, buff, pile.GetCpuHandle(index), pile.GetGpuHandle(index));
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.largeFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.largeFontName);
         index = pile.Allocate();
         m_largeFont = std::make_unique<SpriteFont>(device, resourceUpload, buff, pile.GetCpuHandle(index), pile.GetGpuHandle(index));
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.largeItalicFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.largeItalicFontName);
         index = pile.Allocate();
         m_largeItalicFont = std::make_unique<SpriteFont>(device, resourceUpload, buff, pile.GetCpuHandle(index), pile.GetGpuHandle(index));
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.largeBoldFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.largeBoldFontName);
         index = pile.Allocate();
         m_largeBoldFont = std::make_unique<SpriteFont>(device, resourceUpload, buff, pile.GetCpuHandle(index), pile.GetGpuHandle(index));
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.largeLegendName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.largeLegendName);
         index = pile.Allocate();
         m_largeLegend = std::make_unique<SpriteFont>(device, resourceUpload, buff, pile.GetCpuHandle(index), pile.GetGpuHandle(index));
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.smallLegendName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.smallLegendName);
         index = pile.Allocate();
         m_smallLegend = std::make_unique<SpriteFont>(device, resourceUpload, buff, pile.GetCpuHandle(index), pile.GetGpuHandle(index));
 #else
@@ -1764,62 +1740,39 @@ public:
 
         // Create fonts
 #if !defined(WINAPI_FAMILY) || (WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP)
-        wchar_t path[MAX_PATH] = {};
         wchar_t buff[MAX_PATH] = {};
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.smallFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.smallFontName);
         m_smallFont = std::make_unique<SpriteFont>(device.Get(), buff);
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.smallItalicFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.smallItalicFontName);
         m_smallItalicFont = std::make_unique<SpriteFont>(device.Get(), buff);
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.smallBoldFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.smallBoldFontName);
         m_smallBoldFont = std::make_unique<SpriteFont>(device.Get(), buff);
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.midFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.midFontName);
         m_midFont = std::make_unique<SpriteFont>(device.Get(), buff);
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.midItalicFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.midItalicFontName);
         m_midItalicFont = std::make_unique<SpriteFont>(device.Get(), buff);
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.midBoldFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.midBoldFontName);
         m_midBoldFont = std::make_unique<SpriteFont>(device.Get(), buff);
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.largeFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.largeFontName);
         m_largeFont = std::make_unique<SpriteFont>(device.Get(), buff);
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.largeItalicFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.largeItalicFontName);
         m_largeItalicFont = std::make_unique<SpriteFont>(device.Get(), buff);
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.largeBoldFontName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.largeBoldFontName);
         m_largeBoldFont = std::make_unique<SpriteFont>(device.Get(), buff);
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.largeLegendName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.largeLegendName);
         m_largeLegend = std::make_unique<SpriteFont>(device.Get(), buff);
 
-        wcscpy_s(path, L"Media//Fonts//");
-        wcscat_s(path, mConfig.smallLegendName);
-        DX::FindMediaFile(buff, MAX_PATH, path);
+        DX::FindMediaFile(buff, MAX_PATH, mConfig.smallLegendName);
         m_smallLegend = std::make_unique<SpriteFont>(device.Get(), buff);
 #else
         m_smallFont = std::make_unique<SpriteFont>(device.Get(), mConfig.smallFontName);
@@ -2332,8 +2285,8 @@ void UIManager::SetWindow(const RECT& layout)
         }
     }
 
-    UINT width = std::max<UINT>(layout.right - layout.left, 1);
-    UINT height = std::max<UINT>(layout.bottom - layout.top, 1);
+    auto width = std::max<LONG>(layout.right - layout.left, 1);
+    auto height = std::max<LONG>(layout.bottom - layout.top, 1);
 
 #if defined(__d3d12_h__) || defined(__d3d12_x_h__)
     D3D12_VIEWPORT vp = { 0.0f, 0.0f, static_cast<float>(width), static_cast<float>(height), D3D12_MIN_DEPTH, D3D12_MAX_DEPTH };
@@ -2539,7 +2492,7 @@ void TextLabel::Render()
                 && m_screenRect.left != m_screenRect.right
                 && m_screenRect.top != m_screenRect.bottom))
         {
-            m_wordWrap = std::move(WordWrap(text, font, m_screenRect));
+            m_wordWrap = WordWrap(text, font, m_screenRect);
         }
 
         text = m_wordWrap.c_str();
@@ -3356,7 +3309,7 @@ void ListBox::InsertItem(int index, const wchar_t* text, void *user)
     int item_size = static_cast<int>(m_items.size());
     if ((item_size != 0) && (index >= item_size))
     {
-        m_items[index] = item;
+        m_items[size_t(index)] = item;
     }
     else
     {
@@ -3524,7 +3477,7 @@ void ListBox::Render()
             if (pos.y + float(m_lastHeight) >= (m_itemRect.bottom - c_MarginSize))
                 break;
 
-            auto& item = m_items[j];
+            auto& item = m_items[size_t(j)];
 
             if (m_focus && m_focusItem == j)
             {
@@ -3851,7 +3804,6 @@ void ListBox::UpdateRects()
 //=====================================================================================
 TextList::TextList(unsigned id, const RECT& rect, unsigned style, int itemHeight) :
     IControl(rect, id),
-    m_enabled(true),
     m_itemHeight(itemHeight),
     m_style(style),
     m_topItem(0),
@@ -3888,7 +3840,7 @@ void XM_CALLCONV TextList::InsertItem(int index, const wchar_t* text, FXMVECTOR 
     int item_size = static_cast<int>(m_items.size());
     if ((item_size != 0) && (index >= item_size))
     {
-        m_items[index] = item;
+        m_items[size_t(index)] = item;
     }
     else
     {
@@ -3953,7 +3905,7 @@ void TextList::Render()
             if (pos.y + float(m_lastHeight) >= (m_itemRect.bottom - c_MarginSize))
                 break;
 
-            auto& item = m_items[j];
+            auto& item = m_items[size_t(j)];
 
             font->DrawString(mgr->m_batch.get(), item.text.c_str(), pos, XMLoadFloat4(&(item.color)));
 
@@ -4086,7 +4038,7 @@ void TextBox::Render()
                 && m_itemRect.left != m_itemRect.right
                 && m_itemRect.top != m_itemRect.bottom))
         {
-            m_wordWrap = std::move(WordWrap(text, font, m_itemRect, &m_wordWrapLines));
+            m_wordWrap = WordWrap(text, font, m_itemRect, &m_wordWrapLines);
         }
 
         if (m_topLine >= static_cast<int>(m_wordWrapLines.size()))
@@ -4097,7 +4049,7 @@ void TextBox::Render()
 
         XMVECTOR color = XMLoadFloat4(&m_color);
 
-        font->DrawString(mgr->m_batch.get(), &m_wordWrap.c_str()[m_wordWrapLines[m_topLine]], pos, color);
+        font->DrawString(mgr->m_batch.get(), &m_wordWrap.c_str()[m_wordWrapLines[size_t(m_topLine)]], pos, color);
     }
 
     if (m_style & c_StyleScrollBar)
@@ -4864,7 +4816,7 @@ void HUD::OnWindowSize(const RECT& layout)
 // Overlay
 //=====================================================================================
 
-Overlay::Overlay(const RECT& rect, long styleFlags) :
+Overlay::Overlay(const RECT& rect, unsigned int styleFlags) :
     IPanel(rect),
     m_select(false),
     m_cancel(false),

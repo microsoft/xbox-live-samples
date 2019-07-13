@@ -28,7 +28,13 @@ namespace ATG
         // Constructor Paramters:
         //   autoManageUser: auto user management sets current user to the first user it finds upon calling Initialize()
         //   isGuestUserAllowed: provided for compatibility with XDK version; not currently used by UWP
-        LiveResources(bool autoManageUser = true, bool isGuestUserAllowed = false);
+        explicit LiveResources(bool autoManageUser = true, bool isGuestUserAllowed = false) noexcept(false);
+
+        LiveResources(LiveResources&&) = default;
+        LiveResources& operator= (LiveResources&&) = default;
+
+        LiveResources(LiveResources const&) = delete;
+        LiveResources& operator= (LiveResources const&) = delete;
 
         // Callback for UWP signin methods
         using UserSignInCallback = std::function<void(xbox::services::xbox_live_result<xbox::services::system::sign_in_result>&)>;

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is used to enable the Windows Service Store API to function, see Readme for details -->
+<LicenseOverrides>
+  <ContentId>{8054D603-2BFB-4F8C-845F-1B45AF79DF73}</ContentId>
+  <ProductId>{613925c8-e7f9-4ed4-bfc4-9187695284dd}</ProductId>
+  <EKBID>{7D718311-78DA-4C91-A40A-C2199A1131D9}</EKBID>
+</LicenseOverrides>
