@@ -13,8 +13,8 @@ void CALLBACK Achievements_GetAchievementsForTitle_Callback(_In_ XAsyncBlock* as
     XblAchievementsResultHandle achievementsResultHandle = nullptr;
     HRESULT hr = XblAchievementsGetAchievementsForTitleIdResult(asyncBlock, &achievementsResultHandle);
 
-    XblAchievement* achievements = nullptr;
-    uint32_t achievementsCount = 0;
+    const XblAchievement* achievements = nullptr;
+    size_t achievementsCount = 0;
     bool hasNextPage = false;
 
     if (SUCCEEDED(hr))
@@ -116,8 +116,8 @@ void CALLBACK Achievements_GetNextResultsPage_Callback(_In_ XAsyncBlock* asyncBl
     XblAchievementsResultHandle achievementsResultHandle = nullptr;
     HRESULT hr = XblAchievementsResultGetNextResult(asyncBlock, &achievementsResultHandle);
 
-    XblAchievement* achievements = nullptr;
-    uint32_t achievementsCount = 0;
+    const XblAchievement* achievements = nullptr;
+    size_t achievementsCount = 0;
     bool hasNextPage = false;
 
     if (SUCCEEDED(hr))
@@ -177,7 +177,6 @@ HRESULT Achievements_GetNextResultsPage(
     SampleLog(LL_TRACE, "Requesting to get next page of Achievements");
 
     return XblAchievementsResultGetNextAsync(
-        xblContext,
         achievementsResultHandle,
         maxItems,
         asyncBlock);
@@ -190,8 +189,8 @@ void CALLBACK Achievements_GetAchievement_Callback(_In_ XAsyncBlock* asyncBlock)
     XblAchievementsResultHandle resultHandle = nullptr;
     HRESULT hr = XblAchievementsGetAchievementResult(asyncBlock, &resultHandle);
 
-    XblAchievement* achievements = nullptr;
-    uint32_t achievementsCount = 0;
+    const XblAchievement* achievements = nullptr;
+    size_t achievementsCount = 0;
 
     if (SUCCEEDED(hr))
     {
