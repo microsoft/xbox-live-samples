@@ -37,14 +37,11 @@ bool Game_Integration::xboxLive_init()
     
     HRESULT hr = E_FAIL;
     
-    XalPlatformArgs xalPlatformArgs = {};
-    xalPlatformArgs.redirectUri = REDIR_URI;
-    
     XalInitArgs xalInitArgs = {};
     xalInitArgs.clientId     = CLIENT_ID;
     xalInitArgs.titleId      = TITLE_ID;
     xalInitArgs.sandbox      = SANDBOX;
-    xalInitArgs.platformArgs = &xalPlatformArgs;
+    xalInitArgs.redirectUri  = REDIR_URI;
     
     hr = XalInitialize(&xalInitArgs, nullptr);
     if (FAILED(hr)) {

@@ -38,8 +38,8 @@ std::string Achievements_Gameplay_ProgressToString(
 }
 
 void Achievements_Gameplay_DisplayAchievements(
-    _In_ XblAchievement* achievements,
-    _In_ uint32_t achievementsCount)
+    _In_ const XblAchievement* achievements,
+    _In_ size_t achievementsCount)
 {
     for (uint32_t i = 0; i < achievementsCount; ++i)
     {
@@ -55,8 +55,8 @@ void Achievements_Gameplay_DisplayAchievements(
 void Achievements_Gameplay_GetAchievementsForTitle(
     _In_ HRESULT result,
     _In_ XblAchievementsResultHandle achievementsResultHandle,
-    _In_ XblAchievement* achievements,
-    _In_ uint32_t achievementsCount,
+    _In_ const XblAchievement* achievements,
+    _In_ size_t achievementsCount,
     _In_ bool hasNextPage)
 {
     // TODO: The game dev should implement logic below as desired to hook it up with the rest of the game
@@ -82,8 +82,8 @@ void Achievements_Gameplay_GetAchievementsForTitle(
 void Achievements_Gameplay_GetNextResultsPage(
     _In_ HRESULT result,
     _In_ XblAchievementsResultHandle achievementsResultHandle,
-    _In_ XblAchievement* achievements,
-    _In_ uint32_t achievementsCount,
+    _In_ const XblAchievement* achievements,
+    _In_ size_t achievementsCount,
     _In_ bool hasNextPage)
 {
     // TODO: The game dev should implement logic below as desired to hook it up with the rest of the game
@@ -109,8 +109,8 @@ void Achievements_Gameplay_GetNextResultsPage(
 
 void Achievements_Gameplay_GetAchievement(
     _In_ HRESULT result,
-    _In_ XblAchievement* achievements,
-    _In_ uint32_t achievementsCount)
+    _In_ const XblAchievement* achievements,
+    _In_ size_t achievementsCount)
 {
     // TODO: The game dev should implement logic below as desired to hook it up with the rest of the game
 

@@ -29,21 +29,21 @@ HRESULT Achievements_UpdateAchievement(
 void Achievements_Gameplay_GetAchievementsForTitle(
     _In_ HRESULT result,
     _In_ XblAchievementsResultHandle achievementsResultHandle,
-    _In_ XblAchievement* achievements,
-    _In_ uint32_t achievementsCount,
+    _In_ const XblAchievement* achievements,
+    _In_ size_t achievementsCount,
     _In_ bool hasNextPage);
 
 void Achievements_Gameplay_GetNextResultsPage(
     _In_ HRESULT result,
     _In_ XblAchievementsResultHandle achievementsResultHandle,
-    _In_ XblAchievement* achievements,
-    _In_ uint32_t achievementsCount,
+    _In_ const XblAchievement* achievements,
+    _In_ size_t achievementsCount,
     _In_ bool hasNextPage);
 
 void Achievements_Gameplay_GetAchievement(
     _In_ HRESULT result,
-    _In_ XblAchievement* achievements,
-    _In_ uint32_t achievementsCount);
+    _In_ const XblAchievement* achievements,
+    _In_ size_t achievementsCount);
 
 void Achievements_Gameplay_UpdateAchievement(
     _In_ HRESULT result);
