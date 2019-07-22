@@ -17,6 +17,9 @@
     <Filter Include="Package Scripts">
       <UniqueIdentifier>{3343904d-fe90-455f-b147-6b81d78c8b39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Documentation">
+      <UniqueIdentifier>{ff1c1c59-10de-4b1d-b6d7-7394250c9003}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -132,7 +135,18 @@
     <None Include="Assets\SampleUI.csv">
       <Filter>Assets</Filter>
     </None>
-    <None Include="ReadMe.docx" />
+    <None Include="ReadMe.docx">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="GameTrials_ReadMe_ja-jp.docx">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="GameTrials_ReadMe_ko-kr.docx">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="GameTrials_ReadMe_zh-cn.docx">
+      <Filter>Documentation</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="PackageScripts\chunks.xml">
@@ -156,5 +170,8 @@
     <Text Include="PackageScripts\SetTrialLicenseToInstalledSamplePackage.bat">
       <Filter>Package Scripts</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="debug_licensing_overrides.xml" />
   </ItemGroup>
 </Project>

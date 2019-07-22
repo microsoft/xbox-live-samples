@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameSaveUWP", "UWP\GameSaveUWP.vcxproj", "{009C64F5-2958-4896-92FD-A9E0080C58A7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTK", "..\..\..\Kits\DirectXTK\DirectXTK_Windows10.vcxproj", "{F4776924-619C-42C7-88B2-82C947CCC9E7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTK", "..\..\..\Kits\DirectXTK\DirectXTK_Windows10_2017.vcxproj", "{F4776924-619C-42C7-88B2-82C947CCC9E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

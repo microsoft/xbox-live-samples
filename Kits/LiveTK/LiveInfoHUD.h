@@ -40,7 +40,13 @@ namespace ATG
     class LiveInfoHUD
     {
     public:
-        LiveInfoHUD(_In_z_ wchar_t const* sampleTitle);
+        explicit LiveInfoHUD(_In_z_ wchar_t const* sampleTitle);
+
+        LiveInfoHUD(LiveInfoHUD&&) = delete;
+        LiveInfoHUD& operator= (LiveInfoHUD&&) = delete;
+
+        LiveInfoHUD(LiveInfoHUD const&) = delete;
+        LiveInfoHUD& operator= (LiveInfoHUD const&) = delete;
 
         void Initialize(std::shared_ptr<xbox::services::xbox_live_context> context, int windowWidth = 0, int windowHeight = 0);
 
@@ -50,6 +56,10 @@ namespace ATG
         void SetUser(std::shared_ptr<xbox::services::xbox_live_context> context);
 
         void Render();
+
+        void SetViewport(const D3D11_VIEWPORT &viewport);
+
+        void SetRotation(DXGI_MODE_ROTATION rotation);
 
         void SetWindowSize(int width, int height) { m_width = width; m_height = height; }
 

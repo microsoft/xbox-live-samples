@@ -29,7 +29,13 @@ namespace ATG
         //     2) switches to new users as they sign in
         //     3) attempts to find another signed in user when current user signs out
         //   isGuestUserAllowed: when true, guest users are valid users to use in auto user management or when resuming from suspend
-        LiveResources(bool autoManageUser = true, bool isGuestUserAllowed = false);
+        explicit LiveResources(bool autoManageUser = true, bool isGuestUserAllowed = false) noexcept(false);
+
+        LiveResources(LiveResources&&) = default;
+        LiveResources& operator= (LiveResources&&) = default;
+
+        LiveResources(LiveResources const&) = delete;
+        LiveResources& operator= (LiveResources const&) = delete;
 
         void Initialize();
         void Refresh(); // call when resuming from suspend

@@ -3,7 +3,7 @@
          xmlns:mx="http://schemas.microsoft.com/appx/2013/xbox/manifest"
          IgnorableNamespaces="mx">
   
-  <Identity Name="8e071eac-9682-4720-a058-aa3c42b416c7"
+  <Identity Name="GameTrials110"
             Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
             Version="1.0.0.0" />
   
@@ -39,7 +39,7 @@
         </VisualElements>
       <Extensions>
         <mx:Extension Category="xbox.live">
-          <mx:XboxLive TitleId="1A28ED21" PrimaryServiceConfigId="93a00100-f360-4632-aeb8-a95a1a28ed21" />
+          <mx:XboxLive TitleId="5b62ba8d" PrimaryServiceConfigId="cf780100-e89e-4026-a37b-78275b62ba8d" />
         </mx:Extension>
       </Extensions> 
     </Application>

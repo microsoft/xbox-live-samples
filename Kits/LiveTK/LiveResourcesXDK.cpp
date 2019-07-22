@@ -15,11 +15,12 @@
 #include <collection.h>
 #include <ppltasks.h>
 
+using namespace ATG;
 using namespace Concurrency;
 using namespace xbox::services;
 using namespace xbox::services::system;
 
-ATG::LiveResources::LiveResources(bool autoManageUser, bool isGuestUserAllowed) :
+LiveResources::LiveResources(bool autoManageUser, bool isGuestUserAllowed) noexcept(false) :
     m_autoManageUser(autoManageUser),
     m_isGuestUserAllowed(isGuestUserAllowed)
 {
@@ -34,7 +35,7 @@ ATG::LiveResources::LiveResources(bool autoManageUser, bool isGuestUserAllowed) 
     m_titleIdHex.assign(hexTitleId);
 }
 
-void ATG::LiveResources::Initialize()
+void LiveResources::Initialize()
 {
     std::weak_ptr<LiveResources> thisWeakPtr = shared_from_this();
 
@@ -96,7 +97,7 @@ void ATG::LiveResources::Initialize()
     }
 }
 
-void ATG::LiveResources::Refresh()
+void LiveResources::Refresh()
 {
     auto currentUser = Windows::Xbox::ApplicationModel::Core::CoreApplicationContext::CurrentUser;
 
@@ -115,7 +116,7 @@ void ATG::LiveResources::Refresh()
     }
 }
 
-void ATG::LiveResources::SetCurrentUser(XboxLiveUser user, bool callUserChangedCallback)
+void LiveResources::SetCurrentUser(XboxLiveUser user, bool callUserChangedCallback)
 {
     auto newXuid = user ? user->XboxUserId : nullptr;
     bool userChanged = _wcsicmp(newXuid->Data(), m_xuid.c_str()) != 0;
@@ -129,7 +130,7 @@ void ATG::LiveResources::SetCurrentUser(XboxLiveUser user, bool callUserChangedC
     }
 }
 
-void ATG::LiveResources::OnCurrentUserChanged()
+void LiveResources::OnCurrentUserChanged()
 {
     auto user = Windows::Xbox::ApplicationModel::Core::CoreApplicationContext::CurrentUser;
     if (user && user != m_xboxLiveUser && user->IsSignedIn && (!user->IsGuest || m_isGuestUserAllowed))
@@ -138,7 +139,7 @@ void ATG::LiveResources::OnCurrentUserChanged()
     }
 }
 
-void ATG::LiveResources::OnSignOutCompleted(Windows::Xbox::System::SignOutCompletedEventArgs^ args)
+void LiveResources::OnSignOutCompleted(Windows::Xbox::System::SignOutCompletedEventArgs^ args)
 {
     if (m_xboxLiveUser == args->User)
     {
@@ -157,7 +158,7 @@ void ATG::LiveResources::OnSignOutCompleted(Windows::Xbox::System::SignOutComple
     }
 }
 
-void ATG::LiveResources::OnSignOutStarted(Windows::Xbox::System::SignOutStartedEventArgs^ args)
+void LiveResources::OnSignOutStarted(Windows::Xbox::System::SignOutStartedEventArgs^ args)
 {
     if (m_onUserSignOutStartedCallback)
     {
@@ -165,7 +166,7 @@ void ATG::LiveResources::OnSignOutStarted(Windows::Xbox::System::SignOutStartedE
     }
 }
 
-void ATG::LiveResources::UpdateFirstSignedInUser()
+void LiveResources::UpdateFirstSignedInUser()
 {
     if (m_xboxLiveUser)
         return;
@@ -180,7 +181,7 @@ void ATG::LiveResources::UpdateFirstSignedInUser()
     }
 }
 
-void ATG::LiveResources::UpdateUserInfo()
+void LiveResources::UpdateUserInfo()
 {
     if (m_xboxLiveUser)
     {

@@ -14,6 +14,9 @@
     <Filter Include="Xbox Live Tool Kit">
       <UniqueIdentifier>780057a1-d4fc-4c95-b605-6d51916b80e2</UniqueIdentifier>
     </Filter>
+    <Filter Include="Documentation">
+      <UniqueIdentifier>{24ab1e46-8ed5-4ae1-ba12-1344ecc4b633}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -130,7 +133,6 @@
     <None Include="Assets\SampleUI.csv">
       <Filter>Assets</Filter>
     </None>
-    <None Include="Readme.docx" />
     <None Include="SamplePackages.zip" />
     <None Include="..\..\..\Media\Fonts\XboxOneControllerLegend.spritefont">
       <Filter>Assets</Filter>
@@ -139,5 +141,17 @@
       <Filter>Assets</Filter>
     </None>
     <None Include="..\..\..\Media\Fonts\XboxOneController.spritefont" />
+    <None Include="Readme.docx">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="DownloadableContent_Readme_ja-jp.docx">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="DownloadableContent_Readme_ko-kr.docx">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="DownloadableContent_Readme_zh-cn.docx">
+      <Filter>Documentation</Filter>
+    </None>
   </ItemGroup>
 </Project>

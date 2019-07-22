@@ -15,10 +15,11 @@
 
 #include <ppltasks.h>
 
+using namespace ATG;
 using namespace xbox::services;
 using namespace xbox::services::system;
 
-ATG::LiveResources::LiveResources(bool autoManageUser, bool isGuestUserAllowed) :
+LiveResources::LiveResources(bool autoManageUser, bool isGuestUserAllowed) noexcept(false) :
     m_autoManageUser(autoManageUser),
     m_isGuestUserAllowed(isGuestUserAllowed)
 {
@@ -33,7 +34,7 @@ ATG::LiveResources::LiveResources(bool autoManageUser, bool isGuestUserAllowed) 
     m_titleIdHex.assign(hexTitleId);
 }
 
-void ATG::LiveResources::Initialize(UserSignInCallback userSignInCallback, Platform::Object^ dispatcher)
+void LiveResources::Initialize(UserSignInCallback userSignInCallback, Platform::Object^ dispatcher)
 {
     m_xboxLiveUser = std::make_shared<xbox_live_user>();
 
@@ -57,12 +58,12 @@ void ATG::LiveResources::Initialize(UserSignInCallback userSignInCallback, Platf
     }
 }
 
-void ATG::LiveResources::Refresh(UserSignInCallback userSignInCallback, Platform::Object^ dispatcher)
+void LiveResources::Refresh(UserSignInCallback userSignInCallback, Platform::Object^ dispatcher)
 {
     SignInSilently(userSignInCallback, dispatcher);
 }
 
-void ATG::LiveResources::SignIn(UserSignInCallback userSignInCallback, Platform::Object^ dispatcher)
+void LiveResources::SignIn(UserSignInCallback userSignInCallback, Platform::Object^ dispatcher)
 {
     std::weak_ptr<LiveResources> thisWeakPtr = shared_from_this();
     m_xboxLiveUser->signin(dispatcher ? dispatcher : Windows::UI::Core::CoreWindow::GetForCurrentThread()->Dispatcher)
@@ -76,21 +77,21 @@ void ATG::LiveResources::SignIn(UserSignInCallback userSignInCallback, Platform:
     }, concurrency::task_continuation_context::use_current());
 }
 
-void ATG::LiveResources::SignInSilently(UserSignInCallback userSignInCallback, Platform::Object^ dispatcher)
+void LiveResources::SignInSilently(UserSignInCallback userSignInCallback, Platform::Object^ dispatcher)
 {
-	std::weak_ptr<LiveResources> thisWeakPtr = shared_from_this();
-	m_xboxLiveUser->signin_silently(dispatcher ? dispatcher : Windows::UI::Core::CoreWindow::GetForCurrentThread()->Dispatcher)
-	    .then([thisWeakPtr, userSignInCallback, dispatcher](xbox_live_result<sign_in_result> result) // use task_continuation_context::use_current() to make the continuation task running in current apartment 
-	{
-	    std::shared_ptr<LiveResources> thisSharedPtr(thisWeakPtr.lock());
-	    if (thisSharedPtr)
-	    {
-	        thisSharedPtr->HandleSignInResult(result, userSignInCallback, dispatcher);
-	    }
-	}, concurrency::task_continuation_context::use_current());
+    std::weak_ptr<LiveResources> thisWeakPtr = shared_from_this();
+    m_xboxLiveUser->signin_silently(dispatcher ? dispatcher : Windows::UI::Core::CoreWindow::GetForCurrentThread()->Dispatcher)
+        .then([thisWeakPtr, userSignInCallback, dispatcher](xbox_live_result<sign_in_result> result) // use task_continuation_context::use_current() to make the continuation task running in current apartment 
+    {
+        std::shared_ptr<LiveResources> thisSharedPtr(thisWeakPtr.lock());
+        if (thisSharedPtr)
+        {
+            thisSharedPtr->HandleSignInResult(result, userSignInCallback, dispatcher);
+        }
+    }, concurrency::task_continuation_context::use_current());
 }
 
-void ATG::LiveResources::SetWindowsUser(Windows::System::User^ windowsUser)
+void LiveResources::SetWindowsUser(Windows::System::User^ windowsUser)
 {
     m_windowsUser = windowsUser;
     
@@ -102,7 +103,7 @@ void ATG::LiveResources::SetWindowsUser(Windows::System::User^ windowsUser)
 #endif
 }
 
-void ATG::LiveResources::HandleSignInResult(xbox_live_result<sign_in_result>& signInResult, UserSignInCallback userSignInCallback, Platform::Object^ dispatcher)
+void LiveResources::HandleSignInResult(xbox_live_result<sign_in_result>& signInResult, UserSignInCallback userSignInCallback, Platform::Object^ dispatcher)
 {
     UpdateUserInfo();
 
@@ -114,10 +115,10 @@ void ATG::LiveResources::HandleSignInResult(xbox_live_result<sign_in_result>& si
             auto appConfig = xbox_live_app_config::get_app_config_singleton();
             m_sandbox = appConfig->sandbox(); // available in UWP once user has signed in
         }
-		else if (signInStatus == sign_in_status::user_interaction_required && m_autoManageUser)
-		{
-			SignIn(userSignInCallback, dispatcher);
-		}
+        else if (signInStatus == sign_in_status::user_interaction_required && m_autoManageUser)
+        {
+            SignIn(userSignInCallback, dispatcher);
+        }
     }
 
     if (userSignInCallback)
@@ -126,7 +127,7 @@ void ATG::LiveResources::HandleSignInResult(xbox_live_result<sign_in_result>& si
     }
 }
 
-void ATG::LiveResources::OnSignOutCompleted(const xbox::services::system::sign_out_completed_event_args& args)
+void LiveResources::OnSignOutCompleted(const xbox::services::system::sign_out_completed_event_args& args)
 {
     UpdateUserInfo();
 
@@ -136,7 +137,7 @@ void ATG::LiveResources::OnSignOutCompleted(const xbox::services::system::sign_o
     }
 }
 
-void ATG::LiveResources::UpdateUserInfo()
+void LiveResources::UpdateUserInfo()
 {
     if (m_xboxLiveUser)
     {
