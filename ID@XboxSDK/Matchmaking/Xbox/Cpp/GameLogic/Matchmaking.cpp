@@ -308,7 +308,7 @@ void Sample::Render()
     m_ui->Render();
 
     // Render these after the main UI panel
-    m_eventQueueConsole->Render(true);
+    m_eventQueueConsole->Render();
     m_errorMsgConsole->Render();
     PIXEndEvent(context);
 

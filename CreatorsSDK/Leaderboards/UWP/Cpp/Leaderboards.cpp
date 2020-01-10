@@ -317,7 +317,7 @@ void Sample::Render()
 
     // Allow UI to render last
     m_ui->Render();
-    m_console->Render(true);
+    m_console->Render();
 
     PIXEndEvent(context);
 
