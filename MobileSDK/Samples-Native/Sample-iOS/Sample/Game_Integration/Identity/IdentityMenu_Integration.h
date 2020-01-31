@@ -20,4 +20,5 @@ public:
     void updateIdentityImage(const char* imageUrl);
     void updateIdentityTitle(const char* title);
     void updateIdentityGamerScore(const char* score);
+    void updateIdentityContext(int status);
 };

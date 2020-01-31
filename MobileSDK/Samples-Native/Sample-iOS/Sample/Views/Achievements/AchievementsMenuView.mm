@@ -109,7 +109,8 @@
     if (Game_Integration::getInstance()->hasXblContext())
     {
         XblContextHandle xblContext = Game_Integration::getInstance()->getXblContext();
-        Achievements_GetAchievementsForTitle(XblGetAsyncQueue(), xblContext, SKIP_ITEMS, MAX_ITEMS);
+        XalUserHandle xalUser = Game_Integration::getInstance()->getCurrentUser();
+        Achievements_GetAchievementsForTitle(XblGetAsyncQueue(), xblContext, xalUser, SKIP_ITEMS, MAX_ITEMS);
     }
 }
 
@@ -129,7 +130,8 @@
     if (Game_Integration::getInstance()->hasXblContext())
     {
         XblContextHandle xblContext = Game_Integration::getInstance()->getXblContext();
-        Achievements_GetAchievement(XblGetAsyncQueue(), xblContext, ACHIEVEMENT_ID_1);
+        XalUserHandle xalUser = Game_Integration::getInstance()->getCurrentUser();
+        Achievements_GetAchievement(XblGetAsyncQueue(), xblContext, xalUser, ACHIEVEMENT_ID_1);
     }
 }
 
@@ -139,7 +141,8 @@
     if (Game_Integration::getInstance()->hasXblContext())
     {
         XblContextHandle xblContext = Game_Integration::getInstance()->getXblContext();
-        Achievements_UpdateAchievement(XblGetAsyncQueue(), xblContext, ACHIEVEMENT_ID_1, 100);
+        XalUserHandle xalUser = Game_Integration::getInstance()->getCurrentUser();
+        Achievements_UpdateAchievement(XblGetAsyncQueue(), xblContext, xalUser, ACHIEVEMENT_ID_1, 100);
     }
 }
 

@@ -11,15 +11,19 @@ public:
     void init();
     
     bool xboxLive_init();
-    
+    void setXalUser(XalUserHandle xalUser);
     void setXblContext(XblContextHandle xblContext);
     XblContextHandle getXblContext();
     bool hasXblContext();
     
     XalUserHandle getCurrentUser();
     uint64_t getCurrentUserId();
+    
 
 private:
     XblContextHandle m_xblContext = nullptr;
+    XalUserHandle m_xalUser = nullptr;
     std::mutex m_xblContextMutex;
+    
+
 };

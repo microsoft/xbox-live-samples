@@ -14,14 +14,6 @@ void Identity_Gameplay_CloseUserContext(_In_ XblContextHandle xblContext)
 {
     if (xblContext)
     {
-        XalUserHandle user = nullptr;
-        HRESULT hr = XblContextGetUser(xblContext, &user);
-
-        if (SUCCEEDED(hr))
-        {
-            XalUserCloseHandle(user);
-        }
-
         XblContextCloseHandle(xblContext);
     }
 }
@@ -41,7 +33,7 @@ HRESULT Identity_Gameplay_SignInUser(_In_ XalUserHandle newUser, _In_ bool resol
         {
             // Close the previous Xbl Context, if one existed
             Identity_Gameplay_CloseUserContext(Game_Integration::getInstance()->getXblContext());
-            
+            Game_Integration::getInstance()->setXalUser(newUser);
             Game_Integration::getInstance()->setXblContext(newXblContext);
             
             SampleLog(LL_INFO, ""); // New line
@@ -63,6 +55,7 @@ HRESULT Identity_Gameplay_SignInUser(_In_ XalUserHandle newUser, _In_ bool resol
             }
 
             IdentityMenu_Integration::getInstance()->updateIdentityButtons(ID_SIGNED_IN);
+            IdentityMenu_Integration::getInstance()->updateIdentityContext(ID_SIGNED_IN);
             HubMenu_Integration::getInstance()->setHubMenuHidden(false);
         }
         else
@@ -80,20 +73,13 @@ HRESULT Identity_Gameplay_SignInUser(_In_ XalUserHandle newUser, _In_ bool resol
         {
             SampleLog(LL_INFO, ""); // New Line
             SampleLog(LL_INFO, "Trying to resolve user issue with UI");
-            
-            // Duplicate handle to prolong the user to be handled later by resolve
-            XblUserHandle dupUser = nullptr;
-            XalUserDuplicateHandle(newUser, &dupUser);
-            // Note: Creates a Ref for XblUserHandle, will be closed inside XAL_Gameplay_TryResolveUserIssue
-            
-            HRESULT asyncResult = Identity_TryResolveUserIssue(XblGetAsyncQueue(), dupUser);
+ 
+            HRESULT asyncResult = Identity_TryResolveUserIssue(XblGetAsyncQueue(), newUser);
             
             if (FAILED(asyncResult))
             {
                 SampleLog(LL_ERROR, "XalUserResolveIssueWithUiAsync Failed!");
                 SampleLog(LL_ERROR, "Error code: %s", ConvertHRtoString(asyncResult).c_str());
-                
-                if (dupUser) { XalUserCloseHandle(dupUser); }
             }
         }
     }
@@ -181,27 +167,23 @@ void Identity_Gameplay_TrySignOutUser(
     {
         XblContextHandle xblContext = Game_Integration::getInstance()->getXblContext();
 
-        XalUserHandle user = nullptr;
-        HRESULT hr = XblContextGetUser(xblContext, &user);
-
+        XalUserHandle user = Game_Integration::getInstance()->getCurrentUser();
+        std::string gamerTag;
+        auto hr = Identity_GetGamerTag(user, &gamerTag);
         if (SUCCEEDED(hr))
         {
-            std::string gamerTag;
-            hr = Identity_GetGamerTag(user, &gamerTag);
-            if (SUCCEEDED(hr))
-            {
-                SampleLog(LL_INFO, "Goodbye %s!", gamerTag.c_str());
-                IdentityMenu_Integration::getInstance()->updateIdentityTitle(nullptr);
-                IdentityMenu_Integration::getInstance()->updateIdentityGamerScore(nullptr);
-                IdentityMenu_Integration::getInstance()->updateIdentityImage(nullptr);
-            }
+            SampleLog(LL_INFO, "Goodbye %s!", gamerTag.c_str());
+            IdentityMenu_Integration::getInstance()->updateIdentityTitle(nullptr);
+            IdentityMenu_Integration::getInstance()->updateIdentityGamerScore(nullptr);
+            IdentityMenu_Integration::getInstance()->updateIdentityImage(nullptr);
         }
-
+        
+        IdentityMenu_Integration::getInstance()->updateIdentityButtons(ID_SIGNED_OUT);
+        IdentityMenu_Integration::getInstance()->updateIdentityContext(ID_SIGNED_OUT);
         Identity_Gameplay_CloseUserContext(xblContext);
         Game_Integration::getInstance()->setXblContext(nullptr);
-        IdentityMenu_Integration::getInstance()->updateIdentityButtons(ID_SIGNED_OUT);
         HubMenu_Integration::getInstance()->setHubMenuHidden(true);
-        
+        XalUserCloseHandle(user);
         SampleLog(LL_INFO, ""); // New line
         SampleLog(LL_INFO, "User sign-out successful!");
     }

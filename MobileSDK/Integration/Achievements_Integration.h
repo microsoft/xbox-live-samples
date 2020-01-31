@@ -6,6 +6,7 @@
 HRESULT Achievements_GetAchievementsForTitle(
     _In_ XTaskQueueHandle asyncQueue,
     _In_ XblContextHandle xblContext,
+    _In_ XalUserHandle user,
     _In_ uint32_t skipItems,
     _In_ uint32_t maxItems);
 
@@ -18,11 +19,13 @@ HRESULT Achievements_GetNextResultsPage(
 HRESULT Achievements_GetAchievement(
     _In_ XTaskQueueHandle asyncQueue,
     _In_ XblContextHandle xblContext,
+    _In_ XalUserHandle user,
     _In_z_ const std::string& achievementId);
 
 HRESULT Achievements_UpdateAchievement(
     _In_ XTaskQueueHandle asyncQueue,
     _In_ XblContextHandle xblContext,
+    _In_ XalUserHandle user,
     _In_z_ const std::string& achievementId,
     _In_ uint32_t percentComplete);
 
