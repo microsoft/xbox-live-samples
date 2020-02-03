@@ -11,10 +11,11 @@
 #import "SocialGroupDisplayTableViewCell.h"
 
 @interface SocialGroupDisplayView() {
-    XblSocialManagerUserGroup* socialGroup;
-    uint32_t socialGroupSize;
-    XblSocialManagerUser socialGroupUsers[32];
-    uint64_t socialGroupTrackedIds[32];
+    XblSocialManagerUserGroupHandle socialGroup;
+    size_t socialGroupSize;
+    const uint64_t* socialGroupUsers;
+    const uint64_t* socialGroupTrackedIds;
+    XblSocialUserGroupType socialGroupType;
 }
 
 @property (nonatomic, strong) UILabel* emptyUsersPlaceholder;
@@ -81,28 +82,32 @@
         return;
     }
 
-    uint32_t userCount = 0;
-    if (self->socialGroup->socialUserGroupType == XblSocialUserGroupType::UserListType) {
-        userCount = self->socialGroup->trackedUsersCount;
-    } else {
-        userCount = self->socialGroup->usersCount;
+    size_t userCount = 0;
+    
+    XblSocialUserGroupType type {XblSocialUserGroupType::FilterType};
+    HRESULT hr = XblSocialManagerUserGroupGetType(self->socialGroup, &type);
+    if(FAILED (hr)) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+                   self.emptyUsersPlaceholder.hidden = NO;
+               });
+        return;
     }
-
+    
+    if(type == XblSocialUserGroupType::UserListType)
+    {
+        hr = XblSocialManagerUserGroupGetUsersTrackedByGroup(self->socialGroup, &self->socialGroupTrackedIds, &userCount);
+    }
+    else {
+    }
+    
     self->socialGroupSize = userCount;
+    self->socialGroupType = type;
     if (self->socialGroupSize <= 0) {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.emptyUsersPlaceholder.hidden = NO;
         });
 
         return;
-    }
-
-    if (self->socialGroup->socialUserGroupType == XblSocialUserGroupType::UserListType) {
-        // Get the user ID list for tracked users social group.
-        XblSocialManagerUserGroupGetUsersTrackedByGroup(self->socialGroup, self->socialGroupSize, self->socialGroupTrackedIds);
-    } else {
-        // Get the users for a filtered social group.
-        XblSocialManagerUserGroupGetUsers(self->socialGroup, self->socialGroupSize, self->socialGroupUsers);
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -128,11 +133,11 @@
     }
 
     if (indexPath.row < self->socialGroupSize) {
-        if (self->socialGroup->socialUserGroupType == XblSocialUserGroupType::UserListType) {
+        if (self->socialGroupType == XblSocialUserGroupType::UserListType) {
             uint64_t userId = self->socialGroupTrackedIds[indexPath.row];
             [cell.identityDisplayView updateUserIDLabel:[NSString stringWithFormat:@"ID: %llul", userId]];
         } else {
-            XblSocialManagerUser user = self->socialGroupUsers[indexPath.row];
+            /*XblSocialManagerUser user = self->socialGroupUsers[indexPath.row];
 
             [cell.identityDisplayView updateUserIDLabel:[NSString stringWithUTF8String:user.gamertag]];
 
@@ -144,7 +149,7 @@
             [cell.identityDisplayView updateUserRelationship:user.isFavorite ? @"Favorite" : @"Friend"];
 
             // Not finding the Xbl Presence header files???
-            /*
+            
              NSString* userState;
              switch (user.presenceRecord.userState) {
                 case XblPresenceUserState.Online:
@@ -162,7 +167,8 @@
                     break;
              }
              [cell.identityDisplayView updateUserStatus:userState];
-             */ [cell.identityDisplayView updateUserStatus:nil];
+              [cell.identityDisplayView updateUserStatus:nil];
+             */
         }
     } else {
         [cell.identityDisplayView updateUserIDLabel:nil];
@@ -179,7 +185,7 @@
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     SampleLog(LL_TRACE, "Clicked Social Group User %d.", indexPath.row);
 
-    if (self->socialGroup->socialUserGroupType == XblSocialUserGroupType::UserListType
+    if (self->socialGroupType == XblSocialUserGroupType::UserListType
         && self.socialGroupDisplayDelegate != nil) {
         uint64_t userId = self->socialGroupTrackedIds[indexPath.row];
         [self.socialGroupDisplayDelegate SocialUserTappedWithXboxId:userId];

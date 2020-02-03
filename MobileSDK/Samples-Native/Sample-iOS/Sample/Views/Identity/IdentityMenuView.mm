@@ -89,8 +89,10 @@
                 break;
         }
     });
-
     self.signInState = status;
+}
+
+-(void)updateUserAndContext:(int)status {
     switch (self.signInState) {
         case ID_SIGNED_IN: {
             // Try to get the new user's profile.
@@ -115,7 +117,6 @@
             if (user) {
                 uint64_t userId = Game_Integration::getInstance()->getCurrentUserId();
                 SampleLog(LL_INFO, "Signed out user ID %llX.", userId);
-
                 Social_RemoveUserFromSocialManager(user);
             }
 
@@ -125,6 +126,7 @@
         default:
             break;
     }
+    
 }
 
 - (void)updateUserImageView:(UIImage*)image {

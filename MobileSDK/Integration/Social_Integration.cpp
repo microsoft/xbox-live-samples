@@ -10,7 +10,7 @@
 void Social_AddUserToSocialManager(
     _In_ XalUserHandle user)
 {
-    HRESULT hr = XblSocialManagerAddLocalUser(user, XblSocialManagerExtraDetailLevel::All);
+    HRESULT hr = XblSocialManagerAddLocalUser(user, XblSocialManagerExtraDetailLevel::All, nullptr);
     
     if (FAILED(hr))
     {
@@ -43,7 +43,7 @@ void Social_RemoveUserFromSocialManager(
         return;
     }
 
-    SampleLog(LL_TRACE, "Successfully added local user to Social Manager"); // TODO: add user info?
+    SampleLog(LL_TRACE, "Successfully removed local user to Social Manager"); // TODO: add user info?
     
     Social_Gameplay_UpdateFriendsSocialGroup(nullptr);
     Social_Gameplay_UpdateFavoriteSocialGroup(nullptr);
@@ -51,10 +51,10 @@ void Social_RemoveUserFromSocialManager(
 
 void Social_GetUsersForSocialGroup(
     _In_ XblSocialManagerUserGroup* group,
-    _In_ uint32_t xboxSocialUsersCount,
-    _Out_writes_(xboxSocialUsersCount) XblSocialManagerUser* xboxSocialUsers)
+    _In_ size_t xboxSocialUsersCount,
+    _Out_writes_ (xboxSocialUserCount) XblSocialManagerUserPtrArray xboxSocialUsers)
 {
-    HRESULT hr = XblSocialManagerUserGroupGetUsers(group, xboxSocialUsersCount, xboxSocialUsers);
+    HRESULT hr = XblSocialManagerUserGroupGetUsers(group, &xboxSocialUsers, &xboxSocialUsersCount);
 
     if (FAILED(hr))
     {
@@ -114,8 +114,8 @@ XblSocialManagerUserGroup* Social_CreateSocialGroupFromFilters(
 
 void Social_UpdateSocialManager()
 {
-    XblSocialManagerEvent* events = nullptr;
-    uint32_t eventCount = 0;
+    const XblSocialManagerEvent* events { nullptr };
+    size_t eventCount = 0;
     
     HRESULT hr = XblSocialManagerDoWork(&events, &eventCount);
     

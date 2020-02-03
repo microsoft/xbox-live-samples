@@ -31,6 +31,15 @@ void IdentityMenu_Integration::updateIdentityButtons(int status)
     }
 }
 
+void IdentityMenu_Integration::updateIdentityContext(int status)
+{
+    if(this->identityMenuInstance)
+    {
+        IdentityMenuView* idView = (__bridge IdentityMenuView*)this->identityMenuInstance;
+        [idView updateUserAndContext:status];
+    }
+}
+
 void IdentityMenu_Integration::updateIdentityImage(const char* imageUrl)
 {
     if (this->identityMenuInstance)

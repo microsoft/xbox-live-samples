@@ -21,7 +21,9 @@ void CALLBACK Identity_TrySignInUserSilently_Callback(_In_ XAsyncBlock* asyncBlo
     Identity_Gameplay_TrySignInUserSilently(newUser, hr);
 
     // Close the Reference if one was created during XalTryAddDefaultUserSilentlyResult
-    if (newUser) { XalUserCloseHandle(newUser); }
+    if (newUser) {
+        XalUserCloseHandle(newUser);
+    }
 
     delete asyncBlock;
 }
@@ -50,7 +52,9 @@ void CALLBACK Identity_TrySignInUserWithUI_Callback(_In_ XAsyncBlock* asyncBlock
     Identity_Gameplay_TrySignInUserWithUI(newUser, hr);
 
     // Close the Reference if one was created during XalTryAddDefaultUserSilentlyResult
-    if (newUser) { XalUserCloseHandle(newUser); }
+    if (newUser) {
+        XalUserCloseHandle(newUser);
+    }
 
     delete asyncBlock;
 }
@@ -197,10 +201,10 @@ HRESULT Identity_GetGamerProfileAsync(_In_ XTaskQueueHandle asyncQueue, _In_ Xbl
 // TODO: Add in GetGamerTag, GetGamerPic, and GetGamerScore when all functions are fully supported by XAL
 HRESULT Identity_GetGamerTag(_In_ XblUserHandle user, _Out_ std::string* gamertag)
 {
+    size_t gamertagSize = XalUserGetGamertagSize(user, XalGamertagComponent_Classic);
+    size_t bufferUsed;
     char gamertagBuffer[XBL_GAMERTAG_CHAR_SIZE];
-    size_t gamertagSize = 0;
-
-    HRESULT hr = XalUserGetGamertag(user, XBL_GAMERTAG_CHAR_SIZE, gamertagBuffer, &gamertagSize);
+    HRESULT hr = XalUserGetGamertag(user, XalGamertagComponent_Classic, gamertagSize, gamertagBuffer, &bufferUsed);
 
     if (SUCCEEDED(hr))
     {

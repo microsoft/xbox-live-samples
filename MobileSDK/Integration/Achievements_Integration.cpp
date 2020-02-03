@@ -51,6 +51,7 @@ void CALLBACK Achievements_GetAchievementsForTitle_Callback(_In_ XAsyncBlock* as
 HRESULT Achievements_GetAchievementsForTitle(
     _In_ XTaskQueueHandle asyncQueue,
     _In_ XblContextHandle xblContext,
+    _In_ XalUserHandle user,
     _In_ uint32_t skipItems,
     _In_ uint32_t maxItems)
 {
@@ -64,18 +65,8 @@ HRESULT Achievements_GetAchievementsForTitle(
     asyncBlock->queue = asyncQueue;
     asyncBlock->callback = Achievements_GetAchievementsForTitle_Callback;
 
-    XalUserHandle user = nullptr;
-    HRESULT hr = XblContextGetUser(xblContext, &user);
-
-    if (FAILED(hr))
-    {
-        SampleLog(LL_ERROR, "XblContextGetUser failed!");
-        SampleLog(LL_ERROR, "Error code: %s!", ConvertHRtoString(hr).c_str());
-        return hr;
-    }
-
     uint64_t xuid = 0;
-    hr = XalUserGetId(user, &xuid);
+    auto hr = XalUserGetId(user, &xuid);
 
     if (FAILED(hr))
     {
@@ -224,6 +215,7 @@ void CALLBACK Achievements_GetAchievement_Callback(_In_ XAsyncBlock* asyncBlock)
 HRESULT Achievements_GetAchievement(
     _In_ XTaskQueueHandle asyncQueue,
     _In_ XblContextHandle xblContext,
+    _In_ XalUserHandle user,
     _In_z_ const std::string& achievementId)
 {
     if (xblContext == nullptr)
@@ -236,18 +228,8 @@ HRESULT Achievements_GetAchievement(
     asyncBlock->queue = asyncQueue;
     asyncBlock->callback = Achievements_GetAchievement_Callback;
 
-    XalUserHandle user = nullptr;
-    HRESULT hr = XblContextGetUser(xblContext, &user);
-
-    if (FAILED(hr))
-    {
-        SampleLog(LL_ERROR, "XblContextGetUser failed!");
-        SampleLog(LL_ERROR, "Error code: %s!", ConvertHRtoString(hr).c_str());
-        return hr;
-    }
-
     uint64_t xuid = 0;
-    hr = XalUserGetId(user, &xuid);
+    auto hr = XalUserGetId(user, &xuid);
 
     if (FAILED(hr))
     {
@@ -256,7 +238,7 @@ HRESULT Achievements_GetAchievement(
         return hr;
     }
 
-    XblGuid scid = {0};
+    const char* scid = { nullptr};
     hr = XblGetScid(&scid);
 
     if (FAILED(hr))
@@ -272,7 +254,7 @@ HRESULT Achievements_GetAchievement(
     return XblAchievementsGetAchievementAsync(
         xblContext,
         xuid,
-        scid.value,
+        scid,
         achievementId.c_str(),
         asyncBlock);
 }
@@ -309,6 +291,7 @@ void CALLBACK Achievements_UpdateAchievement_Callback(_In_ XAsyncBlock* asyncBlo
 HRESULT Achievements_UpdateAchievement(
     _In_ XTaskQueueHandle asyncQueue,
     _In_ XblContextHandle xblContext,
+    _In_ XalUserHandle user,
     _In_z_ const std::string& achievementId,
     _In_ uint32_t percentComplete)
 {
@@ -322,18 +305,8 @@ HRESULT Achievements_UpdateAchievement(
     asyncBlock->queue = asyncQueue;
     asyncBlock->callback = Achievements_UpdateAchievement_Callback;
 
-    XalUserHandle user = nullptr;
-    HRESULT hr = XblContextGetUser(xblContext, &user);
-
-    if (FAILED(hr))
-    {
-        SampleLog(LL_ERROR, "XblContextGetUser failed!");
-        SampleLog(LL_ERROR, "Error code: %s!", ConvertHRtoString(hr).c_str());
-        return hr;
-    }
-
     uint64_t xuid = 0;
-    hr = XalUserGetId(user, &xuid);
+    auto hr = XalUserGetId(user, &xuid);
 
     if (FAILED(hr))
     {
