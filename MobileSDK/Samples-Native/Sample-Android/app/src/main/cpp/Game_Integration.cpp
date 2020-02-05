@@ -47,6 +47,16 @@ void Game_Integration::Cleanup()
     }
 }
 
+void Game_Integration::setXalUser(XalUserHandle xalUser)
+{
+    std::lock_guard<std::mutex> lock(m_xblContextMutex);
+    if (m_xalUser)
+    {
+        XalUserCloseHandle(m_xalUser);
+    }
+    m_xalUser = xalUser;
+
+}
 void Game_Integration::setXblContext(XblContextHandle xblContext)
 {
     std::lock_guard<std::mutex> lock(m_xblContextMutex);
@@ -66,17 +76,7 @@ bool Game_Integration::hasXblContext()
 
 XalUserHandle Game_Integration::getCurrentUser()
 {
-    XalUserHandle user = nullptr;
-
-    HRESULT hr = XblContextGetUser(m_xblContext, &user);
-
-    if (FAILED(hr))
-    {
-        SampleLog(LL_ERROR, "XblContextGetUser Failed!");
-        SampleLog(LL_ERROR, "Error code: %s", ConvertHRtoString(hr).c_str());
-    }
-
-    return user;
+    return m_xalUser;
 }
 
 HRESULT Game_Integration::XblInit()
