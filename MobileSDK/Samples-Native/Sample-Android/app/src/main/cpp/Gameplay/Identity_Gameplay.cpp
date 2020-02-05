@@ -16,7 +16,7 @@ void Identity_Gameplay_UserSignInOutMessage(XalUserHandle user, bool isSigningIn
         char gamerTag[XBL_GAMERTAG_CHAR_SIZE] = {0};
         size_t gamertagSize = 0;
 
-        HRESULT hr = XalUserGetGamertag(user, XBL_GAMERTAG_CHAR_SIZE, gamerTag, &gamertagSize);
+        HRESULT hr = XalUserGetGamertag(user, XalGamertagComponent::XalGamertagComponent_Classic, XBL_GAMERTAG_CHAR_SIZE, gamerTag, &gamertagSize);
 
         if (SUCCEEDED(hr))
         {

@@ -207,7 +207,7 @@ void CALLBACK Achievements_GetAchievement_Callback(_In_ XAsyncBlock* asyncBlock)
         SampleLog(LL_ERROR, "Error code: %s!", ConvertHRtoString(hr).c_str());
     }
 
-    Achievements_Gameplay_GetAchievement(hr, achievements, achievementsCount);
+    Achievements_Gameplay_GetAchievement( hr, achievements, achievementsCount);
 
     delete asyncBlock;
 }

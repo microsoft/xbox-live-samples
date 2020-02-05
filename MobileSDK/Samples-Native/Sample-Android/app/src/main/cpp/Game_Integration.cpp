@@ -36,7 +36,15 @@ void Game_Integration::Init()
 
 void Game_Integration::Cleanup()
 {
-    XblCleanup();
+    auto asyncBlock = std::make_unique<XAsyncBlock>();
+    asyncBlock->queue = nullptr;
+
+    HRESULT  hr = XblCleanupAsync(asyncBlock.get());
+    if(SUCCEEDED(hr))
+    {
+        // Synchronously wait for cleanup to complete
+        hr = XAsyncGetStatus(asyncBlock.get(), true);
+    }
 }
 
 void Game_Integration::setXblContext(XblContextHandle xblContext)
@@ -86,16 +94,13 @@ HRESULT Game_Integration::XalInit()
     std::string clientId = "000000004824156c";
     std::string redirUri = "ms-xal-" + clientId + "://auth";
 
-    XalPlatformArgs xalPlatformArgs = {};
-    xalPlatformArgs.redirectUri = redirUri.c_str();
-    xalPlatformArgs.javaVM      = Game_Integration_GetJavaVM();
-    xalPlatformArgs.appContext  = Game_Integration_GetAppActivityIntance();
-
     XalInitArgs xalInitArgs = {};
     xalInitArgs.clientId     = clientId.c_str();
     xalInitArgs.titleId      = 825707400;
     xalInitArgs.sandbox      = "XDKS.1";
-    xalInitArgs.platformArgs = &xalPlatformArgs;
+    xalInitArgs.redirectUri = redirUri.c_str();
+    xalInitArgs.javaVM      = Game_Integration_GetJavaVM();
+    xalInitArgs.appContext  = Game_Integration_GetAppActivityIntance();
 
     Adv_Identity_Init(nullptr, nullptr, Game_Integration_GetPath().c_str());
 
