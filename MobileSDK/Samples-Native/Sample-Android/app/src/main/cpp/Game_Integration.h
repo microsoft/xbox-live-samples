@@ -11,7 +11,7 @@ public: // Functions
     void Init();
 
     void Cleanup();
-
+    void setXalUser(XalUserHandle xalUser);
     void setXblContext(XblContextHandle xblContext);
     XblContextHandle getXblContext();
     bool hasXblContext();
@@ -23,7 +23,7 @@ private:
     HRESULT XalInit();
 
     XTaskQueueHandle m_asyncQueue = nullptr;
-
+    XalUserHandle m_xalUser = nullptr;
     XblContextHandle m_xblContext = nullptr;
     std::mutex m_xblContextMutex;
 };

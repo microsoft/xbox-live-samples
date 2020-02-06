@@ -16,7 +16,7 @@ void Identity_Gameplay_UserSignInOutMessage(XalUserHandle user, bool isSigningIn
         char gamerTag[XBL_GAMERTAG_CHAR_SIZE] = {0};
         size_t gamertagSize = 0;
 
-        HRESULT hr = XalUserGetGamertag(user, XBL_GAMERTAG_CHAR_SIZE, gamerTag, &gamertagSize);
+        HRESULT hr = XalUserGetGamertag(user, XalGamertagComponent::XalGamertagComponent_Classic, XBL_GAMERTAG_CHAR_SIZE, gamerTag, &gamertagSize);
 
         if (SUCCEEDED(hr))
         {
@@ -50,10 +50,9 @@ void Identity_Gameplay_GoodbyeUser(XalUserHandle user)
 
 void Identity_Gameplay_CloseUserContext(_In_ XblContextHandle xblContext)
 {
-    XalUserHandle user = nullptr;
-    HRESULT hr = XblContextGetUser(xblContext, &user);
+    XalUserHandle user = Game_Integration::getInstance()->getCurrentUser();
 
-    if (SUCCEEDED(hr))
+    if (user)
     {
         XalUserCloseHandle(user);
     }
@@ -66,7 +65,7 @@ HRESULT Identity_Gameplay_SignInUser(_In_ XalUserHandle newUser, _In_ bool resol
     // Call XalUserGetId here to ensure all vetos (gametag banned, etc) have passed
     uint64_t xuid = 0;
     HRESULT hr = XalUserGetId(newUser, &xuid);
-
+    Game_Integration::getInstance()->setXalUser(newUser);
     if (SUCCEEDED(hr))
     {
         XblContextHandle newXblContext = nullptr;
@@ -114,19 +113,13 @@ HRESULT Identity_Gameplay_SignInUser(_In_ XalUserHandle newUser, _In_ bool resol
             SampleLog(LL_TRACE, ""); // New Line
             SampleLog(LL_TRACE, "Trying to resolve user issue with UI");
 
-            // Duplicate handle to prolong the user to be handled later by resolve
-            XblUserHandle dupUser = nullptr;
-            XalUserDuplicateHandle(newUser, &dupUser);
-            // Note: Creates a Ref for XblUserHandle, will be closed inside XAL_Gameplay_TryResolveUserIssue
-
-            HRESULT asyncResult = Identity_TryResolveUserIssue(XblGetAsyncQueue(), dupUser);
+            HRESULT asyncResult = Identity_TryResolveUserIssue(XblGetAsyncQueue(), newUser);
 
             if (FAILED(asyncResult))
             {
                 SampleLog(LL_ERROR, "XalUserResolveIssueWithUiAsync Failed!");
                 SampleLog(LL_ERROR, "Error code: %s", ConvertHRtoString(asyncResult).c_str());
 
-                if (dupUser) { XalUserCloseHandle(dupUser); }
             }
         }
     }
@@ -138,8 +131,9 @@ HRESULT Identity_Gameplay_SignOutUser()
 {
     XblContextHandle xblContext = Game_Integration::getInstance()->getXblContext();
 
-    XalUserHandle user = nullptr;
-    HRESULT hr = XblContextGetUser(xblContext, &user);
+    XalUserHandle user = Game_Integration::getInstance()->getCurrentUser();
+    std::string gamerTag;
+    auto hr = Identity_GetGamerTag(user, &gamerTag);
 
     if (SUCCEEDED(hr))
     {
@@ -152,6 +146,7 @@ HRESULT Identity_Gameplay_SignOutUser()
         IdentityLayer_SetSignOutEnabled(false);
 
         MenuView_ChangeLayer(MVL_EMPTY);
+        XalUserCloseHandle(user);
 
         SampleLog(LL_TRACE, ""); // New line
         SampleLog(LL_TRACE, "User sign-out successful!");

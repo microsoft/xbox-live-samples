@@ -26,7 +26,7 @@ allprojects {
             name 'Google'
         }
         maven {
-            url 'file:///C:/git/sdk.samples/MobileSDK/XboxLiveSDK/Android/Maven'
+            url 'file:///C:/repos/samples/xbox-live-samples/MobileSDK/XboxLiveSDK/Android/Maven'
             name 'Xsapi Maven Binary'
         }
     }
